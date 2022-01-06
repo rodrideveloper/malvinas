@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'detalle.dart';
 import 'models/ambo.dart';
 
 void main() {
@@ -45,7 +45,10 @@ class cuerpo extends StatelessWidget {
               itemBuilder: (BuildContext context, int i) {
                 return GestureDetector(
                   onTap: () {
-                    print('Animos mi ro, te quieri');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Detalle(ambo: items[i])));
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
