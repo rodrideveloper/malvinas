@@ -26,7 +26,9 @@ class _DetalleState extends State<Detalle> {
     Talle('XXXL', 2.0),
     Talle('Ninguno', 2.0)
   ];
-  int _grupValue = 0;
+
+  int _tallesChaqueta = 0;
+  int _tallesPantalon = 0;
   @override
   Widget build(BuildContext context) {
     // Usa el objeto Todo para crear nuestra UI
@@ -45,7 +47,7 @@ class _DetalleState extends State<Detalle> {
                           color: Colors.grey[500],
                           fontWeight: FontWeight.bold,
                           fontSize: 30)),
-                  for (var i = 0; i < talles.length; i++) _talles(talles[i], i)
+                  for (var i = 0; i < talles.length; i++) _tallesC(talles[i], i)
                 ],
               ),
               Column(
@@ -55,7 +57,7 @@ class _DetalleState extends State<Detalle> {
                           color: Colors.grey[500],
                           fontWeight: FontWeight.bold,
                           fontSize: 30)),
-                  for (var i = 0; i < talles.length; i++) _talles(talles[i], i)
+                  for (var i = 0; i < talles.length; i++) _tallesP(talles[i], i)
                 ],
               )
             ]),
@@ -97,7 +99,11 @@ class _DetalleState extends State<Detalle> {
                   children: [
                     Expanded(
                         child: TextButton(
-                            onPressed: _enviar(),
+                            onPressed: () {
+                              print('da');
+                              print(talles[_tallesChaqueta].nombre);
+                              print(talles[_tallesPantalon].nombre);
+                            },
                             child: Text("OK"),
                             style: TextButton.styleFrom(
                                 backgroundColor: Colors.green.shade400,
@@ -109,22 +115,33 @@ class _DetalleState extends State<Detalle> {
         ));
   }
 
-  Widget _talles(Talle t, int pos) {
+  Widget _tallesC(Talle t, pos) {
     return Container(
         width: 150,
         child: RadioListTile(
             dense: true,
             title: Text(t.nombre),
             value: pos,
-            groupValue: _grupValue,
+            groupValue: _tallesChaqueta,
             onChanged: (value) {
               setState(() {
-                _grupValue = value;
+                _tallesChaqueta = value;
               });
             }));
   }
 
-  _enviar() {
-    enviardatos();
+  Widget _tallesP(Talle t, pos) {
+    return Container(
+        width: 150,
+        child: RadioListTile(
+            dense: true,
+            title: Text(t.nombre),
+            value: pos,
+            groupValue: _tallesPantalon,
+            onChanged: (value) {
+              setState(() {
+                _tallesPantalon = value;
+              });
+            }));
   }
 }
