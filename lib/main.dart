@@ -17,15 +17,21 @@ class Malvinas extends StatelessWidget {
 
 class cuerpo extends StatelessWidget {
   final items = <Ambo>[
-    Ambo('Leontina', 20),
-    Ambo('Leontina', 20),
-    Ambo('Leontina', 20),
-    Ambo('Leontina', 20),
-    Ambo('Leontina', 20),
-    Ambo('Leontina', 20),
-    Ambo('Leontina', 20),
-    Ambo('Leontina', 20),
-    Ambo('Leontina', 20),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
+    Ambo('Leontina', 20, 'XS', 'XS'),
   ];
 
   @override

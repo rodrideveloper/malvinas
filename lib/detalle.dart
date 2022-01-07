@@ -1,6 +1,7 @@
 import 'package:Malvinas/models/ambo.dart';
 import 'package:Malvinas/models/talle.dart';
 import 'package:flutter/material.dart';
+import 'BO/adatos.dart';
 
 class Detalle extends StatefulWidget {
   final Ambo ambo;
@@ -123,25 +124,7 @@ class _DetalleState extends State<Detalle> {
             }));
   }
 
-  _enviar() {}
+  _enviar() {
+    enviardatos();
+  }
 }
-  
-
-/**
- * 
- * 
- * 
- * 
- * Expanded(
-        child: ListTile(
-      title: Text(t.nombre),
-      leading: Radio(
-        value: pos,
-        activeColor: Colors.black,
-        groupValue: _grupValue,
-        onChanged: (value) => setState(() {
-          _grupValue = value;
-        }),
-      ),
-    ));
- */
