@@ -10,6 +10,9 @@ class Malvinas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: <String, WidgetBuilder>{
+        '/inicio': (BuildContext context) => new cuerpo()
+      },
       home: cuerpo(),
     );
   }
@@ -86,6 +89,11 @@ class _cuerpoState extends State<cuerpo> {
     return AppBar(
       centerTitle: true,
       title: _appBarTitulo,
+      backgroundColor: Colors.black,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(25.0),
+              bottomRight: Radius.circular(25.0))),
       leading: IconButton(
         icon: _iconoBusqueda,
         onPressed: _searchPressed,
