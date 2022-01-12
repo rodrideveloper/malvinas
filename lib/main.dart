@@ -1,6 +1,8 @@
+import 'package:Malvinas/grafico.dart';
 import 'package:flutter/material.dart';
 import 'detalle.dart';
 import 'models/ambo.dart';
+import 'SimpleBarChart.dart';
 
 void main() {
   runApp(Malvinas());
@@ -10,8 +12,10 @@ class Malvinas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
-        '/inicio': (BuildContext context) => new cuerpo()
+        '/inicio': (BuildContext context) => new cuerpo(),
+        '/grafico': (BuildContext context) => new Grafico(),
       },
       home: cuerpo(),
     );
@@ -32,6 +36,7 @@ class _cuerpoState extends State<cuerpo> {
   List<Ambo> filtroNombres = [];
   Icon _iconoBusqueda = const Icon(Icons.search);
   Widget _appBarTitulo = const Text('Buscar...');
+  int _seleccionado = 1;
 
   _cuerpoState() {
     _filtro.addListener(() {
@@ -54,6 +59,42 @@ class _cuerpoState extends State<cuerpo> {
     super.initState();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100),
+        child: _buildBar(context),
+      ),
+      body: Container(
+        child: _buildList(context),
+      ),
+      resizeToAvoidBottomInset: false,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _seleccionado,
+        onTap: (value) {
+          setState(() {
+            _seleccionado = value;
+            if (value == 0) {
+              Navigator.pushNamed(context, '/grafico');
+            }
+            if (value == 1) {
+              Navigator.pushNamed(context, '/inicio');
+            }
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+              icon: new Icon(Icons.bar_chart), label: 'Ver Telas'),
+          BottomNavigationBarItem(
+              icon: new Icon(Icons.medical_services), label: 'Ambos'),
+          BottomNavigationBarItem(
+              icon: new Icon(Icons.person), label: 'Cortadores')
+        ],
+      ),
+    );
+  }
+
   void _getNames() async {
     /*  final response = await dio.get('https://swapi.co/api/people');
     List tempList = [];
@@ -69,20 +110,6 @@ class _cuerpoState extends State<cuerpo> {
       nombres.shuffle();
       filtroNombres = nombres;
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100),
-        child: _buildBar(context),
-      ),
-      body: Container(
-        child: _buildList(context),
-      ),
-      resizeToAvoidBottomInset: false,
-    );
   }
 
   Widget _buildBar(BuildContext context) {
