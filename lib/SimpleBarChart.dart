@@ -9,9 +9,9 @@ class SimpleBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new charts.BarChart(
-      seriesList,
-      animate: true,
-    );
+    return new charts.BarChart(seriesList,
+        animate: true,
+        barGroupingType: charts.BarGroupingType.grouped,
+        barRendererDecorator: new charts.BarLabelDecorator<String>());
   }
 }

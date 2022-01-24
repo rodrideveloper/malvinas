@@ -1,5 +1,5 @@
 class Telas {
-  String nombre;
-  Map<String, double> Colores;
-  Telas(this.nombre, this.Colores);
+  String tipo_tela;
+  Map<String, dynamic> metros_colores;
+  Telas(this.tipo_tela, this.metros_colores);
 }

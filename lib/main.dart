@@ -20,7 +20,7 @@ class Malvinas extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/inicio': (BuildContext context) => new cuerpo(),
-        '/grafico': (BuildContext context) => new Grafico(),
+        '/grafico': (BuildContext context) => new GraficoEstado(),
       },
       home: cuerpo(),
     );
