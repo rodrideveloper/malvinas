@@ -11,7 +11,6 @@ class SimpleBarChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return new charts.BarChart(seriesList,
         animate: true,
-        barGroupingType: charts.BarGroupingType.grouped,
         barRendererDecorator: new charts.BarLabelDecorator<String>());
   }
 }

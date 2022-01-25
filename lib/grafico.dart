@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'BO/dao.dart';
+
 class MetrosPorColores {
   final String Color;
   final int metros;
@@ -22,11 +24,8 @@ class _GraficoEstadoState extends State<GraficoEstado> {
   List<charts.Series> seriesList;
   List<charts.Series> listaColores;
 
-  @override
-  void initState() {}
-
   Future<QuerySnapshot> leerTelas() async {
-    return await FirebaseFirestore.instance.collection('telas').get();
+    return await DAO.leerTelasDAO();
   }
 
   static List<charts.Series<MetrosPorColores, String>> _crearDatosGraficos(
@@ -56,13 +55,14 @@ class _GraficoEstadoState extends State<GraficoEstado> {
 
     return [
       new charts.Series<MetrosPorColores, String>(
-        id: 'Sales',
-        // colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        colorFn: (MetrosPorColores sales, _) => sales.color,
-        domainFn: (MetrosPorColores sales, _) => sales.Color,
-        measureFn: (MetrosPorColores sales, _) => sales.metros,
-        data: data,
-      )
+          id: 'Sales',
+          // colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+          colorFn: (MetrosPorColores sales, _) => sales.color,
+          domainFn: (MetrosPorColores sales, _) => sales.Color,
+          measureFn: (MetrosPorColores sales, _) => sales.metros,
+          data: data,
+          labelAccessorFn: (MetrosPorColores sales, _) =>
+              '${sales.metros.toString() + ' mts'}')
     ];
   }
 

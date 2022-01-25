@@ -74,6 +74,44 @@ class _cuerpoState extends State<cuerpo> {
       body: Container(
         child: _buildList(context),
       ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blueGrey,
+              ),
+              child: Text('Malvinas Uniformes',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+            ),
+            ListTile(
+              title: const Text('Cortador '),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: const Text('Stock Telas'),
+              onTap: () {
+                Navigator.pushNamed(context, '/grafico');
+              },
+            ),
+            ListTile(
+              title: const Text('Actualizar Stock'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            )
+          ],
+        ),
+      ),
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _seleccionado,
@@ -121,15 +159,17 @@ class _cuerpoState extends State<cuerpo> {
     return AppBar(
       centerTitle: true,
       title: _appBarTitulo,
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.blueGrey,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(25.0),
               bottomRight: Radius.circular(25.0))),
-      leading: IconButton(
-        icon: _iconoBusqueda,
-        onPressed: _searchPressed,
-      ),
+      actions: [
+        IconButton(
+          icon: _iconoBusqueda,
+          onPressed: _searchPressed,
+        )
+      ],
     );
   }
 
