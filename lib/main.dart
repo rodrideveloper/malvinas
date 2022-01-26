@@ -1,5 +1,7 @@
 import 'package:Malvinas/grafico.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'BO/dao.dart';
 import 'detalle.dart';
 import 'models/ambo.dart';
 import 'firebase_options.dart';
@@ -37,8 +39,8 @@ class cuerpo extends StatefulWidget {
 class _cuerpoState extends State<cuerpo> {
   final TextEditingController _filtro = TextEditingController();
   String _textoDeBusqueda = "";
-  List<Ambo> nombres = [];
-  List<Ambo> filtroNombres = [];
+  List<Ambo> ambos_nombres = [];
+  List<Ambo> lista_ambos = [];
   Icon _iconoBusqueda = const Icon(Icons.search);
   Widget _appBarTitulo = const Text('Buscar...');
   int _seleccionado = 1;
@@ -48,7 +50,7 @@ class _cuerpoState extends State<cuerpo> {
       if (_filtro.text.isEmpty) {
         setState(() {
           _textoDeBusqueda = "";
-          filtroNombres = nombres;
+          lista_ambos = ambos_nombres;
         });
       } else {
         setState(() {
@@ -60,8 +62,19 @@ class _cuerpoState extends State<cuerpo> {
 
   @override
   void initState() {
-    _getNames();
+    _getAmbos();
     super.initState();
+  }
+
+  void _getAmbos() async {
+    List lista = await DAO.leerAmbosDAO();
+
+    List<dynamic> tempList = lista;
+    setState(() {
+      ambos_nombres = tempList;
+      ambos_nombres.shuffle();
+      lista_ambos = ambos_nombres;
+    });
   }
 
   @override
@@ -138,23 +151,6 @@ class _cuerpoState extends State<cuerpo> {
     );
   }
 
-  void _getNames() async {
-    /*  final response = await dio.get('https://swapi.co/api/people');
-    List tempList = [];
-    print(response.data);
-    print(response.data.length);
-    for (int i = 0; i < response.data['results'].length; i++) {
-      tempList.add(response.data['results'][i]);
-    }*/
-
-    List<Ambo> tempList = Ambo.getAmbos();
-    setState(() {
-      nombres = tempList;
-      nombres.shuffle();
-      filtroNombres = nombres;
-    });
-  }
-
   Widget _buildBar(BuildContext context) {
     return AppBar(
       centerTitle: true,
@@ -187,7 +183,7 @@ class _cuerpoState extends State<cuerpo> {
       } else {
         this._iconoBusqueda = Icon(Icons.search);
         this._appBarTitulo = Text('Buscar...');
-        filtroNombres = nombres;
+        lista_ambos = ambos_nombres;
         _filtro.clear();
       }
     });
@@ -197,39 +193,39 @@ class _cuerpoState extends State<cuerpo> {
     final size = MediaQuery.of(context).size;
     if (!(_textoDeBusqueda.isEmpty)) {
       List<Ambo> tempList = [];
-      for (int i = 0; i < filtroNombres.length; i++) {
-        if (filtroNombres[i]
+      for (int i = 0; i < lista_ambos.length; i++) {
+        if (lista_ambos[i]
             .nombre
             .toLowerCase()
             .contains(_textoDeBusqueda.toLowerCase())) {
-          tempList.add(filtroNombres[i]);
+          tempList.add(lista_ambos[i]);
         }
       }
-      filtroNombres = tempList;
+      lista_ambos = tempList;
     }
     return GridView.builder(
       gridDelegate:
           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      itemCount: filtroNombres.length,
+      itemCount: lista_ambos.length,
       itemBuilder: (BuildContext context, int i) {
         return GestureDetector(
           onTap: () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Detalle(ambo: filtroNombres[i])));
+                    builder: (context) => Detalle(ambo: lista_ambos[i])));
           },
           child: Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
             child: Column(
               children: [
-                Flexible(child: filtroNombres[i].image),
+                Flexible(child: lista_ambos[i].image),
                 Text(
-                  '${filtroNombres[i].nombre}',
+                  '${lista_ambos[i].nombre}',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                Text('\$${filtroNombres[i].precio}'),
+                Text('\$${lista_ambos[i].precio}'),
               ],
             ),
             color: Colors.white,

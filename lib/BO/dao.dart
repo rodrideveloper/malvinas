@@ -8,4 +8,12 @@ class DAO {
   static Future<QuerySnapshot> leerTelasDAO() async {
     return await FirebaseFirestore.instance.collection('telas').get();
   }
+
+  static Future<List> leerAmbosDAO() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('ambos').get();
+    final List allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    print(allData);
+    return allData;
+  }
 }

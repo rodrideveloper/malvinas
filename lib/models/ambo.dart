@@ -12,7 +12,8 @@ class Ambo {
 
   static List<Ambo> getAmbos() {
     final items = <Ambo>[
-      Ambo('Leontina', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
+      Ambo('Leontina', 20, 'XS', 'XS',
+          Image.network('assets/img/juanita3p.jpg')),
       Ambo('Blue', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
       Ambo('Femme', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
       Ambo('Juanita', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
