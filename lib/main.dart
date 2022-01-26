@@ -67,8 +67,10 @@ class _cuerpoState extends State<cuerpo> {
   }
 
   void _getAmbos() async {
-    List lista = await DAO.leerAmbosDAO();
-
+    List<dynamic> lista = await DAO.leerAmbosDAO();
+    lista.forEach((element) {
+      print(element);
+    });
     List<dynamic> tempList = lista;
     setState(() {
       ambos_nombres = tempList;

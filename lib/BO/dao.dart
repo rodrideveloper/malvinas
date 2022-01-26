@@ -9,11 +9,12 @@ class DAO {
     return await FirebaseFirestore.instance.collection('telas').get();
   }
 
-  static Future<List> leerAmbosDAO() async {
+  static Future<List<dynamic>> leerAmbosDAO() async {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('ambos').get();
-    final List allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-    print(allData);
+    final List<dynamic> allData =
+        querySnapshot.docs.map((doc) => doc.data()).toList();
+
     return allData;
   }
 }
