@@ -13,7 +13,6 @@ class TelaStock extends StatefulWidget {
 class _TelaStockState extends State<TelaStock> {
   @override
   void initState() {
-    //Traer tela segun la tela seleccionada : widget.tela
     super.initState();
   }
 
@@ -21,7 +20,10 @@ class _TelaStockState extends State<TelaStock> {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context).settings.arguments as List<Telas>;
     List llaves = args[0].metros_colores.keys.toList();
-    List valores = args[0].metros_colores.values.toList();
+    final List valores = args[0].metros_colores.values.toList();
+    List<TextEditingController> Listacontroladores =
+        controladores(llaves.length, valores);
+    Map<String, dynamic> mapaActualizar = args[0].metros_colores;
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -37,7 +39,7 @@ class _TelaStockState extends State<TelaStock> {
                     margin: EdgeInsets.all(15),
                     elevation: 10,
                     child: Container(
-                      height: 500,
+                      height: 400,
                       width: 400,
                       child: ListView.builder(
                           itemCount: args[0].metros_colores.length,
@@ -46,6 +48,7 @@ class _TelaStockState extends State<TelaStock> {
                                 child: Card(
                               elevation: 50,
                               child: TextField(
+                                  controller: Listacontroladores[index],
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly,
@@ -54,7 +57,6 @@ class _TelaStockState extends State<TelaStock> {
                                   decoration: InputDecoration(
                                     labelText: llaves[index].toString(),
                                     border: OutlineInputBorder(),
-                                    hintText: valores[index].toString(),
                                   )),
                             ));
                           }),
@@ -63,16 +65,30 @@ class _TelaStockState extends State<TelaStock> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('Volver'))
+                    child: Text('Volver')),
+                TextButton(
+                    onPressed: () {
+                      int i = 0;
+                      mapaActualizar.forEach((key, value) {
+                        mapaActualizar[key] = Listacontroladores[i];
+                        i++;
+                      });
+                      print(mapaActualizar);
+                    },
+                    child: Text('Actualizar'))
               ],
             ),
           ),
         ));
   }
 
-  Card cardColores(Map<String, dynamic> map) {
-    Card c = Card();
-
-    return c;
+  List<TextEditingController> controladores(int cantidad, List listadeValores) {
+    List<TextEditingController> lista = [];
+    for (int i = 0; i < cantidad; i++) {
+      TextEditingController tx =
+          new TextEditingController(text: listadeValores[i].toString());
+      lista.add(tx);
+    }
+    return lista;
   }
 }
