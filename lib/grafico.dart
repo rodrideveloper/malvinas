@@ -86,15 +86,12 @@ class _GraficoEstadoState extends State<GraficoEstado> {
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
-                    print('hay data');
                     List<Telas> lista_telas = [];
-                    Map<String, dynamic> map1;
                     final List<DocumentSnapshot> documentos =
                         snapshot.data.docs;
 
                     documentos.forEach((element) {
                       if (element != null) {
-                        print(element['nombre']);
                         Telas tela =
                             new Telas(element['nombre'], element['Colores']);
                         lista_telas.add(tela);
