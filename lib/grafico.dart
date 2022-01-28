@@ -141,7 +141,13 @@ class _GraficoEstadoState extends State<GraficoEstado> {
                     print("No hay información");
                   }
                 }
-                return Center(child: CircularProgressIndicator());
+                return Center(
+                    child: Container(
+                        padding: const EdgeInsets.all(0.0),
+                        child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Colors.blueGrey),
+                        )));
               },
             ),
             Container(

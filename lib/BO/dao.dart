@@ -9,6 +9,7 @@ class DAO {
     return await FirebaseFirestore.instance.collection('telas').get();
   }
 
+//Devuelve lista de ambos
   static Future<List<dynamic>> leerAmbosDAO() async {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('ambos').get();
@@ -16,5 +17,14 @@ class DAO {
         querySnapshot.docs.map((doc) => doc.data()).toList();
 
     return allData;
+  }
+
+  static Future<QuerySnapshot> leerSoloUnaDAO(String nombre_tela) async {
+    QuerySnapshot _querySnapshot = await FirebaseFirestore.instance
+        .collection("telas")
+        .where('nombre', isEqualTo: nombre_tela)
+        .get();
+
+    return _querySnapshot;
   }
 }

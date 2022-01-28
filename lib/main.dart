@@ -1,4 +1,6 @@
+import 'package:Malvinas/actualizar_stock.dart';
 import 'package:Malvinas/grafico.dart';
+import 'package:Malvinas/tela_stock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'BO/dao.dart';
@@ -23,6 +25,9 @@ class Malvinas extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/inicio': (BuildContext context) => new cuerpo(),
         '/grafico': (BuildContext context) => new GraficoEstado(),
+        '/TelaStock': (BuildContext context) => new TelaStock(),
+        '/ActualizarStock': (BuildContext context) => new ActualizarStock(),
+        
       },
       home: cuerpo(),
     );
@@ -59,7 +64,8 @@ class _cuerpoState extends State<cuerpo> {
       }
     });
   }
-
+  /* tempList.add(new Ambo(e.nombre, e.precio, e.talleChaqueta,
+          e.tallePantalon, Image.network('assets/img/juanita3p.jpg')));`*/
   @override
   void initState() {
     _getAmbos();
@@ -67,11 +73,14 @@ class _cuerpoState extends State<cuerpo> {
   }
 
   void _getAmbos() async {
+    List<Ambo> tempList = [];
     List<dynamic> lista = await DAO.leerAmbosDAO();
-    lista.forEach((element) {
-      print(element);
+
+    lista.forEach((e) {
+      tempList.add(new Ambo(e['modelo'], e['precio'], e['talleChaqueta'],
+          e['tallePantalon'], Image.asset(e['url'])));
     });
-    List<dynamic> tempList = lista;
+
     setState(() {
       ambos_nombres = tempList;
       ambos_nombres.shuffle();
@@ -102,7 +111,7 @@ class _cuerpoState extends State<cuerpo> {
                 color: Colors.blueGrey,
               ),
               child: Text('Malvinas Uniformes',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
             ),
             ListTile(
               title: const Text('Cortador '),
@@ -120,15 +129,14 @@ class _cuerpoState extends State<cuerpo> {
             ListTile(
               title: const Text('Actualizar Stock'),
               onTap: () {
-                // Update the state of the app.
-                // ...
+                Navigator.pushNamed(context, '/ActualizarStock');
               },
             )
           ],
         ),
       ),
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar: BottomNavigationBar(
+      /*  bottomNavigationBar: BottomNavigationBar(
         currentIndex: _seleccionado,
         onTap: (value) {
           setState(() {
@@ -149,7 +157,7 @@ class _cuerpoState extends State<cuerpo> {
           BottomNavigationBarItem(
               icon: new Icon(Icons.person), label: 'Cortadores')
         ],
-      ),
+      ),*/
     );
   }
 
