@@ -30,12 +30,11 @@ class DAO {
   }
 
   static actualizarStockPorColor(Telas tela) async {
-    print('jjjjjjj');
     await FirebaseFirestore.instance
-        .collection("telas")
-        .doc('EOsC1cyjlAYwMuvbtzr9')
+        .collection('telas')
+        .doc(tela.id)
         .update({'Colores': tela.metros_colores})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+        .then((value) => print("Tela Actualizada"))
+        .catchError((error) => print("Error al actualizar tela: $error"));
   }
 }

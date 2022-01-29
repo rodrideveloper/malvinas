@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:Malvinas/models/Tela.dart';
 import 'BO/dao.dart';
@@ -31,40 +32,33 @@ class _ActualizarStockState extends State<ActualizarStock> {
 
                 documentos.forEach((element) {
                   print('DATOOOOOOOOOOO');
-                  print(element);
+                  print(element.id);
+                  print(element.id);
                   if (element != null) {
-                    Telas tela =
-                        new Telas(element['nombre'], element['Colores']);
+                    //  Telas tela =
+                    //    new Telas(element['nombre'], element['Colores']);
+                    Telas tela = new Telas.conId(
+                        element.id, element['nombre'], element['Colores']);
                     lista_telas.add(tela);
                   }
                 });
-                return Column(
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/TelaStock',
-                            arguments: [lista_telas[0]]);
-                      },
-                      child: Center(child: Text(lista_telas[0].tipo_tela)),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/TelaStock',
-                            arguments: [lista_telas[1]]);
-                      },
-                      child: Center(child: Text(lista_telas[1].tipo_tela)),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/TelaStock',
-                            arguments: [lista_telas[2]]);
-                      },
-                      child: Center(child: Text(lista_telas[2].tipo_tela)),
-                    )
-                  ],
-                );
+                return Container(
+                    height: 400,
+                    width: 400,
+                    child: ListView.builder(
+                        itemCount: lista_telas.length,
+                        itemBuilder: (BuildContext context, int i) {
+                          return TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/TelaStock',
+                                    arguments: [lista_telas[i]]);
+                              },
+                              child: Center(
+                                  child: Text(lista_telas[i].tipo_tela)));
+                        }));
+              } else {
+                return Container();
               }
-              return Text('Sin Coneccion');
             } else {
               return Container();
             }
