@@ -1,3 +1,4 @@
+import 'package:Malvinas/models/Tela.dart';
 import 'package:Malvinas/models/ambo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -26,5 +27,15 @@ class DAO {
         .get();
 
     return _querySnapshot;
+  }
+
+  static actualizarStockPorColor(Telas tela) async {
+    print('jjjjjjj');
+    await FirebaseFirestore.instance
+        .collection("telas")
+        .doc('EOsC1cyjlAYwMuvbtzr9')
+        .update({'Colores': tela.metros_colores})
+        .then((value) => print("User Updated"))
+        .catchError((error) => print("Failed to update user: $error"));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:Malvinas/models/Tela.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'BO/dao.dart';
 
 class TelaStock extends StatefulWidget {
   String tela;
@@ -70,10 +71,12 @@ class _TelaStockState extends State<TelaStock> {
                     onPressed: () {
                       int i = 0;
                       mapaActualizar.forEach((key, value) {
-                        mapaActualizar[key] = Listacontroladores[i];
+                        mapaActualizar[key] = Listacontroladores[i].text;
                         i++;
                       });
-                      print(mapaActualizar);
+
+                      DAO.actualizarStockPorColor(
+                          new Telas(args[0].tipo_tela, mapaActualizar));
                     },
                     child: Text('Actualizar'))
               ],

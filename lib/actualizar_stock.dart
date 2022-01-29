@@ -1,4 +1,3 @@
-import 'package:Malvinas/tela_stock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:Malvinas/models/Tela.dart';
@@ -31,6 +30,8 @@ class _ActualizarStockState extends State<ActualizarStock> {
                 final List<DocumentSnapshot> documentos = snapshot.data.docs;
 
                 documentos.forEach((element) {
+                  print('DATOOOOOOOOOOO');
+                  print(element);
                   if (element != null) {
                     Telas tela =
                         new Telas(element['nombre'], element['Colores']);
@@ -41,28 +42,22 @@ class _ActualizarStockState extends State<ActualizarStock> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/TelaStock', arguments: [
-                          new Telas(lista_telas[0].tipo_tela,
-                              lista_telas[0].metros_colores)
-                        ]);
+                        Navigator.pushNamed(context, '/TelaStock',
+                            arguments: [lista_telas[0]]);
                       },
                       child: Center(child: Text(lista_telas[0].tipo_tela)),
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/TelaStock', arguments: [
-                          new Telas(lista_telas[1].tipo_tela,
-                              lista_telas[1].metros_colores)
-                        ]);
+                        Navigator.pushNamed(context, '/TelaStock',
+                            arguments: [lista_telas[1]]);
                       },
                       child: Center(child: Text(lista_telas[1].tipo_tela)),
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/TelaStock', arguments: [
-                          new Telas(lista_telas[2].tipo_tela,
-                              lista_telas[2].metros_colores)
-                        ]);
+                        Navigator.pushNamed(context, '/TelaStock',
+                            arguments: [lista_telas[2]]);
                       },
                       child: Center(child: Text(lista_telas[2].tipo_tela)),
                     )
