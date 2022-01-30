@@ -1,4 +1,5 @@
 import 'package:Malvinas/actualizar_stock.dart';
+import 'package:Malvinas/ambo_heroe.dart';
 import 'package:Malvinas/grafico.dart';
 import 'package:Malvinas/tela_stock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,7 +28,6 @@ class Malvinas extends StatelessWidget {
         '/grafico': (BuildContext context) => new GraficoEstado(),
         '/TelaStock': (BuildContext context) => new TelaStock(),
         '/ActualizarStock': (BuildContext context) => new ActualizarStock(),
-        
       },
       home: cuerpo(),
     );
@@ -77,8 +77,9 @@ class _cuerpoState extends State<cuerpo> {
     List<dynamic> lista = await DAO.leerAmbosDAO();
 
     lista.forEach((e) {
+      print(e['telas_disponibles']);
       tempList.add(new Ambo(e['modelo'], e['precio'], e['talleChaqueta'],
-          e['tallePantalon'], Image.asset(e['url'])));
+          e['tallePantalon'], e['telas_disponibles'], Image.asset(e['url'])));
     });
 
     setState(() {
@@ -223,14 +224,15 @@ class _cuerpoState extends State<cuerpo> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Detalle(ambo: lista_ambos[i])));
+                    builder: (context) => AmboHeroe(ambo: lista_ambos[i])));
           },
           child: Card(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
             child: Column(
               children: [
-                Flexible(child: lista_ambos[i].image),
+                Flexible(
+                    child: Hero(tag: 'imageHero', child: lista_ambos[i].image)),
                 Text(
                   '${lista_ambos[i].nombre}',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

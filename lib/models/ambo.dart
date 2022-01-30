@@ -1,16 +1,19 @@
 import 'package:flutter/cupertino.dart';
 
+import 'Tela.dart';
+
 class Ambo {
   String nombre;
   int precio;
   String talleChaqueta;
   String tallePantalon;
+  List<dynamic> telas_disponibles;
   Image image;
 
   Ambo(this.nombre, this.precio, this.talleChaqueta, this.tallePantalon,
-      this.image);
+      this.telas_disponibles, this.image);
 
-  static List<Ambo> getAmbos() {
+  /*static List<Ambo> getAmbos() {
     final items = <Ambo>[
       Ambo('Leontina', 20, 'XS', 'XS',
           Image.network('assets/img/juanita3p.jpg')),
@@ -27,5 +30,5 @@ class Ambo {
       Ambo('Hombre', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
     ];
     return items;
-  }
+  }*/
 }

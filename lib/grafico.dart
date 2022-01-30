@@ -30,28 +30,15 @@ class _GraficoEstadoState extends State<GraficoEstado> {
 
   static List<charts.Series<MetrosPorColores, String>> _crearDatosGraficos(
       String tipo_tela, Map<String, dynamic> metros_colores) {
-    final data = [
-      new MetrosPorColores(
-        'Rojo',
-        metros_colores['rojo'],
+    List keys = metros_colores.keys.toList();
+    List<MetrosPorColores> data = [];
+    for (int i = 0; i < metros_colores.length; i++) {
+      data.add(new MetrosPorColores(
+        keys[i],
+        int.parse(metros_colores[keys[i]]),
         charts.ColorUtil.fromDartColor(Colors.red),
-      ),
-      new MetrosPorColores(
-        'Negro',
-        metros_colores['negro'],
-        charts.ColorUtil.fromDartColor(Colors.black),
-      ),
-      new MetrosPorColores(
-        'Amarillo',
-        metros_colores['amarillo'],
-        charts.ColorUtil.fromDartColor(Colors.yellow),
-      ),
-      new MetrosPorColores(
-        'Blanco',
-        metros_colores['blanco'],
-        charts.ColorUtil.fromDartColor(Colors.grey),
-      ),
-    ];
+      ));
+    }
 
     return [
       new charts.Series<MetrosPorColores, String>(
@@ -122,17 +109,6 @@ class _GraficoEstadoState extends State<GraficoEstado> {
                             lista_telas[1].tipo_tela,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )),
-                      Card(
-                        child: Container(
-                            height: 140,
-                            child: SimpleBarChart(_crearDatosGraficos(
-                                lista_telas[2].tipo_tela,
-                                lista_telas[2].metros_colores))),
-                      ),
-                      Container(
-                          height: 20,
-                          child: Text(lista_telas[2].tipo_tela,
-                              style: TextStyle(fontWeight: FontWeight.bold)))
                     ]);
                   } else {
                     print("No hay información");

@@ -1,7 +1,6 @@
 import 'package:Malvinas/models/ambo.dart';
 import 'package:Malvinas/models/talle.dart';
 import 'package:flutter/material.dart';
-import 'BO/dao.dart';
 
 class Detalle extends StatefulWidget {
   final Ambo ambo;
