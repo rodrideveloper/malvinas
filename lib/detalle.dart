@@ -93,7 +93,6 @@ class _DetalleState extends State<Detalle> {
                           onChanged: (value) {
                             setState(() {
                               tipoTela = value;
-                              print(tipoTela);
                             });
                           },
                         ),

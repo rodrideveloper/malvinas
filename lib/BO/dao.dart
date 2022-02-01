@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DAO {
   bool enviarDatos(Ambo ambo) {}
 
-//DEVUELVE UNA LISTA DE FUTURE TELAS
+//DEVUELVE UNA LISTA DENTRO DEL QUERYSNAP PARA USAR DENTRO DE UN FUTUREBUILDER
   static Future<QuerySnapshot> leerTelasDAO() async {
     return await FirebaseFirestore.instance.collection('telas').get();
   }
@@ -20,11 +20,24 @@ class DAO {
     return allData;
   }
 
+//Devuelvo un futuro con lista de telas
+  static Future<List<dynamic>> leerListaTelasDAO() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('telas').get();
+    final List<dynamic> allData =
+        querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    return allData;
+  }
+
   static Future<QuerySnapshot> leerSoloUnaDAO(String nombre_tela) async {
     QuerySnapshot _querySnapshot = await FirebaseFirestore.instance
-        .collection("telas")
+        .collection('telas')
         .where('nombre', isEqualTo: nombre_tela)
         .get();
+
+    // final List<dynamic> allData =
+    //   _querySnapshot.docs.map((doc) => doc.data()).toList();
 
     return _querySnapshot;
   }

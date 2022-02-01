@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'BO/dao.dart';
 
+//Pantalla para actualizar los stock de tela!
 class TelaStock extends StatefulWidget {
   String tela;
   TelaStock({Key key, this.tela}) : super(key: key);
@@ -40,7 +41,7 @@ class _TelaStockState extends State<TelaStock> {
                     margin: EdgeInsets.all(15),
                     elevation: 10,
                     child: Container(
-                      height: 400,
+                      height: MediaQuery.of(context).size.height,
                       width: 400,
                       child: ListView.builder(
                           itemCount: args[0].metros_colores.length,

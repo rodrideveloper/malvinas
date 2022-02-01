@@ -1,6 +1,7 @@
 import 'package:Malvinas/actualizar_stock.dart';
 import 'package:Malvinas/ambo_heroe.dart';
 import 'package:Malvinas/grafico.dart';
+import 'package:Malvinas/seleccionarColor.dart';
 import 'package:Malvinas/tela_stock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,25 @@ class Malvinas extends StatelessWidget {
         '/grafico': (BuildContext context) => new GraficoEstado(),
         '/TelaStock': (BuildContext context) => new TelaStock(),
         '/ActualizarStock': (BuildContext context) => new ActualizarStock(),
+        '/SeleccionarColor': (BuildContext context) => new SeleccionarColor(),
       },
+      /*  theme: ThemeData(
+        // Define el Brightness y Colores por defecto
+        brightness: Brightness.dark,
+        primaryColor: Colors.lightBlue[800],
+        accentColor: Colors.cyan[600],
+
+        // Define la Familia de fuente por defecto
+        fontFamily: 'Montserrat',
+
+        // Define el TextTheme por defecto. Usa esto para espicificar el estilo de texto por defecto
+        // para cabeceras, títulos, cuerpos de texto, y más.
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          subtitle1: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
+      ),*/
       home: cuerpo(),
     );
   }
@@ -77,7 +96,6 @@ class _cuerpoState extends State<cuerpo> {
     List<dynamic> lista = await DAO.leerAmbosDAO();
 
     lista.forEach((e) {
-      print(e['telas_disponibles']);
       tempList.add(new Ambo(e['modelo'], e['precio'], e['talleChaqueta'],
           e['tallePantalon'], e['telas_disponibles'], Image.asset(e['url'])));
     });
@@ -258,23 +276,6 @@ class _cuerpoState extends State<cuerpo> {
     );*/
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 class cuerpo extends StatelessWidget {

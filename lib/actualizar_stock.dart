@@ -31,9 +31,6 @@ class _ActualizarStockState extends State<ActualizarStock> {
                 final List<DocumentSnapshot> documentos = snapshot.data.docs;
 
                 documentos.forEach((element) {
-                  print('DATOOOOOOOOOOO');
-                  print(element.id);
-                  print(element.id);
                   if (element != null) {
                     //  Telas tela =
                     //    new Telas(element['nombre'], element['Colores']);
