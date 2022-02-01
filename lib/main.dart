@@ -1,8 +1,8 @@
-import 'package:Malvinas/actualizar_stock.dart';
+import 'package:Malvinas/actualizar_stock(1).dart';
 import 'package:Malvinas/main_seleccionarTela(2).dart';
 import 'package:Malvinas/grafico.dart';
 import 'package:Malvinas/main_seleccionarColor(3).dart';
-import 'package:Malvinas/tela_stock.dart';
+import 'package:Malvinas/actualizar_stock(2).dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'BO/dao.dart';
@@ -134,7 +134,10 @@ class _cuerpoState extends State<cuerpo> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
             ),
             ListTile(
-              title: const Text('Cortador '),
+              title: const Text('Cortador',
+                  style: TextStyle(
+                      decoration: TextDecoration.lineThrough,
+                      color: Colors.grey)),
               onTap: () {
                 // Update the state of the app.
                 // ...

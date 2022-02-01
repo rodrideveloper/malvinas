@@ -1,6 +1,8 @@
 import 'package:Malvinas/models/ambo.dart';
+import 'package:Malvinas/models/registros.dart';
 import 'package:Malvinas/models/talle.dart';
 import 'package:flutter/material.dart';
+import 'BO/dao.dart';
 
 class Detalle extends StatefulWidget {
   final Ambo ambo;
@@ -90,6 +92,23 @@ class _DetalleState extends State<Detalle> {
                                   print('Color2: ${color2} ');
                                   print('Talle Chaqueta: ${_tallesChaqueta} ');
                                   print('Talle Pantalon: ${_tallesPantalon} ');
+                                  Registro r = new Registro(
+                                      nombreAmbo,
+                                      _tallesChaqueta,
+                                      _tallesPantalon,
+                                      color1,
+                                      color2,
+                                      tela,
+                                      2.5);
+                                  bool error = DAO.agregarRegistro(r);
+                                  if (error != true) {
+                                    DAO.actualizarStockTela(
+                                        r.tela,
+                                        r.colorPrimario,
+                                        r.ColorSecundario,
+                                        2,
+                                        0.5);
+                                  }
                                 },
                                 child: Text("Enviar",
                                     style: TextStyle(color: Colors.white)),

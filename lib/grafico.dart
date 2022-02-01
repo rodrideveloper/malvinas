@@ -35,7 +35,7 @@ class _GraficoEstadoState extends State<GraficoEstado> {
     for (int i = 0; i < metros_colores.length; i++) {
       data.add(new MetrosPorColores(
         keys[i],
-        int.parse(metros_colores[keys[i]]),
+        metros_colores[keys[i]],
         charts.ColorUtil.fromDartColor(Colors.red),
       ));
     }
