@@ -12,7 +12,6 @@ class Detalle extends StatefulWidget {
 }
 
 class _DetalleState extends State<Detalle> {
-  List<String> _telas = ['Arciel', 'Batista', 'Spandex'];
   String tipoTela = 'Arciel';
 
   final talles = <Talle>[
@@ -30,10 +29,20 @@ class _DetalleState extends State<Detalle> {
   int _tallesPantalon = 0;
   @override
   Widget build(BuildContext context) {
+    final argumentos =
+        ModalRoute.of(context).settings.arguments as List<String>;
+    String nombreAmbo = argumentos[3];
+    String tela = argumentos[0];
+    ;
+    String color1 = argumentos[1];
+    ;
+    String color2 = argumentos[2];
+    ;
+
     // Usa el objeto Todo para crear nuestra UI
     return Scaffold(
         appBar: AppBar(
-            title: Text(widget.ambo.nombre),
+            title: Text(nombreAmbo),
             backgroundColor: Colors.black,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -67,37 +76,6 @@ class _DetalleState extends State<Detalle> {
                       _tallesP(talles[i], i)
                   ])
                 ]),
-                Positioned(
-                    bottom: 80,
-                    left: 80,
-                    child: Row(children: [
-                      Container(
-                        width: 200,
-                        child: DropdownButton<String>(
-                          value: tipoTela,
-                          isExpanded: true,
-                          elevation: 50,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold),
-                          items: <String>['Arciel', 'Batista', 'Spandex']
-                              .map((String value) {
-                            return new DropdownMenuItem<String>(
-                              value: value,
-                              child: Center(
-                                  child: new Text(value,
-                                      textAlign: TextAlign.center)),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              tipoTela = value;
-                            });
-                          },
-                        ),
-                      )
-                    ])),
                 Align(
                     alignment: Alignment.bottomCenter,
                     child: Row(
@@ -106,7 +84,12 @@ class _DetalleState extends State<Detalle> {
                             child: TextButton(
                                 onPressed: () {
                                   //llamar al bo y cargar ambo luego dar mensaje
-                                  showAlertDialog(context);
+                                  print('Tela: ${tela} ');
+                                  print('Ambo: ${nombreAmbo} ');
+                                  print('Color1: ${color1} ');
+                                  print('Color2: ${color2} ');
+                                  print('Talle Chaqueta: ${_tallesChaqueta} ');
+                                  print('Talle Pantalon: ${_tallesPantalon} ');
                                 },
                                 child: Text("Enviar",
                                     style: TextStyle(color: Colors.white)),

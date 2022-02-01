@@ -1,12 +1,12 @@
 import 'package:Malvinas/actualizar_stock.dart';
-import 'package:Malvinas/ambo_heroe.dart';
+import 'package:Malvinas/main_seleccionarTela(2).dart';
 import 'package:Malvinas/grafico.dart';
-import 'package:Malvinas/seleccionarColor.dart';
+import 'package:Malvinas/main_seleccionarColor(3).dart';
 import 'package:Malvinas/tela_stock.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'BO/dao.dart';
-import 'detalle.dart';
+import 'main_seleccionarTalles(4).dart';
 import 'models/ambo.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,6 +30,7 @@ class Malvinas extends StatelessWidget {
         '/TelaStock': (BuildContext context) => new TelaStock(),
         '/ActualizarStock': (BuildContext context) => new ActualizarStock(),
         '/SeleccionarColor': (BuildContext context) => new SeleccionarColor(),
+        '/Detalle': (BuildContext context) => new Detalle(),
       },
       /*  theme: ThemeData(
         // Define el Brightness y Colores por defecto
@@ -250,7 +251,9 @@ class _cuerpoState extends State<cuerpo> {
             child: Column(
               children: [
                 Flexible(
-                    child: Hero(tag: 'imageHero', child: lista_ambos[i].image)),
+                    child: Hero(
+                        tag: 'imageHero${lista_ambos[i].nombre}',
+                        child: lista_ambos[i].image)),
                 Text(
                   '${lista_ambos[i].nombre}',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
