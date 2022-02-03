@@ -108,6 +108,8 @@ class _DetalleState extends State<Detalle> {
                                         r.ColorSecundario,
                                         2,
                                         0.5);
+                                  } else {
+                                    print('Error al actualizar stock TELA');
                                   }
                                 },
                                 child: Text("Enviar",

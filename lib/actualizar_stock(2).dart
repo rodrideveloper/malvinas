@@ -86,10 +86,7 @@ class _TelaStockState extends State<TelaStock> {
                         DAO.actualizarStockPorColor(new Telas.conId(
                             args[0].id, args[0].tipo_tela, mapaActualizar));
                       },
-                      child: Icon(
-                        Icons.keyboard_arrow_right_rounded,
-                        size: 70,
-                      ))
+                      child: Text('Actualizar'))
                 ],
               )
             ],

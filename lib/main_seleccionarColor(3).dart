@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'BO/dao.dart';
+import 'colores.dart';
 import 'models/Tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'colores.dart' as Col;
 
 class SeleccionarColor extends StatefulWidget {
   final String tela;
@@ -40,91 +42,112 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
     String ambo = argumentos[1];
 
     return Scaffold(
+        appBar: AppBar(
+          title: Text('Seleccionar Colores'),
+        ),
         body: Container(
-      height: MediaQuery.of(context).size.height,
-      child: FutureBuilder<QuerySnapshot>(
-          future: llenarListaTelas(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasData) {
-                List<DocumentSnapshot> listaDoc = snapshot.data.docs;
-                listaDoc.forEach((element) {
-                  listaTelas
-                      .add(new Telas(element['nombre'], element['Colores']));
-                });
-                return Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
+          height: MediaQuery.of(context).size.height,
+          child: FutureBuilder<QuerySnapshot>(
+              future: llenarListaTelas(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    List<DocumentSnapshot> listaDoc = snapshot.data.docs;
+                    listaDoc.forEach((element) {
+                      listaTelas.add(
+                          new Telas(element['nombre'], element['Colores']));
+                    });
+                    return Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('Color Principal'),
-                          SizedBox(width: 20),
-                          botonColores_primario(listaTelas),
-                        ],
-                      ),
-                      SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Color Secundario'),
-                          SizedBox(width: 20),
-                          botonColores_secundario(listaTelas)
-                        ],
-                      ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            child: Row(
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  style: BorderStyle.solid, width: 0.5),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Icon(
-                                        Icons.keyboard_arrow_left,
-                                        size: 70,
-                                      )),
-                                  Spacer(),
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(context, '/Detalle',
-                                            arguments: [
-                                              telaSeleccionada,
-                                              valorColorPrimario,
-                                              valorColorSecundario,
-                                              ambo
-                                            ]);
-                                      },
-                                      child: Icon(
-                                        Icons.keyboard_arrow_right,
-                                        size: 70,
-                                      )),
+                                  Text('Primario'),
+                                  botonColores_primario(listaTelas),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    'Secundario',
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  botonColores_secundario(listaTelas),
                                 ]),
                           ),
-                        ),
+                          /* Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Color Secundario'),
+                              SizedBox(width: 20),
+                              Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [)
+                            ],
+                          ),*/
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Icon(
+                                            Icons.keyboard_arrow_left,
+                                            size: 70,
+                                          )),
+                                      Spacer(),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context, '/Detalle',
+                                                arguments: [
+                                                  telaSeleccionada,
+                                                  valorColorPrimario,
+                                                  valorColorSecundario,
+                                                  ambo
+                                                ]);
+                                          },
+                                          child: Icon(
+                                            Icons.keyboard_arrow_right,
+                                            size: 70,
+                                          )),
+                                    ]),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              }
-              return Container();
-            }
-            return Container();
-          }),
-    ));
+                    );
+                  }
+                  return Container();
+                }
+                return Container();
+              }),
+        ));
   }
 
-  Widget botonColores_primario(List<Telas> telas) {
+  /*Widget botonColores_primario(List<Telas> telas) {
     List llaves = telas[0].metros_colores.keys.toList();
 
     return DropdownButton(
+        isExpanded: true,
         elevation: 6,
         dropdownColor: Colors.white,
         icon: Icon(Icons.arrow_drop_down),
@@ -134,11 +157,54 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
         items: llaves.map((dropDownStringItem) {
           return DropdownMenuItem<String>(
             value: dropDownStringItem,
-            child: Text(
-              dropDownStringItem,
-              style: TextStyle(fontSize: 16.0),
+            child: Container(
+              alignment: Alignment.center,
+              constraints: BoxConstraints(minHeight: 48.0),
+              color: Colores.colores[dropDownStringItem],
+              child: Text(
+                dropDownStringItem,
+                style: TextStyle(fontSize: 16.0),
+              ),
             ),
           );
+        }).toList(),
+        onChanged: (String newValueSelected) {
+          setState(() {
+            this.valorColorPrimario = newValueSelected;
+          });
+        },
+        value: valorColorPrimario);
+  }*/
+
+  Widget botonColores_primario(List<Telas> telas) {
+    List llaves = telas[0].metros_colores.keys.toList();
+    print(llaves);
+    return DropdownButton(
+        elevation: 6,
+        isExpanded: true,
+        dropdownColor: Colors.white,
+        icon: Icon(Icons.arrow_drop_down),
+        underline: SizedBox(),
+        iconSize: 30,
+        style: TextStyle(
+            color: Colors.black, fontFamily: 'Raleway', letterSpacing: 15),
+        items: llaves.map((dropDownStringItem) {
+          return DropdownMenuItem<String>(
+            value: dropDownStringItem,
+            child: Container(
+              alignment: Alignment.center,
+              constraints: BoxConstraints(minHeight: 90.0),
+              color: Colores.colores[dropDownStringItem],
+              child: Text(dropDownStringItem,
+                  style: TextStyle(
+                    color: ThemeData.estimateBrightnessForColor(
+                                Colores.colores[dropDownStringItem]) ==
+                            Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
+                  )),
+            ),
+          ); //[negro, amarillo, rojo, blanco, fucsia]
         }).toList(),
         onChanged: (String newValueSelected) {
           setState(() {
@@ -150,20 +216,30 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
 
   Widget botonColores_secundario(List<Telas> telas) {
     List llaves = telas[0].metros_colores.keys.toList();
-
     return DropdownButton(
         elevation: 6,
+        isExpanded: true,
         dropdownColor: Colors.white,
         icon: Icon(Icons.arrow_drop_down),
         underline: SizedBox(),
         iconSize: 30,
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(
+            color: Colors.black, fontFamily: 'Raleway', letterSpacing: 15),
         items: llaves.map((dropDownStringItem) {
           return DropdownMenuItem<String>(
             value: dropDownStringItem,
-            child: Text(
-              dropDownStringItem,
-              style: TextStyle(fontSize: 16.0),
+            child: Container(
+              alignment: Alignment.center,
+              constraints: BoxConstraints(minHeight: 90.0),
+              color: Colores.colores[dropDownStringItem],
+              child: Text(dropDownStringItem,
+                  style: TextStyle(
+                    color: ThemeData.estimateBrightnessForColor(
+                                Colores.colores[dropDownStringItem]) ==
+                            Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
+                  )),
             ),
           );
         }).toList(),

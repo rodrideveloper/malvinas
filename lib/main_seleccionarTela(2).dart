@@ -16,6 +16,9 @@ class _AmboHeroeState extends State<AmboHeroe> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Seleccionar Tela'),
+      ),
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -23,26 +26,44 @@ class _AmboHeroeState extends State<AmboHeroe> {
           child: Column(
             children: [
               Container(
+                  width: 300,
+                  height: 300,
                   child: Hero(
-                tag: 'imageHero',
-                child: widget.ambo.image,
-              )),
-              Text(widget.ambo.nombre),
+                    tag: 'imageHero',
+                    child: widget.ambo.image,
+                  )),
+              Text('Modelo: ${widget.ambo.nombre}'),
+              SizedBox(height: 20),
+              Text('Seleccionar Tela',
+                  style: TextStyle(
+                    fontSize: 20,
+                  )),
+              SizedBox(height: 20),
               Container(
-                height: 100,
+                height: 50,
+                width: MediaQuery.of(context).size.width,
                 child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
                     itemCount: widget.ambo.telas_disponibles.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return TextButton(
-                        child: Text(
-                            widget.ambo.telas_disponibles[index].toString()),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/SeleccionarColor',
-                              arguments: [
-                                widget.ambo.telas_disponibles[index].toString(),
-                                widget.ambo.nombre
-                              ]);
-                        },
+                      return Container(
+                        margin: EdgeInsets.all(10),
+                        child: ElevatedButton(
+                          child: Text(
+                            widget.ambo.telas_disponibles[index].toString(),
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, '/SeleccionarColor', arguments: [
+                              widget.ambo.telas_disponibles[index].toString(),
+                              widget.ambo.nombre
+                            ]);
+                          },
+                        ),
                       );
                     }),
               ),

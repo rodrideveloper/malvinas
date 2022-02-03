@@ -1,4 +1,5 @@
 import 'package:Malvinas/SimpleBarChart.dart';
+import 'package:Malvinas/colores.dart';
 import 'package:Malvinas/models/Tela.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -35,8 +36,9 @@ class _GraficoEstadoState extends State<GraficoEstado> {
     for (int i = 0; i < metros_colores.length; i++) {
       data.add(new MetrosPorColores(
         keys[i],
-        metros_colores[keys[i]],
-        charts.ColorUtil.fromDartColor(Colors.red),
+        // double.parse(metros_colores[keys[i]]),
+        52,
+        charts.ColorUtil.fromDartColor(Colores.colores[keys[i]] ?? Colors.red),
       ));
     }
 
@@ -107,6 +109,19 @@ class _GraficoEstadoState extends State<GraficoEstado> {
                           height: 20,
                           child: Text(
                             lista_telas[1].tipo_tela,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                      Card(
+                        child: Container(
+                            height: 140,
+                            child: SimpleBarChart(_crearDatosGraficos(
+                                lista_telas[2].tipo_tela,
+                                lista_telas[2].metros_colores))),
+                      ),
+                      Container(
+                          height: 20,
+                          child: Text(
+                            lista_telas[2].tipo_tela,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )),
                     ]);

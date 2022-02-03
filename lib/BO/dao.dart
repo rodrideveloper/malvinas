@@ -75,6 +75,7 @@ class DAO {
 
   static actualizarStockTela(String tela, String color1, String color2,
       double metros1, double metros2) async {
+    bool error = false;
     QuerySnapshot querySnap = await FirebaseFirestore.instance
         .collection('telas')
         .where('nombre', isEqualTo: tela)
@@ -91,6 +92,9 @@ class DAO {
         .doc(myID)
         .update({'Colores': mapa['Colores']})
         .then((value) => print("Tela Actualizada"))
-        .catchError((error) => print("Error al actualizar tela: $error"));
+        .catchError((error) {
+          print("Error al actualizar tela: $error");
+          error = true;
+        });
   }
 }

@@ -32,6 +32,7 @@ class Malvinas extends StatelessWidget {
         '/SeleccionarColor': (BuildContext context) => new SeleccionarColor(),
         '/Detalle': (BuildContext context) => new Detalle(),
       },
+      theme: ThemeData(fontFamily: 'Raleway'),
       /*  theme: ThemeData(
         // Define el Brightness y Colores por defecto
         brightness: Brightness.dark,
@@ -131,13 +132,14 @@ class _cuerpoState extends State<cuerpo> {
                 color: Colors.blueGrey,
               ),
               child: Text('Malvinas Uniformes',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                  style: TextStyle(fontSize: 20, fontFamily: 'Montserrat')),
             ),
             ListTile(
               title: const Text('Cortador',
                   style: TextStyle(
                       decoration: TextDecoration.lineThrough,
                       color: Colors.grey)),
+              leading: Icon(Icons.baby_changing_station_rounded),
               onTap: () {
                 // Update the state of the app.
                 // ...
@@ -145,12 +147,14 @@ class _cuerpoState extends State<cuerpo> {
             ),
             ListTile(
               title: const Text('Stock Telas'),
+              leading: Icon(Icons.ac_unit),
               onTap: () {
                 Navigator.pushNamed(context, '/grafico');
               },
             ),
             ListTile(
               title: const Text('Actualizar Stock'),
+              leading: Icon(Icons.rice_bowl),
               onTap: () {
                 Navigator.pushNamed(context, '/ActualizarStock');
               },
