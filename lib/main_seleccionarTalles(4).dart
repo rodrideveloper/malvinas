@@ -15,6 +15,7 @@ class Detalle extends StatefulWidget {
 
 class _DetalleState extends State<Detalle> {
   String tipoTela = 'Arciel';
+  String cortador = 'Seleccionar';
 
   final talles = <Talle>[
     Talle('XS', 2.0),
@@ -78,6 +79,33 @@ class _DetalleState extends State<Detalle> {
                       _tallesP(talles[i], i)
                   ])
                 ]),
+                Positioned(
+                    left: 80,
+                    top: 420,
+                    child: Row(
+                      children: [
+                        Text('Cortador:   ',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat', fontSize: 20)),
+                        DropdownButton(
+                            value: cortador,
+                            items:
+                                ['Carolina', 'Gaston', 'Seleccionar'].map((e) {
+                              return DropdownMenuItem(
+                                  child: Text(
+                                    e,
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat', fontSize: 20),
+                                  ),
+                                  value: e);
+                            }).toList(),
+                            onChanged: (nuevoValor) {
+                              setState(() {
+                                cortador = nuevoValor;
+                              });
+                            }),
+                      ],
+                    )),
                 Align(
                     alignment: Alignment.bottomCenter,
                     child: Row(
@@ -92,25 +120,38 @@ class _DetalleState extends State<Detalle> {
                                   print('Color2: ${color2} ');
                                   print('Talle Chaqueta: ${_tallesChaqueta} ');
                                   print('Talle Pantalon: ${_tallesPantalon} ');
-                                  Registro r = new Registro(
-                                      nombreAmbo,
-                                      _tallesChaqueta,
-                                      _tallesPantalon,
-                                      color1,
-                                      color2,
-                                      tela,
-                                      2.5);
-                                  bool error = DAO.agregarRegistro(r);
-                                  if (error != true) {
-                                    DAO.actualizarStockTela(
-                                        r.tela,
-                                        r.colorPrimario,
-                                        r.ColorSecundario,
-                                        2,
-                                        0.5);
-                                  } else {
-                                    print('Error al actualizar stock TELA');
-                                  }
+                                  print(cortador);
+                                  if (cortador != 'Seleccionar') {
+                                    Registro r = new Registro.ob(
+                                        nombreAmbo,
+                                        _tallesChaqueta,
+                                        _tallesPantalon,
+                                        color1,
+                                        color2,
+                                        tela,
+                                        2.5,
+                                        cortador);
+                                    bool error = DAO.agregarRegistro(r);
+                                    if (error != true) {
+                                      DAO.actualizarStockTela(
+                                          r.tela,
+                                          r.colorPrimario,
+                                          r.colorSecundario,
+                                          2,
+                                          0.5);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content:
+                                                  Text('Tela Actualizada :)')));
+                                      Navigator.pushNamed(context, '/inicio');
+                                    } else {
+                                      print('Error al actualizar stock TELA');
+                                    }
+                                  } else
+                                    (ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                'Seleccionar Cortador '))));
                                 },
                                 child: Text("Enviar",
                                     style: TextStyle(color: Colors.white)),
@@ -124,7 +165,7 @@ class _DetalleState extends State<Detalle> {
                                     elevation: 30,
                                     shadowColor: Colors.black)))
                       ],
-                    ))
+                    )),
               ],
             )));
   }

@@ -13,8 +13,16 @@ class AmboHeroe extends StatefulWidget {
 }
 
 class _AmboHeroeState extends State<AmboHeroe> {
+  String telaSeleccionada = '';
   @override
   Widget build(BuildContext context) {
+    telaSeleccionada == widget.ambo.telas_disponibles[0];
+    List<String> telas = [];
+    widget.ambo.telas_disponibles.forEach((e) {
+      telas.add(e.toString());
+    });
+    telaSeleccionada = telas[0];
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Seleccionar Tela'),
@@ -26,12 +34,17 @@ class _AmboHeroeState extends State<AmboHeroe> {
           child: Column(
             children: [
               Container(
-                  width: 300,
+                  width: MediaQuery.of(context).size.width,
                   height: 300,
+                  decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(width: 4, color: Color(0xFF04589A))),
+                  ),
                   child: Hero(
                     tag: 'imageHero',
                     child: widget.ambo.image,
                   )),
+              SizedBox(height: 10),
               Text('Modelo: ${widget.ambo.nombre}'),
               SizedBox(height: 20),
               Text('Seleccionar Tela',
@@ -41,38 +54,15 @@ class _AmboHeroeState extends State<AmboHeroe> {
               SizedBox(height: 20),
               Container(
                 height: 50,
-                width: MediaQuery.of(context).size.width,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: widget.ambo.telas_disponibles.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        margin: EdgeInsets.all(10),
-                        child: ElevatedButton(
-                          child: Text(
-                            widget.ambo.telas_disponibles[index].toString(),
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, '/SeleccionarColor', arguments: [
-                              widget.ambo.telas_disponibles[index].toString(),
-                              widget.ambo.nombre
-                            ]);
-                          },
-                        ),
-                      );
-                    }),
+                width: MediaQuery.of(context).size.width * .5,
+                child: SeleccionarTelaDropButton(telas),
               ),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           TextButton(
                               onPressed: () {
@@ -80,6 +70,18 @@ class _AmboHeroeState extends State<AmboHeroe> {
                               },
                               child: Icon(
                                 Icons.keyboard_arrow_left,
+                                size: 70,
+                              )),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, '/SeleccionarColor', arguments: [
+                                  telaSeleccionada,
+                                  widget.ambo.nombre
+                                ]);
+                              },
+                              child: Icon(
+                                Icons.keyboard_arrow_right,
                                 size: 70,
                               )),
                         ]),
@@ -90,6 +92,31 @@ class _AmboHeroeState extends State<AmboHeroe> {
           ),
         ),
       ),
+    );
+  }
+
+  DropdownButton<String> SeleccionarTelaDropButton(List<String> telas) {
+    return DropdownButton<String>(
+      elevation: 6,
+      isExpanded: true,
+      dropdownColor: Colors.white,
+      icon: Icon(Icons.arrow_drop_down),
+      underline: SizedBox(),
+      iconSize: 30,
+      style: TextStyle(
+        color: Colors.black,
+        fontFamily: 'Raleway',
+      ),
+      items: telas.map<DropdownMenuItem<String>>((element) {
+        return DropdownMenuItem<String>(
+            value: element,
+            child:
+                Container(alignment: Alignment.center, child: Text(element)));
+      }).toList(),
+      onChanged: (nuevoValor) {
+        this.telaSeleccionada = nuevoValor;
+      },
+      value: telaSeleccionada,
     );
   }
 }

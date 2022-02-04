@@ -62,12 +62,13 @@ class DAO {
           'nombre': r.nombre,
           'tela': r.tela,
           'color1': r.colorPrimario,
-          'color2': r.ColorSecundario,
+          'color2': r.colorSecundario,
           'talle_chaqueta': r.talleChaqueta,
           'talle_pantalon': r.tallePantalon,
-          'metros': r.metros
+          'metros': r.metros,
+          'cortador': r.cortador
         })
-        .then((value) => print('agregado'))
+        .then((value) => print('Registro Agregado con Exito'))
         .catchError((error) => error = true);
 
     return error;
@@ -83,9 +84,12 @@ class DAO {
     QueryDocumentSnapshot doc = querySnap.docs[0];
     String myID = doc.id;
     Map mapa = doc.data();
-    print(mapa);
-    mapa['Colores'][color1] = mapa['Colores'][color1] - metros1;
-    mapa['Colores'][color2] = mapa['Colores'][color2] - metros2;
+    print(mapa['Colores']['negro'].toString());
+
+    mapa['Colores'][color1] =
+        (double.parse(mapa['Colores'][color1]) - metros1).toString();
+    mapa['Colores'][color2] =
+        (double.parse(mapa['Colores'][color2]) - metros2).toString();
 
     await FirebaseFirestore.instance
         .collection('telas')
@@ -96,5 +100,9 @@ class DAO {
           print("Error al actualizar tela: $error");
           error = true;
         });
+  }
+
+  static Future<QuerySnapshot> leerRegistros() async {
+    return await FirebaseFirestore.instance.collection('registros').get();
   }
 }

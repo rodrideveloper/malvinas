@@ -3,6 +3,7 @@ import 'package:Malvinas/main_seleccionarTela(2).dart';
 import 'package:Malvinas/grafico.dart';
 import 'package:Malvinas/main_seleccionarColor(3).dart';
 import 'package:Malvinas/actualizar_stock(2).dart';
+import 'package:Malvinas/seguimientoCortadores.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'BO/dao.dart';
@@ -31,6 +32,7 @@ class Malvinas extends StatelessWidget {
         '/ActualizarStock': (BuildContext context) => new ActualizarStock(),
         '/SeleccionarColor': (BuildContext context) => new SeleccionarColor(),
         '/Detalle': (BuildContext context) => new Detalle(),
+        '/Cortadores': (BuildContext context) => new SeguimientoCortadores(),
       },
       theme: ThemeData(fontFamily: 'Raleway'),
       /*  theme: ThemeData(
@@ -135,14 +137,10 @@ class _cuerpoState extends State<cuerpo> {
                   style: TextStyle(fontSize: 20, fontFamily: 'Montserrat')),
             ),
             ListTile(
-              title: const Text('Cortador',
-                  style: TextStyle(
-                      decoration: TextDecoration.lineThrough,
-                      color: Colors.grey)),
+              title: const Text('Cortador'),
               leading: Icon(Icons.baby_changing_station_rounded),
               onTap: () {
-                // Update the state of the app.
-                // ...
+                Navigator.pushNamed(context, '/Cortadores');
               },
             ),
             ListTile(
@@ -265,7 +263,6 @@ class _cuerpoState extends State<cuerpo> {
                   '${lista_ambos[i].nombre}',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                Text('\$${lista_ambos[i].precio}'),
               ],
             ),
             color: Colors.white,

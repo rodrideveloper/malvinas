@@ -41,8 +41,6 @@ class _ActualizarStockState extends State<ActualizarStock> {
 
                           documentos.forEach((element) {
                             if (element != null) {
-                              //  Telas tela =
-                              //    new Telas(element['nombre'], element['Colores']);
                               Telas tela = new Telas.conId(element.id,
                                   element['nombre'], element['Colores']);
                               lista_telas.add(tela);

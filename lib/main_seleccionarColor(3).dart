@@ -104,14 +104,6 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Icon(
-                                            Icons.keyboard_arrow_left,
-                                            size: 70,
-                                          )),
                                       Spacer(),
                                       TextButton(
                                           onPressed: () {
@@ -142,39 +134,6 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
               }),
         ));
   }
-
-  /*Widget botonColores_primario(List<Telas> telas) {
-    List llaves = telas[0].metros_colores.keys.toList();
-
-    return DropdownButton(
-        isExpanded: true,
-        elevation: 6,
-        dropdownColor: Colors.white,
-        icon: Icon(Icons.arrow_drop_down),
-        underline: SizedBox(),
-        iconSize: 30,
-        style: TextStyle(color: Colors.black),
-        items: llaves.map((dropDownStringItem) {
-          return DropdownMenuItem<String>(
-            value: dropDownStringItem,
-            child: Container(
-              alignment: Alignment.center,
-              constraints: BoxConstraints(minHeight: 48.0),
-              color: Colores.colores[dropDownStringItem],
-              child: Text(
-                dropDownStringItem,
-                style: TextStyle(fontSize: 16.0),
-              ),
-            ),
-          );
-        }).toList(),
-        onChanged: (String newValueSelected) {
-          setState(() {
-            this.valorColorPrimario = newValueSelected;
-          });
-        },
-        value: valorColorPrimario);
-  }*/
 
   Widget botonColores_primario(List<Telas> telas) {
     List llaves = telas[0].metros_colores.keys.toList();
@@ -251,15 +210,3 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
         value: valorColorSecundario);
   }
 }
-
-/*items: items.map((String items) {
-                return DropdownMenuItem(
-                  value: items,
-                  child: Text(items),
-                );
-              }).toList(),
-              onChanged: (String nuevoValor) {
-                setState(() {
-                  valor = nuevoValor;
-                });
-              });*/
