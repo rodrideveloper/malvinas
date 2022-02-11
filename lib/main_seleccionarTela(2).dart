@@ -14,7 +14,7 @@ class AmboHeroe extends StatefulWidget {
 }
 
 class _AmboHeroeState extends State<AmboHeroe> {
-  String telaSeleccionada = '';
+  String telaSeleccionada = 'Batista';
   @override
   Widget build(BuildContext context) {
     telaSeleccionada == widget.ambo.telas_disponibles[0];
@@ -22,7 +22,6 @@ class _AmboHeroeState extends State<AmboHeroe> {
     widget.ambo.telas_disponibles.forEach((e) {
       telas.add(e.toString());
     });
-    telaSeleccionada = telas[0];
 
     return Scaffold(
       appBar: AppBar(
@@ -55,13 +54,21 @@ class _AmboHeroeState extends State<AmboHeroe> {
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.white,
-                              fontWeight: FontWeight.bold)),
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.combine([
+                                TextDecoration.lineThrough,
+                              ]))),
                       SizedBox(height: 40),
                       Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width * .5,
                         child: Container(
-                            color: Colors.white,
+                            decoration: BoxDecoration(
+                                color: Colors.amber,
+                                border: Border.all(
+                                    style: BorderStyle.solid,
+                                    width: 5,
+                                    color: Colors.white)),
                             child: SeleccionarTelaDropButton(telas)),
                       ),
                       arrowNavegacion(
@@ -89,7 +96,7 @@ class _AmboHeroeState extends State<AmboHeroe> {
           color: Colors.black,
           fontFamily: 'Raleway',
           fontSize: 20,
-          letterSpacing: 10),
+          letterSpacing: 8),
       items: telas.map<DropdownMenuItem<String>>((element) {
         return DropdownMenuItem<String>(
             value: element,
@@ -97,7 +104,9 @@ class _AmboHeroeState extends State<AmboHeroe> {
                 Container(alignment: Alignment.center, child: Text(element)));
       }).toList(),
       onChanged: (nuevoValor) {
-        this.telaSeleccionada = nuevoValor;
+        setState(() {
+          this.telaSeleccionada = nuevoValor;
+        });
       },
       value: telaSeleccionada,
     );
@@ -118,27 +127,13 @@ class arrowNavegacion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Align(
-        alignment: Alignment.bottomCenter,
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Icon(
-                Icons.keyboard_arrow_left,
-                size: 70,
-              )),
-          TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/SeleccionarColor',
-                    arguments: [telaSeleccionada, widget.ambo.nombre]);
-              },
-              child: Icon(
-                Icons.keyboard_arrow_right,
-                size: 70,
-              )),
-        ]),
+        alignment: Alignment.bottomRight,
+        child: TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/SeleccionarColor',
+                  arguments: [telaSeleccionada, widget.ambo.nombre]);
+            },
+            child: flechasSiguiente()),
       ),
     );
   }
@@ -158,12 +153,36 @@ class HeroWidget extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: 300,
         decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(width: 2, color: Color(0xFF04589A))),
+          border: Border(
+              bottom: BorderSide(width: 2, color: ColoresApp.color_rosa)),
         ),
         child: Hero(
           tag: 'imageHero',
           child: widget.ambo.image,
         ));
+  }
+}
+
+class flechasSiguiente extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ClipOval(
+      child: Container(
+        color: ColoresApp.color_gris,
+        child: Icon(Icons.keyboard_arrow_right, size: 70, color: Colors.white),
+      ),
+    );
+  }
+}
+
+class flechaAnterior extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ClipOval(
+      child: Container(
+        color: ColoresApp.color_gris,
+        child: Icon(Icons.keyboard_arrow_left, size: 70, color: Colors.white),
+      ),
+    );
   }
 }

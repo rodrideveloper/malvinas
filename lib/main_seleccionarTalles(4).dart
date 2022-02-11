@@ -52,51 +52,89 @@ class _DetalleState extends State<Detalle> {
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(25.0),
                     bottomRight: Radius.circular(25.0)))),
-        body: Padding(
-            padding: EdgeInsets.all(2.0),
-            child: Stack(
-              children: [
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text("Chaqueta",
-                          style: TextStyle(
-                              color: ColoresApp.color_negro,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30)),
-                      for (var i = 0; i < talles.length; i++)
-                        _tallesC(talles[i], i)
-                    ],
-                  ),
-                  SizedBox(width: 40),
-                  Column(children: <Widget>[
-                    Text("Pantalón",
+        body: Container(
+          color: ColoresApp.color_negro,
+          child: Stack(
+            children: [
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text("Chaqueta",
                         style: TextStyle(
-                            color: ColoresApp.color_negro,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 30)),
-                    for (var i = 0; i < talles.length; i++)
-                      _tallesP(talles[i], i)
-                  ])
-                ]),
-                Positioned(
-                    left: 80,
-                    top: 420,
+                            fontSize: 30,
+                            fontFamily: 'Raleway')),
+                    SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              style: BorderStyle.solid,
+                              width: 5,
+                              color: Colors.white)),
+                      child: Column(
+                        children: [
+                          for (var i = 0; i < talles.length; i++)
+                            _tallesC(talles[i], i)
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(width: 40),
+                Column(children: <Widget>[
+                  Text("Pantalón",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30)),
+                  SizedBox(height: 10),
+                  Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              style: BorderStyle.solid,
+                              width: 5,
+                              color: Colors.white)),
+                      child: Column(
+                        children: [
+                          for (var i = 0; i < talles.length; i++)
+                            _tallesP(talles[i], i)
+                        ],
+                      ))
+                ])
+              ]),
+              Positioned(
+                  left: 70,
+                  top: 420,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: ColoresApp.color_negro,
+                        border: Border.all(
+                            style: BorderStyle.solid,
+                            width: 5,
+                            color: Colors.white)),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Cortador:   ',
+                        Text('  Cortador:   ',
                             style: TextStyle(
-                                fontFamily: 'Montserrat', fontSize: 20)),
+                                fontFamily: 'Montserrat',
+                                fontSize: 20,
+                                color: Colors.white)),
                         DropdownButton(
+                            underline: SizedBox(),
                             value: cortador,
                             items:
                                 ['Carolina', 'Gaston', 'Seleccionar'].map((e) {
                               return DropdownMenuItem(
+                                  alignment: Alignment.center,
                                   child: Text(
                                     e,
                                     style: TextStyle(
-                                        fontFamily: 'Montserrat', fontSize: 20),
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 20,
+                                        color: Colors.amber),
                                   ),
                                   value: e);
                             }).toList(),
@@ -106,71 +144,77 @@ class _DetalleState extends State<Detalle> {
                               });
                             }),
                       ],
-                    )),
-                Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: TextButton(
-                                onPressed: () {
-                                  //llamar al bo y cargar ambo luego dar mensaje
+                    ),
+                  )),
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: TextButton(
+                              onPressed: () {
+                                //llamar al bo y cargar ambo luego dar mensaje
 
-                                  if (cortador != 'Seleccionar') {
-                                    Registro r = new Registro.ob(
-                                        nombreAmbo,
-                                        _tallesChaqueta,
-                                        _tallesPantalon,
-                                        color1,
-                                        color2,
-                                        tela,
-                                        2.5,
-                                        cortador);
-                                    bool error = DAO.agregarRegistro(r);
-                                    if (error != true) {
-                                      DAO.actualizarStockTela(
-                                          r.tela,
-                                          r.colorPrimario,
-                                          r.colorSecundario,
-                                          2,
-                                          0.5);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content:
-                                                  Text('Tela Actualizada :)')));
-                                      Navigator.pushNamed(context, '/inicio');
-                                    } else {
-                                      print('Error al actualizar stock TELA');
-                                    }
-                                  } else
-                                    (ScaffoldMessenger.of(context).showSnackBar(
+                                if (cortador != 'Seleccionar') {
+                                  Registro r = new Registro.ob(
+                                      nombreAmbo,
+                                      _tallesChaqueta,
+                                      _tallesPantalon,
+                                      color1,
+                                      color2,
+                                      tela,
+                                      2.5,
+                                      cortador);
+                                  bool error = DAO.agregarRegistro(r);
+                                  if (error != true) {
+                                    DAO.actualizarStockTela(
+                                        r.tela,
+                                        r.colorPrimario,
+                                        r.colorSecundario,
+                                        2,
+                                        0.5);
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
-                                            content: Text(
-                                                'Seleccionar Cortador '))));
-                                },
-                                child: Text("Enviar",
-                                    style: TextStyle(color: Colors.white)),
-                                style: TextButton.styleFrom(
-                                    textStyle: TextStyle(fontSize: 25),
-                                    fixedSize: Size(50, 80),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(25.0))),
-                                    backgroundColor: ColoresApp.color_negro,
-                                    elevation: 30,
-                                    shadowColor: Colors.black)))
-                      ],
-                    )),
-              ],
-            )));
+                                            content:
+                                                Text('Tela Actualizada :)')));
+                                    Navigator.pushNamed(context, '/inicio');
+                                  } else {
+                                    print('Error al actualizar stock TELA');
+                                  }
+                                } else
+                                  (ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content:
+                                              Text('Seleccionar Cortador '))));
+                              },
+                              child: Text("Enviar",
+                                  style: TextStyle(color: Colors.white)),
+                              style: TextButton.styleFrom(
+                                  textStyle: TextStyle(
+                                      fontSize: 25,
+                                      fontFamily: 'Raleway',
+                                      letterSpacing: 10),
+                                  fixedSize: Size(50, 80),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(25.0))),
+                                  backgroundColor: ColoresApp.color_negro,
+                                  elevation: 30,
+                                  shadowColor: Colors.black)))
+                    ],
+                  )),
+            ],
+          ),
+        ));
   }
 
   Widget _tallesC(Talle t, pos) {
     return Container(
         color: ColoresApp.color_gris,
-        width: 120,
+        width: 130,
         child: RadioListTile(
-            activeColor: Colors.white,
+            visualDensity: VisualDensity.compact,
+            activeColor: Colors.amber,
             dense: true,
             selectedTileColor: Colors.white,
             title: Text(
@@ -190,23 +234,31 @@ class _DetalleState extends State<Detalle> {
   Widget _tallesP(Talle t, pos) {
     return Container(
         color: ColoresApp.color_gris,
-        width: 120,
-        child: RadioListTile(
-            activeColor: Colors.white,
-            selectedTileColor: Colors.white,
-            tileColor: Colors.grey,
-            dense: true,
-            title: Text(
-              t.nombre,
-              style: TextStyle(color: Colors.white),
-            ),
-            value: pos,
-            groupValue: _tallesPantalon,
-            onChanged: (value) {
-              setState(() {
-                _tallesPantalon = value;
-              });
-            }));
+        margin: EdgeInsets.all(0),
+        padding: EdgeInsets.all(0),
+        width: 130,
+        child: Center(
+          child: RadioListTile(
+              contentPadding: EdgeInsets.all(0),
+              activeColor: Colors.amber,
+              visualDensity: VisualDensity.compact,
+              selectedTileColor: Colors.white,
+              tileColor: Colors.grey,
+              dense: true,
+              title: Text(
+                t.nombre,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              value: pos,
+              groupValue: _tallesPantalon,
+              onChanged: (value) {
+                setState(() {
+                  _tallesPantalon = value;
+                });
+              }),
+        ));
   }
 
 /*

@@ -26,12 +26,12 @@ dependencies:
   dio: ^4.0.4  
   charts_flutter:
   cloud_firestore: ^3.1.6
- 
+  flutter_launcher_icons: 
  
 
 flutter_icons:
   android: "launcher_icon"
-  image_path: "assets/icon/ic_launcher.png"
+  image_path: "assets/img/icon/ic_launcher.png"
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -64,7 +64,8 @@ flutter:
      - assets/img/Juanita.jpg
      - assets/img/Leontina_Zafira.jpg
      - assets/img/Profesional.png
-     - assets/img/icon/ic_launcher.png
+     - assets/img/malvinas.png
+    # - assets/img/icon/ic_launcher.png
     
 
 
