@@ -11,6 +11,7 @@ import 'main_seleccionarTalles(4).dart';
 import 'models/ambo.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'utilidades/colores.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -129,30 +130,38 @@ class _cuerpoState extends State<cuerpo> {
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
+            DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blueGrey,
+                color: Colors.white,
               ),
-              child: Text('Malvinas Uniformes',
-                  style: TextStyle(fontSize: 20, fontFamily: 'Montserrat')),
+              child: Container(
+                color: ColoresApp.color_fondo,
+                width: 250,
+                height: 250,
+                child: Image.asset('assets/img/icon/ic_launcher.png'),
+              ),
             ),
+            //  Text('Malvinas Uniformes',
+
+            //    style: TextStyle(fontSize: 20, fontFamily: 'Montserrat')),
+
             ListTile(
               title: const Text('Cortador'),
-              leading: Icon(Icons.baby_changing_station_rounded),
+              leading: Icon(Icons.content_cut),
               onTap: () {
                 Navigator.pushNamed(context, '/Cortadores');
               },
             ),
             ListTile(
               title: const Text('Stock Telas'),
-              leading: Icon(Icons.ac_unit),
+              leading: Icon(Icons.leaderboard),
               onTap: () {
                 Navigator.pushNamed(context, '/grafico');
               },
             ),
             ListTile(
               title: const Text('Actualizar Stock'),
-              leading: Icon(Icons.rice_bowl),
+              leading: Icon(Icons.upgrade),
               onTap: () {
                 Navigator.pushNamed(context, '/ActualizarStock');
               },
@@ -161,28 +170,6 @@ class _cuerpoState extends State<cuerpo> {
         ),
       ),
       resizeToAvoidBottomInset: false,
-      /*  bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _seleccionado,
-        onTap: (value) {
-          setState(() {
-            _seleccionado = value;
-            if (value == 0) {
-              Navigator.pushNamed(context, '/grafico');
-            }
-            if (value == 1) {
-              Navigator.pushNamed(context, '/inicio');
-            }
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-              icon: new Icon(Icons.bar_chart), label: 'Ver Telas'),
-          BottomNavigationBarItem(
-              icon: new Icon(Icons.medical_services), label: 'Ambos'),
-          BottomNavigationBarItem(
-              icon: new Icon(Icons.person), label: 'Cortadores')
-        ],
-      ),*/
     );
   }
 
@@ -190,7 +177,7 @@ class _cuerpoState extends State<cuerpo> {
     return AppBar(
       centerTitle: true,
       title: _appBarTitulo,
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: ColoresApp.color_negro,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(25.0),

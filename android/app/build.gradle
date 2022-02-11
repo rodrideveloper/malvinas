@@ -32,6 +32,8 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    
+
     lintOptions {
         disable 'InvalidPackage'
     }
@@ -52,6 +54,14 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+   splits {
+    abi {
+        enable true
+        reset()
+        include 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'mips', 'mips64', 'arm64-v8a'
+        universalApk true
+    }
+}
 }
 
 flutter {

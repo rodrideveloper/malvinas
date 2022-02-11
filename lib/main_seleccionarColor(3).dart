@@ -1,3 +1,4 @@
+import 'package:Malvinas/utilidades/colores.dart';
 import 'package:flutter/material.dart';
 import 'BO/dao.dart';
 import 'colores.dart';
@@ -44,6 +45,7 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Seleccionar Colores'),
+          backgroundColor: ColoresApp.color_negro,
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,
@@ -58,69 +60,76 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
                           new Telas(element['nombre'], element['Colores']));
                     });
                     return Container(
+                      color: ColoresApp.color_fondo,
                       height: MediaQuery.of(context).size.height,
                       width: MediaQuery.of(context).size.width,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  style: BorderStyle.solid, width: 0.5),
-                              borderRadius: BorderRadius.circular(20),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Container(
+                                height: 300,
+                                width: double.infinity,
+                                margin: EdgeInsets.only(
+                                    top: 80, left: 10, right: 10),
+                                padding: EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        style: BorderStyle.solid,
+                                        width: 2,
+                                        color: Colors.white),
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: ColoresApp.color_gris),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('Primario',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold)),
+                                      SizedBox(height: 10),
+                                      botonColores_primario(listaTelas),
+                                      SizedBox(height: 10),
+                                      Text('Secundario',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold)),
+                                      SizedBox(height: 10),
+                                      botonColores_secundario(listaTelas),
+                                    ]),
+                              ),
                             ),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('Primario'),
-                                  botonColores_primario(listaTelas),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    'Secundario',
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  botonColores_secundario(listaTelas),
-                                ]),
                           ),
-                          /* Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Color Secundario'),
-                              SizedBox(width: 20),
-                              Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [)
-                            ],
-                          ),*/
+
+                          /*  Container(
+                              child: Image.asset(
+                                  'assets/img/icon/ic_launcher.png'))*/
                           Expanded(
                             child: Align(
                               alignment: Alignment.bottomCenter,
                               child: Container(
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Spacer(),
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.pushNamed(
-                                                context, '/Detalle',
-                                                arguments: [
-                                                  telaSeleccionada,
-                                                  valorColorPrimario,
-                                                  valorColorSecundario,
-                                                  ambo
-                                                ]);
-                                          },
-                                          child: Icon(
-                                            Icons.keyboard_arrow_right,
-                                            size: 70,
-                                          )),
-                                    ]),
+                                height: 100,
+                                width: double.infinity,
+                                child: Row(children: [
+                                  Spacer(),
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context, '/Detalle',
+                                            arguments: [
+                                              telaSeleccionada,
+                                              valorColorPrimario,
+                                              valorColorSecundario,
+                                              ambo
+                                            ]);
+                                      },
+                                      child: Icon(
+                                        Icons.keyboard_arrow_right,
+                                        size: 70,
+                                      )),
+                                ]),
                               ),
                             ),
                           ),
@@ -137,12 +146,14 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
 
   Widget botonColores_primario(List<Telas> telas) {
     List llaves = telas[0].metros_colores.keys.toList();
-    print(llaves);
     return DropdownButton(
         elevation: 6,
         isExpanded: true,
         dropdownColor: Colors.white,
-        icon: Icon(Icons.arrow_drop_down),
+        icon: Icon(
+          Icons.arrow_drop_down,
+          color: Colors.white,
+        ),
         underline: SizedBox(),
         iconSize: 30,
         style: TextStyle(
@@ -179,7 +190,10 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
         elevation: 6,
         isExpanded: true,
         dropdownColor: Colors.white,
-        icon: Icon(Icons.arrow_drop_down),
+        icon: Icon(
+          Icons.arrow_drop_down,
+          color: Colors.white,
+        ),
         underline: SizedBox(),
         iconSize: 30,
         style: TextStyle(

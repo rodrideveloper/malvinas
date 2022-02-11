@@ -26,6 +26,12 @@ dependencies:
   dio: ^4.0.4  
   charts_flutter:
   cloud_firestore: ^3.1.6
+ 
+ 
+
+flutter_icons:
+  android: "launcher_icon"
+  image_path: "assets/icon/ic_launcher.png"
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -34,9 +40,10 @@ dependencies:
   firebase_core: ^1.11.0
   #firebase_core: ^1.11.0
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
+#dev_dependencies:
+ # flutter_test:
+  
+  #  sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -57,6 +64,7 @@ flutter:
      - assets/img/Juanita.jpg
      - assets/img/Leontina_Zafira.jpg
      - assets/img/Profesional.png
+     - assets/img/icon/ic_launcher.png
     
 
 

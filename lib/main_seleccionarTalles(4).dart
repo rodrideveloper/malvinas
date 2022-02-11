@@ -1,6 +1,7 @@
 import 'package:Malvinas/models/ambo.dart';
 import 'package:Malvinas/models/registros.dart';
 import 'package:Malvinas/models/talle.dart';
+import 'package:Malvinas/utilidades/colores.dart';
 import 'package:flutter/material.dart';
 import 'BO/dao.dart';
 
@@ -46,7 +47,7 @@ class _DetalleState extends State<Detalle> {
     return Scaffold(
         appBar: AppBar(
             title: Text(nombreAmbo),
-            backgroundColor: Colors.black,
+            backgroundColor: ColoresApp.color_negro,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(25.0),
@@ -61,7 +62,7 @@ class _DetalleState extends State<Detalle> {
                     children: <Widget>[
                       Text("Chaqueta",
                           style: TextStyle(
-                              color: Colors.grey[500],
+                              color: ColoresApp.color_negro,
                               fontWeight: FontWeight.bold,
                               fontSize: 30)),
                       for (var i = 0; i < talles.length; i++)
@@ -72,7 +73,7 @@ class _DetalleState extends State<Detalle> {
                   Column(children: <Widget>[
                     Text("Pantalón",
                         style: TextStyle(
-                            color: Colors.grey[500],
+                            color: ColoresApp.color_negro,
                             fontWeight: FontWeight.bold,
                             fontSize: 30)),
                     for (var i = 0; i < talles.length; i++)
@@ -114,13 +115,7 @@ class _DetalleState extends State<Detalle> {
                             child: TextButton(
                                 onPressed: () {
                                   //llamar al bo y cargar ambo luego dar mensaje
-                                  print('Tela: ${tela} ');
-                                  print('Ambo: ${nombreAmbo} ');
-                                  print('Color1: ${color1} ');
-                                  print('Color2: ${color2} ');
-                                  print('Talle Chaqueta: ${_tallesChaqueta} ');
-                                  print('Talle Pantalon: ${_tallesPantalon} ');
-                                  print(cortador);
+
                                   if (cortador != 'Seleccionar') {
                                     Registro r = new Registro.ob(
                                         nombreAmbo,
@@ -161,7 +156,7 @@ class _DetalleState extends State<Detalle> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(25.0))),
-                                    backgroundColor: Colors.black,
+                                    backgroundColor: ColoresApp.color_negro,
                                     elevation: 30,
                                     shadowColor: Colors.black)))
                       ],
@@ -172,8 +167,10 @@ class _DetalleState extends State<Detalle> {
 
   Widget _tallesC(Talle t, pos) {
     return Container(
+        color: ColoresApp.color_gris,
         width: 120,
         child: RadioListTile(
+            activeColor: Colors.white,
             dense: true,
             selectedTileColor: Colors.white,
             title: Text(
@@ -192,8 +189,10 @@ class _DetalleState extends State<Detalle> {
 
   Widget _tallesP(Talle t, pos) {
     return Container(
+        color: ColoresApp.color_gris,
         width: 120,
         child: RadioListTile(
+            activeColor: Colors.white,
             selectedTileColor: Colors.white,
             tileColor: Colors.grey,
             dense: true,
