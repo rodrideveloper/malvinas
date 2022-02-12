@@ -8,6 +8,8 @@
     <application
         android:name="${applicationName}">
         <activity
+        android:label="Malvinas"
+         android:icon="@mipmap/malvinas"
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"

@@ -1,3 +1,4 @@
+import 'package:Malvinas/utilidades/colores.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'BO/dao.dart';
@@ -24,63 +25,126 @@ class _SeguimientoCortadoresState extends State<SeguimientoCortadores> {
 
     //print(registros);
     return Scaffold(
-      appBar: AppBar(title: Text('Tabla de Cortado ')),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        elevation: 20,
+        backgroundColor: ColoresApp.color_gris,
+        foregroundColor: Colors.white,
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Icon(Icons.close, size: 55, color: Colors.white),
+      ),
+      appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: ColoresApp.color_negro,
+          title: Text('Tabla de Cortado ')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-                height: 200,
-                width: 200,
                 child: FutureBuilder<QuerySnapshot>(
-                  future: leerRegistros(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        final List<DocumentSnapshot> documentos =
-                            snapshot.data.docs;
-                        documentos.forEach((e) {
-                          Map mapa = e.data();
-                          if (mapa['cortador'] != null) {
-                            if (mapa['cortador'] == 'Carolina') {
-                              carolina++;
-                            } else if (mapa['cortador'] == 'Gaston') {
-                              gaston++;
-                            }
-                            ;
-                          }
-                        });
-                        return Container(
-                          alignment: Alignment.center,
-                          child: Center(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Cortados por Carolina :  ${carolina}',
-                                  style: TextStyle(fontSize: 30),
-                                ),
-                                SizedBox(height: 50),
-                                Text('Cortados por Gaston :  ${gaston}',
-                                    style: TextStyle(fontSize: 30))
-                              ],
-                            ),
-                          ),
-                        );
+              future: leerRegistros(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    final List<DocumentSnapshot> documentos =
+                        snapshot.data.docs;
+                    documentos.forEach((e) {
+                      Map mapa = e.data();
+                      if (mapa['cortador'] != null) {
+                        if (mapa['cortador'] == 'Carolina') {
+                          carolina++;
+                        } else if (mapa['cortador'] == 'Gaston') {
+                          gaston++;
+                        }
+                        ;
                       }
-                      return Container();
-                    } else {
-                      return Center(
+                    });
+                    return Column(
+                      children: [
+                        Material(
+                          elevation: 10,
                           child: Container(
-                              padding: const EdgeInsets.all(0.0),
-                              child: CircularProgressIndicator(
-                                valueColor: new AlwaysStoppedAnimation<Color>(
-                                    Colors.blueGrey),
-                              )));
-                    }
-                  },
-                ))
+                              width: 250,
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                image: AssetImage("assets/img/tabla.jpg"),
+                                fit: BoxFit.cover,
+                              )),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Cortados por Carolina ',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 15),
+                                  Text('${carolina}',
+                                      style: TextStyle(
+                                          fontSize: 40,
+                                          color: Colors.amber,
+                                          fontWeight: FontWeight.bold))
+                                ],
+                              )),
+                        ),
+                        SizedBox(height: 50),
+                        Material(
+                          elevation: 10,
+                          child: Container(
+                              width: 250,
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                image: AssetImage("assets/img/tabla.jpg"),
+                                fit: BoxFit.cover,
+                              )),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Cortados por Gastón ',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 15),
+                                  ClipOval(
+                                    child: Container(
+                                      child: Center(
+                                        child: Text('${gaston}',
+                                            style: TextStyle(
+                                                fontSize: 40,
+                                                color: Colors.amber,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )),
+                        ),
+                      ],
+                    );
+                  }
+                  return Container();
+                } else {
+                  return Center(
+                      child: Container(
+                          padding: const EdgeInsets.all(0.0),
+                          child: CircularProgressIndicator(
+                            valueColor: new AlwaysStoppedAnimation<Color>(
+                                Colors.blueGrey),
+                          )));
+                }
+              },
+            ))
           ],
         ),
       ),

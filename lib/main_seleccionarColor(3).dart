@@ -42,132 +42,160 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
     String telaSeleccionada = argumentos[0];
     String ambo = argumentos[1];
 
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Seleccionar Colores'),
-          backgroundColor: ColoresApp.color_negro,
-        ),
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          child: FutureBuilder<QuerySnapshot>(
-              future: llenarListaTelas(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasData) {
-                    List<DocumentSnapshot> listaDoc = snapshot.data.docs;
-                    listaDoc.forEach((element) {
-                      listaTelas.add(
-                          new Telas(element['nombre'], element['Colores']));
-                    });
-                    return Container(
-                      color: ColoresApp.color_fondo,
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(30),
-                            height: 300,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    style: BorderStyle.solid,
-                                    width: 2,
-                                    color: Colors.white),
-                                borderRadius: BorderRadius.circular(20),
-                                color: ColoresApp.color_negro),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  ClipOval(
-                                    child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      color: Colors.amberAccent,
-                                      child: Center(
-                                        child: Text('1',
-                                            style: TextStyle(
-                                                color: ColoresApp.color_negro,
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Montserrat')),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            style: BorderStyle.solid,
-                                            width: 5,
-                                            color: Colors.white)),
-                                    height: 50,
-                                    child: botonColores_primario(listaTelas),
-                                  ),
-                                  SizedBox(height: 10),
-                                  ClipOval(
-                                    child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      color: Colors.amberAccent,
-                                      child: Center(
-                                        child: Text('2',
-                                            style: TextStyle(
-                                                color: ColoresApp.color_negro,
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Montserrat')),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            style: BorderStyle.solid,
-                                            width: 5,
-                                            color: Colors.white)),
-                                    height: 50,
-                                    child: botonColores_secundario(listaTelas),
-                                  ),
-                                ]),
-                          ),
-                          Container(
-                              width: 180,
-                              height: 180,
-                              child: Image.asset('assets/img/malvinas.png')),
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.bottomLeft,
+    return SafeArea(
+      child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            elevation: 20,
+            backgroundColor: ColoresApp.color_gris,
+            foregroundColor: Colors.white,
+            onPressed: () {
+              Navigator.pushNamed(context, '/Detalle', arguments: [
+                telaSeleccionada,
+                valorColorPrimario,
+                valorColorSecundario,
+                ambo
+              ]);
+            },
+            child:
+                Icon(Icons.keyboard_arrow_right, size: 55, color: Colors.white),
+          ),
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            title: Text(
+              'Seleccionar Colores',
+            ),
+            backgroundColor: ColoresApp.color_negro,
+          ),
+          body: Container(
+            height: MediaQuery.of(context).size.height,
+            child: FutureBuilder<QuerySnapshot>(
+                future: llenarListaTelas(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      List<DocumentSnapshot> listaDoc = snapshot.data.docs;
+                      listaDoc.forEach((element) {
+                        listaTelas.add(
+                            new Telas(element['nombre'], element['Colores']));
+                      });
+                      return Container(
+                        color: ColoresApp.color_fondo,
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          children: [
+                            Material(
+                              elevation: 10,
                               child: Container(
-                                child: Row(children: [
-                                  Spacer(),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(context, '/Detalle',
-                                          arguments: [
-                                            telaSeleccionada,
-                                            valorColorPrimario,
-                                            valorColorSecundario,
-                                            ambo
-                                          ]);
-                                    },
-                                    child: flechasSiguiente(),
-                                  ),
-                                ]),
+                                padding: EdgeInsets.all(30),
+                                height: 300,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color: ColoresApp.color_negro),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      ClipOval(
+                                        child: Container(
+                                          width: 30,
+                                          height: 30,
+                                          color: Colors.amberAccent,
+                                          child: Center(
+                                            child: Text('1',
+                                                style: TextStyle(
+                                                    color:
+                                                        ColoresApp.color_negro,
+                                                    fontSize: 30,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: 'Montserrat')),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                style: BorderStyle.solid,
+                                                width: 5,
+                                                color: Colors.white)),
+                                        height: 50,
+                                        child:
+                                            botonColores_primario(listaTelas),
+                                      ),
+                                      SizedBox(height: 10),
+                                      ClipOval(
+                                        child: Container(
+                                          width: 30,
+                                          height: 30,
+                                          color: Colors.amberAccent,
+                                          child: Center(
+                                            child: Text('2',
+                                                style: TextStyle(
+                                                    color:
+                                                        ColoresApp.color_negro,
+                                                    fontSize: 30,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: 'Montserrat')),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                style: BorderStyle.solid,
+                                                width: 5,
+                                                color: Colors.white)),
+                                        height: 50,
+                                        child:
+                                            botonColores_secundario(listaTelas),
+                                      ),
+                                    ]),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
+                            SizedBox(height: 25),
+                            Container(
+                                margin: EdgeInsets.only(top: 20),
+                                width: 180,
+                                height: 180,
+                                child: Center(
+                                    child: Image.asset(
+                                        'assets/img/malvinas.png'))),
+                            /*   Expanded(
+                              child: Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Container(
+                                  child: Row(children: [
+                                    Spacer(),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context, '/Detalle',
+                                            arguments: [
+                                              telaSeleccionada,
+                                              valorColorPrimario,
+                                              valorColorSecundario,
+                                              ambo
+                                            ]);
+                                      },
+                                      child: flechasSiguiente(),
+                                    ),
+                                  ]),
+                                ),
+                              ),
+                            ),*/
+                          ],
+                        ),
+                      );
+                    }
+                    return Container();
                   }
-                  return Container();
-                }
-                return Center(child: CircularProgressIndicator());
-              }),
-        ));
+                  return Center(child: CircularProgressIndicator());
+                }),
+          )),
+    );
   }
 
   Widget botonColores_primario(List<Telas> telas) {

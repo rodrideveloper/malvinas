@@ -24,7 +24,18 @@ class _AmboHeroeState extends State<AmboHeroe> {
     });
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        elevation: 20,
+        backgroundColor: ColoresApp.color_gris,
+        foregroundColor: Colors.white,
+        onPressed: () {
+          Navigator.pushNamed(context, '/SeleccionarColor',
+              arguments: [telaSeleccionada, widget.ambo.nombre]);
+        },
+        child: Icon(Icons.keyboard_arrow_right, size: 55, color: Colors.white),
+      ),
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Seleccionar Tela'),
         backgroundColor: ColoresApp.color_negro,
       ),
@@ -71,8 +82,8 @@ class _AmboHeroeState extends State<AmboHeroe> {
                                     color: Colors.white)),
                             child: SeleccionarTelaDropButton(telas)),
                       ),
-                      arrowNavegacion(
-                          telaSeleccionada: telaSeleccionada, widget: widget)
+                      // arrowNavegacion(
+                      //   telaSeleccionada: telaSeleccionada, widget: widget)
                     ],
                   ),
                 ),
@@ -153,8 +164,7 @@ class HeroWidget extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: 300,
         decoration: BoxDecoration(
-          border: Border(
-              bottom: BorderSide(width: 2, color: ColoresApp.color_rosa)),
+          border: Border(bottom: BorderSide(width: 2, color: Colors.amber)),
         ),
         child: Hero(
           tag: 'imageHero',

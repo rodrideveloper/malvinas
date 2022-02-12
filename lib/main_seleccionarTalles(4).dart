@@ -46,13 +46,17 @@ class _DetalleState extends State<Detalle> {
     // Usa el objeto Todo para crear nuestra UI
     return Scaffold(
         appBar: AppBar(
-            title: Text(nombreAmbo),
-            backgroundColor: ColoresApp.color_negro,
-            shape: RoundedRectangleBorder(
+          centerTitle: true,
+          title: Text(nombreAmbo),
+          backgroundColor: ColoresApp.color_negro,
+          elevation: 0,
+          /* shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(25.0),
-                    bottomRight: Radius.circular(25.0)))),
+                    bottomRight: Radius.circular(25.0))))*/
+        ),
         body: Container(
+          height: double.infinity,
           color: ColoresApp.color_negro,
           child: Stack(
             children: [
@@ -188,7 +192,11 @@ class _DetalleState extends State<Detalle> {
                                               Text('Seleccionar Cortador '))));
                               },
                               child: Text("Enviar",
-                                  style: TextStyle(color: Colors.white)),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      decoration: TextDecoration.combine([
+                                        TextDecoration.lineThrough,
+                                      ]))),
                               style: TextButton.styleFrom(
                                   textStyle: TextStyle(
                                       fontSize: 25,

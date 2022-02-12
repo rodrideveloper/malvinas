@@ -1,6 +1,7 @@
 import 'package:Malvinas/SimpleBarChart.dart';
 import 'package:Malvinas/colores.dart';
 import 'package:Malvinas/models/Tela.dart';
+import 'package:Malvinas/utilidades/colores.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -57,18 +58,29 @@ class _GraficoEstadoState extends State<GraficoEstado> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          elevation: 20,
+          backgroundColor: ColoresApp.color_gris,
+          foregroundColor: Colors.white,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.keyboard_arrow_left, size: 55, color: Colors.white),
+        ),
         appBar: AppBar(
+          elevation: 20,
           centerTitle: true,
           title: Text("Grafico de Telas"),
           backgroundColor: Colors.black,
-          shape: RoundedRectangleBorder(
+          /* shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(25.0),
-                  bottomRight: Radius.circular(25.0))),
+                  bottomRight: Radius.circular(25.0))),*/
         ),
         body: SafeArea(
             child: Container(
-          color: Colors.grey[200],
+          margin: EdgeInsets.all(20),
+          color: ColoresApp.color_fondo,
           child: Column(
             children: [
               FutureBuilder<QuerySnapshot>(
@@ -87,45 +99,48 @@ class _GraficoEstadoState extends State<GraficoEstado> {
                           lista_telas.add(tela);
                         }
                       });
-                      return Column(children: [
-                        Card(
-                          child: Container(
-                              height: 140,
-                              child: SimpleBarChart(_crearDatosGraficos(
-                                  lista_telas[0].tipo_tela,
-                                  lista_telas[0].metros_colores))),
-                        ),
-                        Container(
-                            height: 20,
-                            child: Text(lista_telas[0].tipo_tela,
-                                style: TextStyle(fontWeight: FontWeight.bold))),
-                        Card(
-                          child: Container(
-                              height: 140,
-                              child: SimpleBarChart(_crearDatosGraficos(
+                      return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Card(
+                              child: Container(
+                                  height: 140,
+                                  child: SimpleBarChart(_crearDatosGraficos(
+                                      lista_telas[0].tipo_tela,
+                                      lista_telas[0].metros_colores))),
+                            ),
+                            Container(
+                                height: 20,
+                                child: Text(lista_telas[0].tipo_tela,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold))),
+                            Card(
+                              child: Container(
+                                  height: 140,
+                                  child: SimpleBarChart(_crearDatosGraficos(
+                                      lista_telas[1].tipo_tela,
+                                      lista_telas[1].metros_colores))),
+                            ),
+                            Container(
+                                height: 20,
+                                child: Text(
                                   lista_telas[1].tipo_tela,
-                                  lista_telas[1].metros_colores))),
-                        ),
-                        Container(
-                            height: 20,
-                            child: Text(
-                              lista_telas[1].tipo_tela,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )),
-                        Card(
-                          child: Container(
-                              height: 140,
-                              child: SimpleBarChart(_crearDatosGraficos(
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                )),
+                            Card(
+                              child: Container(
+                                  height: 140,
+                                  child: SimpleBarChart(_crearDatosGraficos(
+                                      lista_telas[2].tipo_tela,
+                                      lista_telas[2].metros_colores))),
+                            ),
+                            Container(
+                                height: 20,
+                                child: Text(
                                   lista_telas[2].tipo_tela,
-                                  lista_telas[2].metros_colores))),
-                        ),
-                        Container(
-                            height: 20,
-                            child: Text(
-                              lista_telas[2].tipo_tela,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )),
-                      ]);
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                )),
+                          ]);
                     } else {
                       print("No hay información");
                     }
@@ -139,13 +154,6 @@ class _GraficoEstadoState extends State<GraficoEstado> {
                           )));
                 },
               ),
-              Container(
-                  height: 50,
-                  child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(Icons.keyboard_arrow_left, size: 50))),
             ],
           ),
         )));

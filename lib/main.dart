@@ -138,7 +138,7 @@ class _cuerpoState extends State<cuerpo> {
                 color: ColoresApp.color_fondo,
                 width: 250,
                 height: 250,
-                child: Image.asset('assets/img/icon/ic_launcher.png'),
+                child: Image.asset('assets/img/malvinas.png'),
               ),
             ),
             //  Text('Malvinas Uniformes',
@@ -160,10 +160,15 @@ class _cuerpoState extends State<cuerpo> {
               },
             ),
             ListTile(
-              title: const Text('Actualizar Stock'),
+              title: Text('Actualizar Stock',
+                  style: TextStyle(
+                      color: Colors.grey,
+                      decoration: TextDecoration.combine([
+                        TextDecoration.lineThrough,
+                      ]))),
               leading: Icon(Icons.upgrade),
               onTap: () {
-                Navigator.pushNamed(context, '/ActualizarStock');
+                //Navigator.pushNamed(context, '/ActualizarStock');
               },
             )
           ],
@@ -175,13 +180,14 @@ class _cuerpoState extends State<cuerpo> {
 
   Widget _buildBar(BuildContext context) {
     return AppBar(
+      elevation: 20,
       centerTitle: true,
       title: _appBarTitulo,
       backgroundColor: ColoresApp.color_negro,
-      shape: RoundedRectangleBorder(
+      /*shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(25.0),
-              bottomRight: Radius.circular(25.0))),
+              bottomRight: Radius.circular(25.0))),*/
       actions: [
         IconButton(
           icon: _iconoBusqueda,
@@ -198,7 +204,14 @@ class _cuerpoState extends State<cuerpo> {
         _appBarTitulo = TextField(
           controller: _filtro,
           decoration: const InputDecoration(
-              prefixIcon: Icon(Icons.search), hintText: 'Buscar...'),
+            hintStyle: TextStyle(color: Colors.white),
+            border: InputBorder.none,
+            prefixIcon: Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            hintText: 'Buscar...',
+          ),
           autofocus: true,
           style: TextStyle(color: Colors.white),
         );
@@ -258,72 +271,5 @@ class _cuerpoState extends State<cuerpo> {
         );
       },
     );
-
-    /*ListView.builder(
-      itemCount: names == null ? 0 : filteredNames.length,
-      itemBuilder: (BuildContext context, int index) {
-        return ListTile(
-          title: Text(filteredNames[index].nombre),
-          /* onTap: () => print(filteredNames[index]['name']),*/
-        );
-      },
-    );*/
   }
 }
-
-/*
-class cuerpo extends StatelessWidget {
-  List items = Ambo.getAmbos();
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Buscar'),
-        ),
-        body: Stack(
-          children: [
-            Container(
-                margin: EdgeInsets.only(
-                  top: size.height * 0.17,
-                ),
-                child: SafeArea(
-                    child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  itemCount: items.length,
-                  itemBuilder: (BuildContext context, int i) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Detalle(ambo: items[i])));
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(17)),
-                        child: Column(
-                          children: [
-                            Flexible(
-                                child: Image.asset('assets/img/juanita3p.jpg',
-                                    height: size.height * .19)),
-                            Text(
-                              '${items[i].nombre}',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            Text('\$${items[i].precio}'),
-                          ],
-                        ),
-                        color: Colors.white,
-                        elevation: 10.0,
-                      ),
-                    );
-                  },
-                )))
-          ],
-        ));
-  }
-}
-*/
