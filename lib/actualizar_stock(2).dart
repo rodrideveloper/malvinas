@@ -49,7 +49,7 @@ class _TelaStockState extends State<TelaStock> {
                         itemBuilder: (BuildContext context, int index) {
                           return SingleChildScrollView(
                               child: Card(
-                            elevation: 50,
+                            elevation: 30,
                             child: TextField(
                                 controller: Listacontroladores[index],
                                 keyboardType: TextInputType.number,

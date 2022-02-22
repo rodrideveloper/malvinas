@@ -35,7 +35,8 @@ class _DetalleState extends State<Detalle> {
   Widget build(BuildContext context) {
     final argumentos =
         ModalRoute.of(context).settings.arguments as List<String>;
-    String nombreAmbo = argumentos[3];
+    String ambo_id = argumentos[3];
+    String modelo = argumentos[4];
     String tela = argumentos[0];
     ;
     String color1 = argumentos[1];
@@ -47,7 +48,7 @@ class _DetalleState extends State<Detalle> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(nombreAmbo),
+          title: Text(modelo),
           backgroundColor: ColoresApp.color_negro,
           elevation: 0,
           /* shape: RoundedRectangleBorder(
@@ -160,16 +161,9 @@ class _DetalleState extends State<Detalle> {
                                 //llamar al bo y cargar ambo luego dar mensaje
 
                                 if (cortador != 'Seleccionar') {
-                                  Registro r = new Registro.ob(
-                                      nombreAmbo,
-                                      _tallesChaqueta,
-                                      _tallesPantalon,
-                                      color1,
-                                      color2,
-                                      tela,
-                                      2.5,
-                                      cortador);
-                                  bool error = DAO.agregarRegistro(r);
+                                  Registro r = new Registro.ob(ambo_id, color1,
+                                      color2, tela, 2.5, cortador);
+                                  Future<bool> error = DAO.agregarRegistro(r);
                                   if (error != true) {
                                     DAO.actualizarStockTela(
                                         r.tela,

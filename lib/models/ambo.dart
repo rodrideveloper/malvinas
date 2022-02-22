@@ -1,34 +1,23 @@
-import 'package:flutter/cupertino.dart';
-
-import 'Tela.dart';
-
 class Ambo {
-  String nombre;
-  int precio;
-  String talleChaqueta;
-  String tallePantalon;
+  String id;
+  String modelo;
   List<dynamic> telas_disponibles;
-  Image image;
+  String url;
 
-  Ambo(this.nombre, this.precio, this.talleChaqueta, this.tallePantalon,
-      this.telas_disponibles, this.image);
+  Ambo({this.id, this.modelo, this.telas_disponibles, this.url});
+  Ambo.for2(this.id, this.modelo, this.telas_disponibles, this.url);
 
-  /*static List<Ambo> getAmbos() {
-    final items = <Ambo>[
-      Ambo('Leontina', 20, 'XS', 'XS',
-          Image.network('assets/img/juanita3p.jpg')),
-      Ambo('Blue', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
-      Ambo('Femme', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
-      Ambo('Juanita', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
-      Ambo('Lucrecia', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
-      Ambo('3 piezas', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
-      Ambo('Arciel', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
-      Ambo('Batista', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
-      Ambo('Caramelo', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
-      Ambo('Fuerza', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
-      Ambo('Leon 2', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
-      Ambo('Hombre', 20, 'XS', 'XS', Image.asset('assets/img/juanita3p.jpg')),
-    ];
-    return items;
-  }*/
+  factory Ambo.fromJson(Map<String, dynamic> json) => Ambo(
+        id: json['id'],
+        modelo: json['modelo'],
+        telas_disponibles: json['telas_disponibles'],
+        url: json['url'],
+      );
+
+  Map<String, Object> toJson() => {
+        'id': id,
+        'modelo': modelo,
+        'telas_disponibles': telas_disponibles,
+        'image': url
+      };
 }

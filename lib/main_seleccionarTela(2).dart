@@ -1,4 +1,3 @@
-import 'package:Malvinas/main_seleccionarColor(3).dart';
 import 'package:Malvinas/utilidades/colores.dart';
 import 'package:flutter/material.dart';
 import 'package:Malvinas/models/ambo.dart';
@@ -15,9 +14,12 @@ class AmboHeroe extends StatefulWidget {
 
 class _AmboHeroeState extends State<AmboHeroe> {
   String telaSeleccionada = 'Batista';
+  String ambo_id;
   @override
   Widget build(BuildContext context) {
     telaSeleccionada == widget.ambo.telas_disponibles[0];
+    ambo_id = widget.ambo.id;
+
     List<String> telas = [];
     widget.ambo.telas_disponibles.forEach((e) {
       telas.add(e.toString());
@@ -29,8 +31,11 @@ class _AmboHeroeState extends State<AmboHeroe> {
         backgroundColor: ColoresApp.color_gris,
         foregroundColor: Colors.white,
         onPressed: () {
-          Navigator.pushNamed(context, '/SeleccionarColor',
-              arguments: [telaSeleccionada, widget.ambo.nombre]);
+          Navigator.pushNamed(context, '/SeleccionarColor', arguments: [
+            telaSeleccionada,
+            widget.ambo.id,
+            widget.ambo.modelo
+          ]);
         },
         child: Icon(Icons.keyboard_arrow_right, size: 55, color: Colors.white),
       ),
@@ -56,7 +61,7 @@ class _AmboHeroeState extends State<AmboHeroe> {
                     children: [
                       SizedBox(height: 10),
                       Text(
-                        'Modelo: ${widget.ambo.nombre}',
+                        'Modelo: ${widget.ambo.modelo}',
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
@@ -82,8 +87,6 @@ class _AmboHeroeState extends State<AmboHeroe> {
                                     color: Colors.white)),
                             child: SeleccionarTelaDropButton(telas)),
                       ),
-                      // arrowNavegacion(
-                      //   telaSeleccionada: telaSeleccionada, widget: widget)
                     ],
                   ),
                 ),
@@ -124,32 +127,6 @@ class _AmboHeroeState extends State<AmboHeroe> {
   }
 }
 
-class arrowNavegacion extends StatelessWidget {
-  const arrowNavegacion({
-    Key key,
-    @required this.telaSeleccionada,
-    @required this.widget,
-  }) : super(key: key);
-
-  final String telaSeleccionada;
-  final AmboHeroe widget;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Align(
-        alignment: Alignment.bottomRight,
-        child: TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/SeleccionarColor',
-                  arguments: [telaSeleccionada, widget.ambo.nombre]);
-            },
-            child: flechasSiguiente()),
-      ),
-    );
-  }
-}
-
 class HeroWidget extends StatelessWidget {
   const HeroWidget({
     Key key,
@@ -168,7 +145,7 @@ class HeroWidget extends StatelessWidget {
         ),
         child: Hero(
           tag: 'imageHero',
-          child: widget.ambo.image,
+          child: Image.asset(widget.ambo.url),
         ));
   }
 }

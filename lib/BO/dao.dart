@@ -1,5 +1,7 @@
+import 'package:Malvinas/cargar_ambos.dart';
 import 'package:Malvinas/models/Tela.dart';
 import 'package:Malvinas/models/ambo.dart';
+import 'package:Malvinas/models/precios.dart';
 import 'package:Malvinas/models/registros.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -12,13 +14,31 @@ class DAO {
   }
 
 //Devuelve lista de ambos
-  static Future<List<dynamic>> leerAmbosDAO() async {
+  /*static Future<List<dynamic>> leerAmbosDAO() async {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('ambos').get();
     final List<dynamic> allData =
         querySnapshot.docs.map((doc) => doc.data()).toList();
+    print(querySnapshot.docs[0].id);
 
     return allData;
+  }*/
+  static Future<QuerySnapshot<Ambo>> leerAmbosDAO() async {
+    final collection =
+        FirebaseFirestore.instance.collection('ambos').withConverter(
+              fromFirestore: (snapshot, _) => Ambo.fromJson(snapshot.data()),
+              toFirestore: (Ambo, _) => Ambo.toJson(),
+            );
+
+    final leerAmbos = (await collection.get());
+
+    return leerAmbos;
+  }
+
+  static colocarIds(QueryDocumentSnapshot<Ambo> a) {
+    String id = a.id;
+    a.data().id = id;
+    print(a);
   }
 
 //Devuelvo un futuro con lista de telas
@@ -53,18 +73,21 @@ class DAO {
   }
 
   //Agregar registro de ambo cortado
-  static bool agregarRegistro(Registro r) {
+  static Future<bool> agregarRegistro(Registro r) async {
+    QuerySnapshot<Precios> lista_precios = await listaDePrecios();
+    ;
+    int precio_chaqueta = lista_precios.docs[0].data().chaqueta;
+
     bool error = false;
     CollectionReference regRef =
         FirebaseFirestore.instance.collection('registros');
     regRef
         .add({
-          'nombre': r.nombre,
+          'ambo_id': r.ambo_id,
+          'precio': precio_chaqueta,
           'tela': r.tela,
           'color1': r.colorPrimario,
           'color2': r.colorSecundario,
-          'talle_chaqueta': r.talleChaqueta,
-          'talle_pantalon': r.tallePantalon,
           'metros': r.metros,
           'cortador': r.cortador
         })
@@ -84,7 +107,6 @@ class DAO {
     QueryDocumentSnapshot doc = querySnap.docs[0];
     String myID = doc.id;
     Map mapa = doc.data();
-    print(mapa['Colores']['negro'].toString());
 
     mapa['Colores'][color1] =
         (double.parse(mapa['Colores'][color1]) - metros1).toString();
@@ -104,5 +126,34 @@ class DAO {
 
   static Future<QuerySnapshot> leerRegistros() async {
     return await FirebaseFirestore.instance.collection('registros').get();
+  }
+
+  static bool agregarAmbo(AmboCarga a) {
+    bool error = false;
+    CollectionReference regRef = FirebaseFirestore.instance.collection('ambos');
+    regRef
+        .add({
+          'nombre': a.modelo,
+          'tipo': a.tipo,
+          'telas_disponibles': a.telas_disponibles,
+          'color_primario': a.color1,
+          'color_secundario': a.color2,
+          'url': a.url_imagen
+        })
+        .then((value) => print('Registro Agregado con Exito'))
+        .catchError((error) => error = true);
+
+    return error;
+  }
+
+  static Future<QuerySnapshot<Precios>> listaDePrecios() async {
+    final collection =
+        FirebaseFirestore.instance.collection('precios').withConverter(
+              fromFirestore: (snapshot, _) => Precios.fromJson(snapshot.data()),
+              toFirestore: (Precios, _) => Precios.toJson(),
+            );
+    final listaPrecios = (await collection.get());
+
+    return listaPrecios;
   }
 }

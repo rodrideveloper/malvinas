@@ -1,7 +1,5 @@
 class Registro {
-  String nombre;
-  int talleChaqueta;
-  int tallePantalon;
+  String ambo_id;
   String colorPrimario;
   String colorSecundario;
   String tela;
@@ -9,29 +7,18 @@ class Registro {
   String cortador;
 
   Registro(
-      {this.nombre,
-      this.talleChaqueta,
-      this.tallePantalon,
+      {this.ambo_id,
       this.colorPrimario,
       this.colorSecundario,
       this.tela,
       this.metros,
       this.cortador}) {}
-  Registro.ob(
-      this.nombre,
-      this.talleChaqueta,
-      this.tallePantalon,
-      this.colorPrimario,
-      this.colorSecundario,
-      this.tela,
-      this.metros,
-      this.cortador) {}
+  Registro.ob(this.ambo_id, this.colorPrimario, this.colorSecundario, this.tela,
+      this.metros, this.cortador) {}
 
   factory Registro.fromJson(Map<String, dynamic> json) {
     return Registro(
-        nombre: json['nombreAmbo'],
-        talleChaqueta: json['talleChaqueta'],
-        tallePantalon: json['tallePantalon'],
+        ambo_id: json['ambo_id'],
         colorPrimario: json['colorPrimario'],
         colorSecundario: json['colorSecundario'],
         tela: json['tela'],

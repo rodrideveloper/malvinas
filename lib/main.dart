@@ -1,4 +1,5 @@
 import 'package:Malvinas/actualizar_stock(1).dart';
+import 'package:Malvinas/cargar_ambos.dart';
 import 'package:Malvinas/main_seleccionarTela(2).dart';
 import 'package:Malvinas/grafico.dart';
 import 'package:Malvinas/main_seleccionarColor(3).dart';
@@ -25,6 +26,7 @@ class Malvinas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/CargarAmbos',
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/inicio': (BuildContext context) => new cuerpo(),
@@ -34,6 +36,7 @@ class Malvinas extends StatelessWidget {
         '/SeleccionarColor': (BuildContext context) => new SeleccionarColor(),
         '/Detalle': (BuildContext context) => new Detalle(),
         '/Cortadores': (BuildContext context) => new SeguimientoCortadores(),
+        '/CargarAmbos': (BuildContext context) => new CargarAmbos(),
       },
       theme: ThemeData(fontFamily: 'Raleway'),
       /*  theme: ThemeData(
@@ -72,7 +75,6 @@ class _cuerpoState extends State<cuerpo> {
   List<Ambo> lista_ambos = [];
   Icon _iconoBusqueda = const Icon(Icons.search);
   Widget _appBarTitulo = const Text('Buscar...');
-  int _seleccionado = 1;
 
   _cuerpoState() {
     _filtro.addListener(() {
@@ -98,11 +100,11 @@ class _cuerpoState extends State<cuerpo> {
 
   void _getAmbos() async {
     List<Ambo> tempList = [];
-    List<dynamic> lista = await DAO.leerAmbosDAO();
+    QuerySnapshot<Ambo> lista = await DAO.leerAmbosDAO();
 
-    lista.forEach((e) {
-      tempList.add(new Ambo(e['modelo'], e['precio'], e['talleChaqueta'],
-          e['tallePantalon'], e['telas_disponibles'], Image.asset(e['url'])));
+    lista.docs.forEach((e) {
+      tempList.add(new Ambo.for2(
+          e.id, e.data().modelo, e.data().telas_disponibles, e.data().url));
     });
 
     setState(() {
@@ -230,7 +232,7 @@ class _cuerpoState extends State<cuerpo> {
       List<Ambo> tempList = [];
       for (int i = 0; i < lista_ambos.length; i++) {
         if (lista_ambos[i]
-            .nombre
+            .modelo
             .toLowerCase()
             .contains(_textoDeBusqueda.toLowerCase())) {
           tempList.add(lista_ambos[i]);
@@ -257,10 +259,10 @@ class _cuerpoState extends State<cuerpo> {
               children: [
                 Flexible(
                     child: Hero(
-                        tag: 'imageHero${lista_ambos[i].nombre}',
-                        child: lista_ambos[i].image)),
+                        tag: 'imageHero${lista_ambos[i].modelo}',
+                        child: Image.asset(lista_ambos[i].url))),
                 Text(
-                  '${lista_ambos[i].nombre}',
+                  '${lista_ambos[i].modelo}',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],

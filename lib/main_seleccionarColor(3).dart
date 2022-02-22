@@ -4,7 +4,6 @@ import 'BO/dao.dart';
 import 'colores.dart';
 import 'models/Tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'colores.dart' as Col;
 
 class SeleccionarColor extends StatefulWidget {
   final String tela;
@@ -35,12 +34,13 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
 
   @override
   Widget build(BuildContext context) {
-    //Recibio nombre del ambo seleccionado, la tela seleccionada y junto a los colores seleccionados en esta pantalla los envío
+    //Recibio  seleccionado, la tela seleccionada y junto a los colores seleccionados en esta pantalla los envío
     //a la pantalla Detalle
-    final argumentos =
-        ModalRoute.of(context).settings.arguments as List<String>;
+    final argumentos = ModalRoute.of(context).settings.arguments as List;
     String telaSeleccionada = argumentos[0];
-    String ambo = argumentos[1];
+
+    String ambo_id = argumentos[1];
+    String modelo = argumentos[2];
 
     return SafeArea(
       child: Scaffold(
@@ -53,7 +53,8 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
                 telaSeleccionada,
                 valorColorPrimario,
                 valorColorSecundario,
-                ambo
+                ambo_id,
+                modelo
               ]);
             },
             child:
@@ -164,28 +165,6 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
                                 child: Center(
                                     child: Image.asset(
                                         'assets/img/malvinas.png'))),
-                            /*   Expanded(
-                              child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Container(
-                                  child: Row(children: [
-                                    Spacer(),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(context, '/Detalle',
-                                            arguments: [
-                                              telaSeleccionada,
-                                              valorColorPrimario,
-                                              valorColorSecundario,
-                                              ambo
-                                            ]);
-                                      },
-                                      child: flechasSiguiente(),
-                                    ),
-                                  ]),
-                                ),
-                              ),
-                            ),*/
                           ],
                         ),
                       );
