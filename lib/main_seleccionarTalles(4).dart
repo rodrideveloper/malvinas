@@ -54,14 +54,13 @@ class _DetalleState extends State<Detalle> {
 
   @override
   Widget build(BuildContext context) {
-    final argumentos =
-        ModalRoute.of(context).settings.arguments as List<String>;
-    String ambo_id = argumentos[3];
-    String modelo = argumentos[4];
-    String tela = argumentos[0];
-    String color1 = argumentos[1];
-    String color2 = argumentos[2];
-    String tipo = argumentos[5];
+    final argumentos = ModalRoute.of(context).settings.arguments as Map;
+    String ambo_id = argumentos['ambo'].id;
+    String modelo = argumentos['ambo'].modelo;
+    String tela = argumentos['telaSeleccionada'];
+    String color1 = argumentos['valorColorPrimario'];
+    String color2 = argumentos['valorColorSecundario'];
+    String tipo = argumentos['ambo'].tipo;
 
     // Usa el objeto Todo para crear nuestra UI
     return Scaffold(

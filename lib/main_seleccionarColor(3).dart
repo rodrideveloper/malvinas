@@ -5,6 +5,8 @@ import 'colores.dart';
 import 'models/Tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'models/ambo.dart';
+
 class SeleccionarColor extends StatefulWidget {
   final String tela;
 
@@ -15,8 +17,8 @@ class SeleccionarColor extends StatefulWidget {
 }
 
 class _SeleccionarColorState extends State<SeleccionarColor> {
-  String valorColorPrimario = 'rojo';
-  String valorColorSecundario = 'negro';
+  String valorColorPrimario;
+  String valorColorSecundario;
 
   List<Telas> listaTelas = [];
   Map<String, dynamic> mapa = {};
@@ -27,20 +29,20 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
   }
 
   Future<QuerySnapshot> llenarListaTelas() async {
-    final args = ModalRoute.of(context).settings.arguments as List<String>;
+    final args = ModalRoute.of(context).settings.arguments as Map;
 
-    return await DAO.leerSoloUnaDAO(args[0]);
+    return await DAO.leerSoloUnaDAO(args['telaSeleccionada']);
   }
 
   @override
   Widget build(BuildContext context) {
     //Recibio  seleccionado, la tela seleccionada y junto a los colores seleccionados en esta pantalla los envío
     //a la pantalla Detalle
-    final argumentos = ModalRoute.of(context).settings.arguments as List;
-    String telaSeleccionada = argumentos[0];
-    String ambo_id = argumentos[1];
-    String modelo = argumentos[2];
-    String tipo = argumentos[3];
+    final argumentos = ModalRoute.of(context).settings.arguments as Map;
+    String telaSeleccionada = argumentos['telaSeleccionada'];
+    Ambo ambo = argumentos['ambo'];
+    valorColorPrimario = ambo.color_primario;
+    valorColorSecundario = ambo.color_secundario;
 
     return SafeArea(
       child: Scaffold(
@@ -49,14 +51,12 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
             backgroundColor: ColoresApp.color_gris,
             foregroundColor: Colors.white,
             onPressed: () {
-              Navigator.pushNamed(context, '/Detalle', arguments: [
-                telaSeleccionada,
-                valorColorPrimario,
-                valorColorSecundario,
-                ambo_id,
-                modelo,
-                tipo
-              ]);
+              Navigator.pushNamed(context, '/Detalle', arguments: {
+                'telaSeleccionada': telaSeleccionada,
+                'valorColorPrimario': valorColorPrimario,
+                'valorColorSecundario': valorColorSecundario,
+                'ambo': ambo
+              });
             },
             child:
                 Icon(Icons.keyboard_arrow_right, size: 55, color: Colors.white),
@@ -78,6 +78,7 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
                     if (snapshot.hasData) {
                       List<DocumentSnapshot> listaDoc = snapshot.data.docs;
                       listaDoc.forEach((element) {
+                        print('telas');
                         listaTelas.add(
                             new Telas(element['nombre'], element['Colores']));
                       });

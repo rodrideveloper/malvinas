@@ -127,7 +127,7 @@ class DAO {
     CollectionReference regRef = FirebaseFirestore.instance.collection('ambos');
     regRef
         .add({
-          'nombre': a.modelo,
+          'modelo': a.modelo,
           'tipo': a.tipo,
           'telas_disponibles': a.telas_disponibles,
           'color_primario': a.color1,
@@ -136,6 +136,7 @@ class DAO {
         })
         .then((value) => print('Registro Agregado con Exito'))
         .catchError((error) => error = true);
+    print(error);
 
     return error;
   }

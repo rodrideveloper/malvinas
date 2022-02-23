@@ -13,11 +13,11 @@ class AmboHeroe extends StatefulWidget {
 }
 
 class _AmboHeroeState extends State<AmboHeroe> {
-  String telaSeleccionada = 'Batista';
+  String telaSeleccionada;
   String ambo_id;
   @override
   Widget build(BuildContext context) {
-    telaSeleccionada == widget.ambo.telas_disponibles[0];
+    telaSeleccionada = widget.ambo.tela_principal;
     ambo_id = widget.ambo.id;
 
     List<String> telas = [];
@@ -31,12 +31,10 @@ class _AmboHeroeState extends State<AmboHeroe> {
         backgroundColor: ColoresApp.color_gris,
         foregroundColor: Colors.white,
         onPressed: () {
-          Navigator.pushNamed(context, '/SeleccionarColor', arguments: [
-            telaSeleccionada,
-            widget.ambo.id,
-            widget.ambo.modelo,
-            widget.ambo.tipo
-          ]);
+          Navigator.pushNamed(context, '/SeleccionarColor', arguments: {
+            'telaSeleccionada': telaSeleccionada,
+            'ambo': widget.ambo
+          });
         },
         child: Icon(Icons.keyboard_arrow_right, size: 55, color: Colors.white),
       ),

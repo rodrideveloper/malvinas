@@ -19,6 +19,8 @@ class _CargarAmbosState extends State<CargarAmbos> {
 class Cuerpo extends StatelessWidget {
   final Modelo = TextEditingController();
   final Tipo_C = TextEditingController();
+  final Tela_C = TextEditingController();
+  final tela_principal = TextEditingController();
 
   final Color1 = TextEditingController();
   final Color2 = TextEditingController();
@@ -45,9 +47,14 @@ class Cuerpo extends StatelessWidget {
               controller: Tipo_C,
               decoration: InputDecoration(hintText: 'Tipo'),
             ),
+            TextField(
+              controller: tela_principal,
+              decoration: InputDecoration(hintText: 'Tela Principal'),
+            ),
             TextButton(
               onPressed: () {
                 EnviarDatos();
+                print('enviando');
               },
               child: Text('Enviar'),
               style: TextButton.styleFrom(
@@ -65,11 +72,13 @@ class Cuerpo extends StatelessWidget {
     String tipo = Tipo_C.text;
     String Acolor1 = Color1.text;
     String AColor2 = Color2.text;
+    String tela_principal = Tela_C.text;
     List<String> telas_disponibles = ['Batista', 'Arciel', 'Spandex'];
     String url_image = 'assets/img/${Amodelox}.jpg';
 
-    AmboCarga a = new AmboCarga(
-        Amodelox, telas_disponibles, Acolor1, AColor2, url_image, tipo);
+    AmboCarga a = new AmboCarga(Amodelox, tipo, tela_principal,
+        telas_disponibles, Acolor1, AColor2, url_image);
+    print(a.toString());
 
     DAO.agregarAmbo(a);
   }
@@ -77,13 +86,13 @@ class Cuerpo extends StatelessWidget {
 
 class AmboCarga {
   String modelo;
-
+  String tipo;
+  String tela_principal;
   List<String> telas_disponibles;
   String color1;
   String color2;
   String url_imagen;
-  String tipo;
 
-  AmboCarga(this.modelo, this.telas_disponibles, this.color1, this.color2,
-      this.url_imagen, this.tipo);
+  AmboCarga(this.modelo, this.tipo, this.tela_principal, this.telas_disponibles,
+      this.color1, this.color2, this.url_imagen);
 }

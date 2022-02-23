@@ -9,6 +9,6 @@ class Colores {
     'fucsia': Colors.pink,
     'verde': Colors.green,
     'blanco': Colors.grey,
-    'turqueza': Colors.lightBlue
+    'turquesa': Colors.lightBlue,
   };
 }
