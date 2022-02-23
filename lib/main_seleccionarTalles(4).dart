@@ -29,8 +29,15 @@ class _DetalleState extends State<Detalle> {
     Talle('S/T', 2.0)
   ];
 
-  int _tallesChaqueta = 0;
+  int tallesChaqueta = 0;
   int _tallesPantalon = 0;
+
+  /*callback(newValue){
+    setState(() {
+      _textValue = newValue;
+    });
+  }*/
+
   @override
   Widget build(BuildContext context) {
     final argumentos =
@@ -38,11 +45,8 @@ class _DetalleState extends State<Detalle> {
     String ambo_id = argumentos[3];
     String modelo = argumentos[4];
     String tela = argumentos[0];
-    ;
     String color1 = argumentos[1];
-    ;
     String color2 = argumentos[2];
-    ;
 
     // Usa el objeto Todo para crear nuestra UI
     return Scaffold(
@@ -56,6 +60,9 @@ class _DetalleState extends State<Detalle> {
                     bottomLeft: Radius.circular(25.0),
                     bottomRight: Radius.circular(25.0))))*/
         ),
+        /*  actualizar: () {
+                          setState(() {});
+                        }*/
         body: Container(
           height: double.infinity,
           color: ColoresApp.color_negro,
@@ -65,49 +72,15 @@ class _DetalleState extends State<Detalle> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Chaqueta",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            fontFamily: 'Raleway')),
-                    SizedBox(height: 10),
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              style: BorderStyle.solid,
-                              width: 5,
-                              color: Colors.white)),
-                      child: Column(
-                        children: [
-                          for (var i = 0; i < talles.length; i++)
-                            _tallesC(talles[i], i)
-                        ],
-                      ),
-                    )
+                    SeleccionTalles(
+                        encabezado: 'Chaqueta',
+                        talleValor: tallesChaqueta,
+                        actualizar: () {
+                          setState(() {});
+                        }),
                   ],
                 ),
-                SizedBox(width: 40),
-                Column(children: <Widget>[
-                  Text("Pantalón",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30)),
-                  SizedBox(height: 10),
-                  Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              style: BorderStyle.solid,
-                              width: 5,
-                              color: Colors.white)),
-                      child: Column(
-                        children: [
-                          for (var i = 0; i < talles.length; i++)
-                            _tallesP(talles[i], i)
-                        ],
-                      ))
-                ])
+                Column(children: <Widget>[])
               ]),
               Positioned(
                   left: 70,
@@ -213,7 +186,7 @@ class _DetalleState extends State<Detalle> {
   Widget _tallesC(Talle t, pos) {
     return Container(
         color: ColoresApp.color_gris,
-        width: 130,
+        width: 110,
         child: RadioListTile(
             visualDensity: VisualDensity.compact,
             activeColor: Colors.amber,
@@ -224,11 +197,11 @@ class _DetalleState extends State<Detalle> {
               style: TextStyle(color: Colors.white),
             ),
             value: pos,
-            groupValue: _tallesChaqueta,
+            groupValue: tallesChaqueta,
             tileColor: Colors.grey,
             onChanged: (value) {
               setState(() {
-                _tallesChaqueta = value;
+                tallesChaqueta = value;
               });
             }));
   }
@@ -236,12 +209,9 @@ class _DetalleState extends State<Detalle> {
   Widget _tallesP(Talle t, pos) {
     return Container(
         color: ColoresApp.color_gris,
-        margin: EdgeInsets.all(0),
-        padding: EdgeInsets.all(0),
-        width: 130,
+        width: 110,
         child: Center(
           child: RadioListTile(
-              contentPadding: EdgeInsets.all(0),
               activeColor: Colors.amber,
               visualDensity: VisualDensity.compact,
               selectedTileColor: Colors.white,
@@ -305,5 +275,83 @@ class _DetalleState extends State<Detalle> {
         return alert;
       },
     );
+  }
+}
+
+class SeleccionTalles extends StatefulWidget {
+  final String encabezado;
+  final int talleValor;
+  final Function() actualizar;
+
+  const SeleccionTalles(
+      {Key key, this.encabezado, this.talleValor, this.actualizar})
+      : super(key: key);
+
+  @override
+  _SeleccionTallesState createState() => _SeleccionTallesState();
+}
+
+class _SeleccionTallesState extends State<SeleccionTalles> {
+  final talles = <Talle>[
+    Talle('XS', 2.0),
+    Talle('S', 2.0),
+    Talle('M', 2.0),
+    Talle('L', 2.0),
+    Talle('XL', 2.0),
+    Talle('XXL', 2.0),
+    Talle('XXXL', 2.0),
+    Talle('S/T', 2.0)
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Text('${widget.encabezado}',
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+                fontFamily: 'Raleway')),
+        SizedBox(height: 10),
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(
+                  style: BorderStyle.solid, width: 5, color: Colors.white)),
+          child: Column(
+            children: [
+              for (var i = 0; i < talles.length; i++)
+                _talles(talles[i], i, widget.talleValor, widget.actualizar)
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _talles(Talle t, pos, int talleValor, actualizar) {
+    return Container(
+        color: ColoresApp.color_gris,
+        width: 110,
+        child: RadioListTile(
+            visualDensity: VisualDensity.compact,
+            activeColor: Colors.amber,
+            dense: true,
+            selectedTileColor: Colors.white,
+            title: Text(
+              t.nombre,
+              style: TextStyle(color: Colors.white),
+            ),
+            value: pos,
+            groupValue: talleValor,
+            tileColor: Colors.grey,
+            onChanged: (value) {
+              setState(() {
+                talleValor = value;
+                actualizar;
+                print(talleValor);
+              });
+            }));
   }
 }
