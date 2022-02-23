@@ -84,17 +84,17 @@ class _DetalleState extends State<Detalle> {
           child: Stack(
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                if (tipo == '0')
+                if (tipo == '0') //Solo Chaqueta
                   SeleccionTalles(
                       encabezado: 'Chaqueta',
                       talleValor: tallesChaqueta,
                       actualizar: refresh)
-                else if (tipo == '9')
+                else if (tipo == '9') //Solo Pantalon
                   SeleccionTalles(
                       encabezado: 'Pantalon',
                       talleValor: tallesPantalon,
                       actualizar: refreshP)
-                else if (tipo == '7')
+                else if (tipo == '7') //3 piezas
                   Row(
                     children: [
                       SeleccionTalles(
@@ -109,6 +109,19 @@ class _DetalleState extends State<Detalle> {
                           encabezado: 'Pantalon2',
                           talleValor: tallesPantalon2,
                           actualizar: refreshP2)
+                    ],
+                  )
+                else if (chaqueta_pantalon.contains(tipo)) //Chaqueta + Pantalon
+                  Row(
+                    children: [
+                      SeleccionTalles(
+                          encabezado: 'Chaqueta',
+                          talleValor: tallesChaqueta,
+                          actualizar: refresh),
+                      SeleccionTalles(
+                          encabezado: 'Pantalon',
+                          talleValor: tallesPantalon,
+                          actualizar: refreshP),
                     ],
                   )
               ]),
