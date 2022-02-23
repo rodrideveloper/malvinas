@@ -35,12 +35,6 @@ class DAO {
     return leerAmbos;
   }
 
-  static colocarIds(QueryDocumentSnapshot<Ambo> a) {
-    String id = a.id;
-    a.data().id = id;
-    print(a);
-  }
-
 //Devuelvo un futuro con lista de telas
   static Future<List<dynamic>> leerListaTelasDAO() async {
     QuerySnapshot querySnapshot =

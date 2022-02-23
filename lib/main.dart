@@ -103,8 +103,8 @@ class _cuerpoState extends State<cuerpo> {
     QuerySnapshot<Ambo> lista = await DAO.leerAmbosDAO();
 
     lista.docs.forEach((e) {
-      tempList.add(new Ambo.for2(
-          e.id, e.data().modelo, e.data().telas_disponibles, e.data().url));
+      tempList.add(new Ambo.for2(e.id, e.data().tipo, e.data().modelo,
+          e.data().telas_disponibles, e.data().url));
     });
 
     setState(() {

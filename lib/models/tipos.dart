@@ -1,5 +1,5 @@
-class tipos {
-  static Map<String, dynamic> tipos_ambos = {
+class Tipos {
+  static Map<String, dynamic> tipo_ambo = {
     '0': 'Chaqueta',
     '1': 'Chaqueta abierta',
     '2': 'Chaqueta Murphy',

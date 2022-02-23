@@ -34,7 +34,8 @@ class _AmboHeroeState extends State<AmboHeroe> {
           Navigator.pushNamed(context, '/SeleccionarColor', arguments: [
             telaSeleccionada,
             widget.ambo.id,
-            widget.ambo.modelo
+            widget.ambo.modelo,
+            widget.ambo.tipo
           ]);
         },
         child: Icon(Icons.keyboard_arrow_right, size: 55, color: Colors.white),

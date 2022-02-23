@@ -38,9 +38,9 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
     //a la pantalla Detalle
     final argumentos = ModalRoute.of(context).settings.arguments as List;
     String telaSeleccionada = argumentos[0];
-
     String ambo_id = argumentos[1];
     String modelo = argumentos[2];
+    String tipo = argumentos[3];
 
     return SafeArea(
       child: Scaffold(
@@ -54,7 +54,8 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
                 valorColorPrimario,
                 valorColorSecundario,
                 ambo_id,
-                modelo
+                modelo,
+                tipo
               ]);
             },
             child:

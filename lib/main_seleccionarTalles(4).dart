@@ -1,6 +1,7 @@
 import 'package:Malvinas/models/ambo.dart';
 import 'package:Malvinas/models/registros.dart';
 import 'package:Malvinas/models/talle.dart';
+import 'package:Malvinas/models/tipos.dart';
 import 'package:Malvinas/utilidades/colores.dart';
 import 'package:flutter/material.dart';
 import 'BO/dao.dart';
@@ -17,6 +18,7 @@ class Detalle extends StatefulWidget {
 class _DetalleState extends State<Detalle> {
   String tipoTela = 'Arciel';
   String cortador = 'Seleccionar';
+  List<String> chaqueta_pantalon = <String>['4', '5', '6'];
 
   final talles = <Talle>[
     Talle('XS', 2.0),
@@ -30,13 +32,25 @@ class _DetalleState extends State<Detalle> {
   ];
 
   int tallesChaqueta = 0;
-  int _tallesPantalon = 0;
-
-  /*callback(newValue){
+  int tallesPantalon = 0;
+  int tallesPantalon2 = 0;
+  void refresh(dynamic childValue) {
     setState(() {
-      _textValue = newValue;
+      tallesChaqueta = childValue;
     });
-  }*/
+  }
+
+  void refreshP(dynamic childValue) {
+    setState(() {
+      tallesPantalon = childValue;
+    });
+  }
+
+  void refreshP2(dynamic childValue) {
+    setState(() {
+      tallesPantalon2 = childValue;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +61,7 @@ class _DetalleState extends State<Detalle> {
     String tela = argumentos[0];
     String color1 = argumentos[1];
     String color2 = argumentos[2];
+    String tipo = argumentos[5];
 
     // Usa el objeto Todo para crear nuestra UI
     return Scaffold(
@@ -69,18 +84,33 @@ class _DetalleState extends State<Detalle> {
           child: Stack(
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SeleccionTalles(
-                        encabezado: 'Chaqueta',
-                        talleValor: tallesChaqueta,
-                        actualizar: () {
-                          setState(() {});
-                        }),
-                  ],
-                ),
-                Column(children: <Widget>[])
+                if (tipo == '0')
+                  SeleccionTalles(
+                      encabezado: 'Chaqueta',
+                      talleValor: tallesChaqueta,
+                      actualizar: refresh)
+                else if (tipo == '9')
+                  SeleccionTalles(
+                      encabezado: 'Pantalon',
+                      talleValor: tallesPantalon,
+                      actualizar: refreshP)
+                else if (tipo == '7')
+                  Row(
+                    children: [
+                      SeleccionTalles(
+                          encabezado: 'Chaqueta',
+                          talleValor: tallesChaqueta,
+                          actualizar: refresh),
+                      SeleccionTalles(
+                          encabezado: 'Pantalon',
+                          talleValor: tallesPantalon,
+                          actualizar: refreshP),
+                      SeleccionTalles(
+                          encabezado: 'Pantalon2',
+                          talleValor: tallesPantalon2,
+                          actualizar: refreshP2)
+                    ],
+                  )
               ]),
               Positioned(
                   left: 70,
@@ -224,10 +254,10 @@ class _DetalleState extends State<Detalle> {
                 ),
               ),
               value: pos,
-              groupValue: _tallesPantalon,
+              groupValue: tallesPantalon,
               onChanged: (value) {
                 setState(() {
-                  _tallesPantalon = value;
+                  tallesPantalon = value;
                 });
               }),
         ));
@@ -281,7 +311,7 @@ class _DetalleState extends State<Detalle> {
 class SeleccionTalles extends StatefulWidget {
   final String encabezado;
   final int talleValor;
-  final Function() actualizar;
+  final Function actualizar;
 
   const SeleccionTalles(
       {Key key, this.encabezado, this.talleValor, this.actualizar})
@@ -322,7 +352,7 @@ class _SeleccionTallesState extends State<SeleccionTalles> {
           child: Column(
             children: [
               for (var i = 0; i < talles.length; i++)
-                _talles(talles[i], i, widget.talleValor, widget.actualizar)
+                _talles(talles[i], i, widget.talleValor)
             ],
           ),
         )
@@ -330,7 +360,7 @@ class _SeleccionTallesState extends State<SeleccionTalles> {
     );
   }
 
-  Widget _talles(Talle t, pos, int talleValor, actualizar) {
+  Widget _talles(Talle t, pos, int talleValor) {
     return Container(
         color: ColoresApp.color_gris,
         width: 110,
@@ -349,8 +379,7 @@ class _SeleccionTallesState extends State<SeleccionTalles> {
             onChanged: (value) {
               setState(() {
                 talleValor = value;
-                actualizar;
-                print(talleValor);
+                widget.actualizar(value);
               });
             }));
   }
