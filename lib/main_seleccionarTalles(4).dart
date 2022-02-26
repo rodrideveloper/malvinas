@@ -22,6 +22,7 @@ class _DetalleState extends State<Detalle> {
   String tipoTela = 'Arciel';
   String cortador = 'Seleccionar';
   List<String> chaqueta_pantalon = <String>['4', '5', '6'];
+  Precios precios;
 
   final talles = <Talle>[
     Talle('XS', 2.0),
@@ -38,21 +39,41 @@ class _DetalleState extends State<Detalle> {
   int tallesPantalon = 0;
   int tallesPantalon2 = 0;
   void refresh(dynamic childValue) {
+    final argumentos = ModalRoute.of(context).settings.arguments as Map;
+    String tipo = argumentos['ambo'].tipo;
     setState(() {
       tallesChaqueta = childValue;
+      calcularPrecios(tipo);
     });
   }
 
   void refreshP(dynamic childValue) {
+    final argumentos = ModalRoute.of(context).settings.arguments as Map;
+    String tipo = argumentos['ambo'].tipo;
     setState(() {
       tallesPantalon = childValue;
+      calcularPrecios(tipo);
     });
   }
 
   void refreshP2(dynamic childValue) {
+    final argumentos = ModalRoute.of(context).settings.arguments as Map;
+    String tipo = argumentos['ambo'].tipo;
     setState(() {
       tallesPantalon2 = childValue;
+      calcularPrecios(tipo);
     });
+  }
+
+  void traerPrecios() async {
+    QuerySnapshot<Precios> queryPrecios = await DAO.listaDePrecios();
+    precios = queryPrecios.docs[0].data();
+  }
+
+  @override
+  void initState() {
+    traerPrecios();
+    super.initState();
   }
 
   @override
@@ -64,7 +85,6 @@ class _DetalleState extends State<Detalle> {
     String color1 = argumentos['valorColorPrimario'];
     String color2 = argumentos['valorColorSecundario'];
     String tipo = argumentos['ambo'].tipo;
-    int precio = 0;
 
     // Usa el objeto Todo para crear nuestra UI
     return Scaffold(
@@ -126,10 +146,23 @@ class _DetalleState extends State<Detalle> {
                           talleValor: tallesPantalon,
                           actualizar: refreshP),
                     ],
-                  )
+                  ),
               ]),
               Positioned(
-                  left: 70,
+                left: 140,
+                top: 390,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Precios pagado ${calcularPrecios(tipo)}',
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+              ),
+              Positioned(
+                  left: 80,
                   top: 420,
                   child: Container(
                     decoration: BoxDecoration(
@@ -180,9 +213,9 @@ class _DetalleState extends State<Detalle> {
                                 //llamar al bo y cargar ambo luego dar mensaje
 
                                 if (cortador != 'Seleccionar') {
-                                  final pprecio = calcularPrecios(tipo);
+                                  int precio = calcularPrecios(tipo);
 
-                                  Registro r = new Registro.ob(ambo_id, pprecio,
+                                  Registro r = new Registro.ob(ambo_id, precio,
                                       color1, color2, tela, 2.5, cortador);
                                   Future<bool> error = DAO.agregarRegistro(r);
                                   if (error != true) {
@@ -275,27 +308,31 @@ class _DetalleState extends State<Detalle> {
     );
   }
 
-  Future calcularPrecios(String tipo) async {
-    QuerySnapshot<Precios> lista_precios = await DAO.listaDePrecios();
-
-    int precio = Tipos.getPrecio(tipo, lista_precios.docs[0].data()) ?? 0;
-    final lista_especial = ['5', '6'];
+  int calcularPrecios(String tipo) {
+    int precio = Tipos.getPrecio(tipo, precios);
+    final lista_especial = [5, 6];
     if (tallesChaqueta != 0) {
       if (lista_especial.contains(tallesChaqueta)) {
-        precio += precio + Tipos.getPrecio('9', lista_precios.docs[0].data());
+        precio = precio + Tipos.getPrecio('9', precios);
       }
     }
 
     if (tallesPantalon != 0) {
       if (lista_especial.contains(tallesPantalon)) {
-        precio += precio + Tipos.getPrecio('9', lista_precios.docs[0].data());
+        precio = precio + Tipos.getPrecio('9', precios);
+      }
+    }
+
+    if (tallesPantalon2 != 0) {
+      if (lista_especial.contains(tallesPantalon)) {
+        precio = precio + Tipos.getPrecio('9', precios);
       }
     }
 
 //Pregunto si es 3 piezas
-    if (tipo == '7') {
-      precio += precio + Tipos.getPrecio('9', lista_precios.docs[0].data());
-    }
+    /*if (tipo == '7') {
+      precio = precio + Tipos.getPrecio('9', precios);
+    }*/
 
     return precio;
   }
