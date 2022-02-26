@@ -5,6 +5,9 @@ import 'package:Malvinas/models/tipos.dart';
 import 'package:Malvinas/utilidades/colores.dart';
 import 'package:flutter/material.dart';
 import 'BO/dao.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'models/precios.dart';
 
 class Detalle extends StatefulWidget {
   final Ambo ambo;
@@ -61,6 +64,7 @@ class _DetalleState extends State<Detalle> {
     String color1 = argumentos['valorColorPrimario'];
     String color2 = argumentos['valorColorSecundario'];
     String tipo = argumentos['ambo'].tipo;
+    int precio = 0;
 
     // Usa el objeto Todo para crear nuestra UI
     return Scaffold(
@@ -176,8 +180,10 @@ class _DetalleState extends State<Detalle> {
                                 //llamar al bo y cargar ambo luego dar mensaje
 
                                 if (cortador != 'Seleccionar') {
-                                  Registro r = new Registro.ob(ambo_id, color1,
-                                      color2, tela, 2.5, cortador);
+                                  final pprecio = calcularPrecios(tipo);
+
+                                  Registro r = new Registro.ob(ambo_id, pprecio,
+                                      color1, color2, tela, 2.5, cortador);
                                   Future<bool> error = DAO.agregarRegistro(r);
                                   if (error != true) {
                                     DAO.actualizarStockTela(
@@ -225,56 +231,6 @@ class _DetalleState extends State<Detalle> {
         ));
   }
 
-  Widget _tallesC(Talle t, pos) {
-    return Container(
-        color: ColoresApp.color_gris,
-        width: 110,
-        child: RadioListTile(
-            visualDensity: VisualDensity.compact,
-            activeColor: Colors.amber,
-            dense: true,
-            selectedTileColor: Colors.white,
-            title: Text(
-              t.nombre,
-              style: TextStyle(color: Colors.white),
-            ),
-            value: pos,
-            groupValue: tallesChaqueta,
-            tileColor: Colors.grey,
-            onChanged: (value) {
-              setState(() {
-                tallesChaqueta = value;
-              });
-            }));
-  }
-
-  Widget _tallesP(Talle t, pos) {
-    return Container(
-        color: ColoresApp.color_gris,
-        width: 110,
-        child: Center(
-          child: RadioListTile(
-              activeColor: Colors.amber,
-              visualDensity: VisualDensity.compact,
-              selectedTileColor: Colors.white,
-              tileColor: Colors.grey,
-              dense: true,
-              title: Text(
-                t.nombre,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              value: pos,
-              groupValue: tallesPantalon,
-              onChanged: (value) {
-                setState(() {
-                  tallesPantalon = value;
-                });
-              }),
-        ));
-  }
-
 /*
   void _confirmacion() {
     SimpleDialog(
@@ -317,6 +273,31 @@ class _DetalleState extends State<Detalle> {
         return alert;
       },
     );
+  }
+
+  Future calcularPrecios(String tipo) async {
+    QuerySnapshot<Precios> lista_precios = await DAO.listaDePrecios();
+
+    int precio = Tipos.getPrecio(tipo, lista_precios.docs[0].data()) ?? 0;
+    final lista_especial = ['5', '6'];
+    if (tallesChaqueta != 0) {
+      if (lista_especial.contains(tallesChaqueta)) {
+        precio += precio + Tipos.getPrecio('9', lista_precios.docs[0].data());
+      }
+    }
+
+    if (tallesPantalon != 0) {
+      if (lista_especial.contains(tallesPantalon)) {
+        precio += precio + Tipos.getPrecio('9', lista_precios.docs[0].data());
+      }
+    }
+
+//Pregunto si es 3 piezas
+    if (tipo == '7') {
+      precio += precio + Tipos.getPrecio('9', lista_precios.docs[0].data());
+    }
+
+    return precio;
   }
 }
 

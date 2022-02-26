@@ -3,11 +3,13 @@ class Precios {
   int chaquetaLeontina;
   int chaquetaMurphy;
   int pantalon;
+  int chaqueta_abierta;
   int talleEspecial;
 
   Precios(
       {this.chaqueta,
       this.chaquetaLeontina,
+      this.chaqueta_abierta,
       this.chaquetaMurphy,
       this.pantalon,
       this.talleEspecial});
@@ -16,6 +18,7 @@ class Precios {
     chaqueta = json['chaqueta'];
     chaquetaLeontina = json['chaqueta_leontina'];
     chaquetaMurphy = json['chaqueta_murphy'];
+    chaqueta_abierta = json['chaqueta_abierta'];
     pantalon = json['pantalon'];
     talleEspecial = json['talle_especial'];
   }
@@ -27,6 +30,7 @@ class Precios {
     data['chaqueta_murphy'] = this.chaquetaMurphy;
     data['pantalon'] = this.pantalon;
     data['talle_especial'] = this.talleEspecial;
+    data['chaqueta_abierta'] = this.chaqueta_abierta;
     return data;
   }
 }

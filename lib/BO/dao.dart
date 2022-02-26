@@ -68,17 +68,44 @@ class DAO {
 
   //Agregar registro de ambo cortado
   static Future<bool> agregarRegistro(Registro r) async {
-    QuerySnapshot<Precios> lista_precios = await listaDePrecios();
+    /*  QuerySnapshot<Precios> lista_precios = await listaDePrecios();
     ;
-    int precio_chaqueta = lista_precios.docs[0].data().chaqueta;
-
+    int precio = 0;
+    //Si es chaqueta sola
+    switch (int.parse(tipo)) {
+      case 0:
+        precio = lista_precios.docs[0].data().chaqueta;
+        break;
+      //Si es pantalón solo
+      case 9:
+        precio = lista_precios.docs[0].data().pantalon;
+        break;
+      //Si es 3 piezas
+      case 7:
+        precio = lista_precios.docs[0].data().pantalon * 2;
+        precio += lista_precios.docs[0].data().chaqueta;
+        break;
+      //Si es Chaqueta Murphy
+      case 2:
+        precio = lista_precios.docs[0].data().chaquetaMurphy;
+        break;
+      //Si es Chaqueta Leontina
+      case 3:
+        precio = lista_precios.docs[0].data().chaquetaLeontina;
+        break;
+      //Si es Chaqueta Abierta
+      case 3:
+        precio = lista_precios.docs[0].data().cha;
+        break;
+    }
+*/
     bool error = false;
     CollectionReference regRef =
         FirebaseFirestore.instance.collection('registros');
     regRef
         .add({
           'ambo_id': r.ambo_id,
-          'precio': precio_chaqueta,
+          'precio': r.precio,
           'tela': r.tela,
           'color1': r.colorPrimario,
           'color2': r.colorSecundario,
