@@ -6,6 +6,7 @@ import 'models/Tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'models/ambo.dart';
+import 'models/precios.dart';
 
 class SeleccionarColor extends StatefulWidget {
   final String tela;
@@ -19,13 +20,20 @@ class SeleccionarColor extends StatefulWidget {
 class _SeleccionarColorState extends State<SeleccionarColor> {
   String valorColorPrimario;
   String valorColorSecundario;
+  Precios precios;
 
   List<Telas> listaTelas = [];
   Map<String, dynamic> mapa = {};
 
   @override
   void initState() {
+    traerPrecios();
     super.initState();
+  }
+
+  void traerPrecios() async {
+    QuerySnapshot<Precios> queryPrecios = await DAO.listaDePrecios();
+    precios = queryPrecios.docs[0].data();
   }
 
   Future<QuerySnapshot> llenarListaTelas() async {
@@ -55,7 +63,8 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
                 'telaSeleccionada': telaSeleccionada,
                 'valorColorPrimario': valorColorPrimario,
                 'valorColorSecundario': valorColorSecundario,
-                'ambo': ambo
+                'ambo': ambo,
+                'precios': precios
               });
             },
             child:
@@ -78,7 +87,6 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
                     if (snapshot.hasData) {
                       List<DocumentSnapshot> listaDoc = snapshot.data.docs;
                       listaDoc.forEach((element) {
-                        print('telas');
                         listaTelas.add(
                             new Telas(element['nombre'], element['Colores']));
                       });

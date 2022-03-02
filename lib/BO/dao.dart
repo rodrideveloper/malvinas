@@ -159,7 +159,8 @@ class DAO {
           'telas_disponibles': a.telas_disponibles,
           'color_primario': a.color1,
           'color_secundario': a.color2,
-          'url': a.url_imagen
+          'url': a.url_imagen,
+          'tela_principal': a.tela_principal
         })
         .then((value) => print('Registro Agregado con Exito'))
         .catchError((error) => error = true);

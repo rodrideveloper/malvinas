@@ -15,7 +15,7 @@ class Tipos {
   };
 
   static int getPrecio(String tipo, Precios lista_precios) {
-    int precio = 50;
+    int precio;
     if (lista_precios != null) {
       switch (int.parse(tipo)) {
         case 0:

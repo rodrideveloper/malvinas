@@ -6,7 +6,7 @@ import 'package:Malvinas/utilidades/colores.dart';
 import 'package:flutter/material.dart';
 import 'BO/dao.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'dart:io';
 import 'models/precios.dart';
 
 class Detalle extends StatefulWidget {
@@ -65,14 +65,8 @@ class _DetalleState extends State<Detalle> {
     });
   }
 
-  void traerPrecios() async {
-    QuerySnapshot<Precios> queryPrecios = await DAO.listaDePrecios();
-    precios = queryPrecios.docs[0].data();
-  }
-
   @override
   void initState() {
-    traerPrecios();
     super.initState();
   }
 
@@ -85,6 +79,7 @@ class _DetalleState extends State<Detalle> {
     String color1 = argumentos['valorColorPrimario'];
     String color2 = argumentos['valorColorSecundario'];
     String tipo = argumentos['ambo'].tipo;
+    precios = argumentos['precios'];
 
     // Usa el objeto Todo para crear nuestra UI
     return Scaffold(
@@ -225,10 +220,12 @@ class _DetalleState extends State<Detalle> {
                                         r.colorSecundario,
                                         2,
                                         0.5);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                            content:
-                                                Text('Tela Actualizada :)')));
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                            content: Text(
+                                      'Ambo Cargado :)',
+                                      textAlign: TextAlign.center,
+                                    )));
                                     Navigator.pushNamed(context, '/inicio');
                                   } else {
                                     print('Error al actualizar stock TELA');
@@ -310,6 +307,7 @@ class _DetalleState extends State<Detalle> {
 
   int calcularPrecios(String tipo) {
     int precio = Tipos.getPrecio(tipo, precios);
+
     final lista_especial = [5, 6];
     if (tallesChaqueta != 0) {
       if (lista_especial.contains(tallesChaqueta)) {
@@ -324,7 +322,7 @@ class _DetalleState extends State<Detalle> {
     }
 
     if (tallesPantalon2 != 0) {
-      if (lista_especial.contains(tallesPantalon)) {
+      if (lista_especial.contains(tallesPantalon2)) {
         precio = precio + Tipos.getPrecio('9', precios);
       }
     }

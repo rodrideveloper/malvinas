@@ -26,7 +26,7 @@ class Malvinas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //initialRoute: '/CargarAmbos',
+      // initialRoute: '/CargarAmbos',
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/inicio': (BuildContext context) => new cuerpo(),
@@ -155,7 +155,7 @@ class _cuerpoState extends State<cuerpo> {
             //    style: TextStyle(fontSize: 20, fontFamily: 'Montserrat')),
 
             ListTile(
-              title: const Text('Cortador'),
+              title: const Text('Mis Cortes'),
               leading: Icon(Icons.content_cut),
               onTap: () {
                 Navigator.pushNamed(context, '/Cortadores');
@@ -168,6 +168,7 @@ class _cuerpoState extends State<cuerpo> {
                 Navigator.pushNamed(context, '/grafico');
               },
             ),
+
             ListTile(
               title: Text('Actualizar Stock',
                   style: TextStyle(

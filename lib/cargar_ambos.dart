@@ -78,7 +78,6 @@ class Cuerpo extends StatelessWidget {
 
     AmboCarga a = new AmboCarga(Amodelox, tipo, tela_principal,
         telas_disponibles, Acolor1, AColor2, url_image);
-    print(a.toString());
 
     DAO.agregarAmbo(a);
   }
