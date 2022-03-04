@@ -1,5 +1,6 @@
 import 'package:Malvinas/actualizar_stock(1).dart';
 import 'package:Malvinas/cargar_ambos.dart';
+import 'package:Malvinas/detalleCortador.dart';
 import 'package:Malvinas/main_seleccionarTela(2).dart';
 import 'package:Malvinas/grafico.dart';
 import 'package:Malvinas/main_seleccionarColor(3).dart';
@@ -37,6 +38,7 @@ class Malvinas extends StatelessWidget {
         '/Detalle': (BuildContext context) => new Detalle(),
         '/Cortadores': (BuildContext context) => new SeguimientoCortadores(),
         '/CargarAmbos': (BuildContext context) => new CargarAmbos(),
+        '/DetalleCortador': (BuildContext context) => new DetalleCortador(),
       },
       theme: ThemeData(fontFamily: 'Raleway'),
       /*  theme: ThemeData(

@@ -1,10 +1,9 @@
-import 'dart:ui';
 import 'ambo.dart';
 
 class RegistroVentas {
   String id;
   Ambo ambo;
-  double precio;
+  int precio;
   String image_url;
   bool pagado;
 
@@ -12,7 +11,7 @@ class RegistroVentas {
       {this.id, this.ambo, this.precio, this.image_url, this.pagado});
 
   factory RegistroVentas.fromJson(Map<String, dynamic> json) => RegistroVentas(
-        id: json['id'],
+        id: json['ambo_id'],
         ambo: json['ambo'],
         image_url: json['image_url'],
         precio: json['precio'],

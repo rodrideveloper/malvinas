@@ -25,21 +25,32 @@ class _SeguimientoCortadoresState extends State<SeguimientoCortadores> {
 
     //print(registros);
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        elevation: 20,
-        backgroundColor: ColoresApp.color_gris,
-        foregroundColor: Colors.white,
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: Icon(Icons.close, size: 55, color: Colors.white),
-      ),
-      appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: ColoresApp.color_negro,
-          title: Text('Tabla de Cortado ')),
-      body: Center(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          elevation: 20,
+          backgroundColor: ColoresApp.color_gris,
+          foregroundColor: Colors.white,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.close, size: 55, color: Colors.white),
+        ),
+        appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: ColoresApp.color_negro,
+            title: Text('Tabla de Cortado ')),
+        body: Center(
+          child: Container(
+            child: TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/DetalleCortador');
+                },
+                child: Text('Ver Detalle')),
+          ),
+        ));
+  }
+}
+/*Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,7 +74,9 @@ class _SeguimientoCortadoresState extends State<SeguimientoCortadores> {
                         ;
                       }
                     });
-                    return Column(
+                    return 
+                    
+                    Column(
                       children: [
                         Material(
                           elevation: 10,
@@ -147,7 +160,4 @@ class _SeguimientoCortadoresState extends State<SeguimientoCortadores> {
             ))
           ],
         ),
-      ),
-    );
-  }
-}
+      ),*/

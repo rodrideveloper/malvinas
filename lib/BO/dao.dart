@@ -2,6 +2,7 @@ import 'package:Malvinas/cargar_ambos.dart';
 import 'package:Malvinas/models/Tela.dart';
 import 'package:Malvinas/models/ambo.dart';
 import 'package:Malvinas/models/precios.dart';
+import 'package:Malvinas/models/registro_ventas.dart';
 import 'package:Malvinas/models/registros.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -178,5 +179,42 @@ class DAO {
     final listaPrecios = (await collection.get());
 
     return listaPrecios;
+  }
+
+  static Future<QuerySnapshot<RegistroVentas>> listaDeRegistos() async {
+    final collection = FirebaseFirestore.instance
+        .collection('registros')
+        .withConverter(
+          fromFirestore: (snapshot, _) =>
+              RegistroVentas.fromJson(snapshot.data()),
+          toFirestore: (RegistroVentas, _) => RegistroVentas.toJson(),
+        )
+        .where('cortador', isEqualTo: 'Carolina');
+
+    final registroVentas = (await collection.get());
+    registroVentas.docs.forEach((e) async {
+      QuerySnapshot<Ambo> ambo = await leerSolounAmbo(e.data().id);
+      e.data().image_url = ambo.docs[0].data().url;
+      e.data().ambo = ambo.docs[0].data();
+    });
+
+    return registroVentas;
+  }
+
+  static Future<QuerySnapshot<Ambo>> leerSolounAmbo(String id) async {
+    final collection = FirebaseFirestore.instance
+        .collection('ambos')
+        .withConverter(
+          fromFirestore: (snapshot, _) => Ambo.fromJson(snapshot.data()),
+          toFirestore: (Ambo, _) => Ambo.toJson(),
+        )
+        .where('ambo_id', isEqualTo: id);
+
+    final leerAmbos = (await collection.get());
+
+    // final List<dynamic> allData =
+    //   _querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    return leerAmbos;
   }
 }
