@@ -191,14 +191,11 @@ class DAO {
         )
         .where('cortador', isEqualTo: 'Carolina');
 
-    final registroVentas = (await collection.get());
-    registroVentas.docs.forEach((e) async {
-      QuerySnapshot<Ambo> ambo = await leerSolounAmbo(e.data().id);
-      e.data().image_url = ambo.docs[0].data().url;
-      e.data().ambo = ambo.docs[0].data();
-    });
+    final listaRegistros = (await collection.get());
 
-    return registroVentas;
+//    final listaAmbos = await leerAmbosDAO();
+
+    return listaRegistros;
   }
 
   static Future<QuerySnapshot<Ambo>> leerSolounAmbo(String id) async {
