@@ -187,7 +187,7 @@ class _cuerpoState extends State<cuerpo> {
             ),
                ListTile(
               title: const Text('Lista Precios'),
-              leading: Icon(Icons.content_cut),
+              leading: Icon(Icons.list),
               onTap: () {
                 Navigator.pushNamed(context, '/PantallaPrecios');
               },
