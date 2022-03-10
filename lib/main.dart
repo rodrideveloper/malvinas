@@ -5,6 +5,7 @@ import 'package:Malvinas/main_seleccionarTela(2).dart';
 import 'package:Malvinas/grafico.dart';
 import 'package:Malvinas/main_seleccionarColor(3).dart';
 import 'package:Malvinas/actualizar_stock(2).dart';
+import 'package:Malvinas/pantalla_precios.dart';
 import 'package:Malvinas/seguimientoCortadores.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class Malvinas extends StatelessWidget {
         '/Cortadores': (BuildContext context) => new SeguimientoCortadores(),
         '/CargarAmbos': (BuildContext context) => new CargarAmbos(),
         '/DetalleCortador': (BuildContext context) => new DetalleCortador(),
+        '/PantallaPrecios':(BuildContext context) => new PantallaPrecios(),
       },
       theme: ThemeData(fontFamily: 'Raleway'),
       /*  theme: ThemeData(
@@ -182,7 +184,14 @@ class _cuerpoState extends State<cuerpo> {
               onTap: () {
                 //Navigator.pushNamed(context, '/ActualizarStock');
               },
-            )
+            ),
+               ListTile(
+              title: const Text('Lista Precios'),
+              leading: Icon(Icons.content_cut),
+              onTap: () {
+                Navigator.pushNamed(context, '/PantallaPrecios');
+              },
+            ),
           ],
         ),
       ),

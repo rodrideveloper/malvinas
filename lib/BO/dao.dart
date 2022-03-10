@@ -6,6 +6,8 @@ import 'package:Malvinas/models/registro_ventas.dart';
 import 'package:Malvinas/models/registros.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../detalleCortador.dart';
+
 class DAO {
   bool enviarDatos(Ambo ambo) {}
 
@@ -107,6 +109,7 @@ class DAO {
         .add({
           'ambo_id': r.ambo_id,
           'precio': r.precio,
+          'pagado':false,
           'tela': r.tela,
           'color1': r.colorPrimario,
           'color2': r.colorSecundario,
@@ -213,5 +216,31 @@ class DAO {
     //   _querySnapshot.docs.map((doc) => doc.data()).toList();
 
     return leerAmbos;
+  }
+
+
+  updateRegistros(List<DetalleListAmbos> listaDetalleRegistro) async{
+    bool error=true;
+    final registros= await FirebaseFirestore.instance.collection('registros');
+
+listaDetalleRegistro.forEach((element) {
+
+if (element.registro.pagado==true){
+
+registros.doc(element.registro.id_registro)
+    .update({'pagado':true })
+    .then((value) => print("User Updated"))
+    .catchError((error) => print("Failed to update user: $error"));
+}
+ 
+
+});
+
+
+
+
+ 
+
+    return error;
   }
 }

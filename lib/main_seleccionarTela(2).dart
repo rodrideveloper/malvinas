@@ -26,7 +26,9 @@ class _AmboHeroeState extends State<AmboHeroe> {
     });
 
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        
         elevation: 20,
         backgroundColor: ColoresApp.color_gris,
         foregroundColor: Colors.white,
