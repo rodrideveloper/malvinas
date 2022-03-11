@@ -58,6 +58,7 @@ class _GraficoEstadoState extends State<GraficoEstado> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       floatingActionButtonLocation:FloatingActionButtonLocation.miniStartFloat ,
         floatingActionButton: FloatingActionButton(
           elevation: 20,
           backgroundColor: ColoresApp.color_gris,

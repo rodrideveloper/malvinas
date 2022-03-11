@@ -1,12 +1,14 @@
 import 'package:Malvinas/utilidades/colores.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:Malvinas/models/ambo.dart';
 
 //Seleccionar tipo de tela dentro de las disponibles en cada ambo
 class AmboHeroe extends StatefulWidget {
   final Ambo ambo;
+  final User user;
 
-  const AmboHeroe({Key key, this.ambo}) : super(key: key);
+  const AmboHeroe({Key key, this.ambo, this.user}) : super(key: key);
 
   @override
   _AmboHeroeState createState() => _AmboHeroeState();
@@ -26,7 +28,7 @@ class _AmboHeroeState extends State<AmboHeroe> {
     });
 
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    
       floatingActionButton: FloatingActionButton(
         
         elevation: 20,
@@ -35,7 +37,8 @@ class _AmboHeroeState extends State<AmboHeroe> {
         onPressed: () {
           Navigator.pushNamed(context, '/SeleccionarColor', arguments: {
             'telaSeleccionada': telaSeleccionada,
-            'ambo': widget.ambo
+            'ambo': widget.ambo,
+            'user':widget.user
           });
         },
         child: Icon(Icons.keyboard_arrow_right, size: 55, color: Colors.white),

@@ -1,11 +1,13 @@
 import 'package:Malvinas/utilidades/colores.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'BO/dao.dart';
 import 'models/registros.dart';
 
 class SeguimientoCortadores extends StatefulWidget {
-  const SeguimientoCortadores({Key key}) : super(key: key);
+   User user;
+   SeguimientoCortadores({Key key}) : super(key: key);
 
   @override
   _SeguimientoCortadoresState createState() => _SeguimientoCortadoresState();
@@ -21,6 +23,8 @@ class _SeguimientoCortadoresState extends State<SeguimientoCortadores> {
 
   @override
   Widget build(BuildContext context) {
+     final args = ModalRoute.of(context).settings.arguments as Map;
+     widget.user=args['user'];
     //List<Registro> registros =
 
     //print(registros);
@@ -43,7 +47,12 @@ class _SeguimientoCortadoresState extends State<SeguimientoCortadores> {
           child: Container(
             child: TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/DetalleCortador');
+
+                       Navigator.pushNamed(context, '/DetalleCortador', arguments: {
+            'user': widget.user,
+            
+          });
+                  
                 },
                 child: Text('Ver Detalle')),
           ),

@@ -10,5 +10,6 @@ class Colores {
     'verde': Colors.green,
     'blanco': Colors.grey,
     'turquesa': Colors.lightBlue,
+    'estampado': Colors.transparent
   };
 }

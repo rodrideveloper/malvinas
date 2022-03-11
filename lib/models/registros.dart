@@ -7,6 +7,7 @@ class Registro {
   String tela;
   double metros;
   String cortador;
+  DateTime fecha;
 
   Registro(
       {this.ambo_id,
@@ -15,9 +16,9 @@ class Registro {
       this.colorSecundario,
       this.tela,
       this.metros,
-      this.cortador}) {}
+      this.cortador, this.fecha}) {}
   Registro.ob(this.ambo_id, this.precio, this.colorPrimario,
-      this.colorSecundario, this.tela, this.metros, this.cortador) {}
+      this.colorSecundario, this.tela, this.metros, this.cortador,this.fecha) {}
 
   factory Registro.fromJson(Map<String, dynamic> json) {
     return Registro(
@@ -27,6 +28,7 @@ class Registro {
         colorSecundario: json['colorSecundario'],
         tela: json['tela'],
         metros: json['metros'],
-        cortador: json['cortador']);
+        cortador: json['cortador'],
+        fecha:json['fecha']);
   }
 }

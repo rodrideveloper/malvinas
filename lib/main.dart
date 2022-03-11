@@ -5,16 +5,20 @@ import 'package:Malvinas/main_seleccionarTela(2).dart';
 import 'package:Malvinas/grafico.dart';
 import 'package:Malvinas/main_seleccionarColor(3).dart';
 import 'package:Malvinas/actualizar_stock(2).dart';
+import 'package:Malvinas/models/registros.dart';
 import 'package:Malvinas/pantalla_precios.dart';
+
 import 'package:Malvinas/seguimientoCortadores.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'BO/dao.dart';
+import 'login_page.dart';
 import 'main_seleccionarTalles(4).dart';
 import 'models/ambo.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'utilidades/colores.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +32,8 @@ class Malvinas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // initialRoute: '/CargarAmbos',
+   // initialRoute: '/CargarAmbos',
+  //initialRoute: '/Login',
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/inicio': (BuildContext context) => new cuerpo(),
@@ -41,8 +46,11 @@ class Malvinas extends StatelessWidget {
         '/CargarAmbos': (BuildContext context) => new CargarAmbos(),
         '/DetalleCortador': (BuildContext context) => new DetalleCortador(),
         '/PantallaPrecios':(BuildContext context) => new PantallaPrecios(),
+        
+          '/Login': (BuildContext context) => new LoginPage(),
       },
-      theme: ThemeData(fontFamily: 'Raleway'),
+      theme: ThemeData(fontFamily: 'Raleway', colorScheme: ThemeData().colorScheme.copyWith(primary: ColoresApp.color_rosa)),
+      
       /*  theme: ThemeData(
         // Define el Brightness y Colores por defecto
         brightness: Brightness.dark,
@@ -60,13 +68,15 @@ class Malvinas extends StatelessWidget {
           bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
         ),
       ),*/
-      home: cuerpo(),
+      home: LoginPage(),
     );
   }
 }
 
 class cuerpo extends StatefulWidget {
-  const cuerpo({Key key}) : super(key: key);
+ 
+
+   cuerpo({Key key}) : super(key: key);
 
   @override
   _cuerpoState createState() => _cuerpoState();
@@ -127,22 +137,28 @@ class _cuerpoState extends State<cuerpo> {
 
   @override
   Widget build(BuildContext context) {
+     final argumentos = ModalRoute.of(context).settings.arguments as Map;
+      User user;
+        print('USUARRRRRIO NULLLLLLLLLLLL111LL');
+         print(argumentos['user']);
+ 
+         user=argumentos['user'];
+   
+
+  
     return Scaffold(
+      
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: _buildBar(context),
       ),
       body: Container(
-        child: _buildList(context),
+        child: _buildList(context, user),
       ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
+      drawer:Drawer(
+            elevation: 1.5,
+            child: Column(children: <Widget>[
+              
             DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -154,20 +170,24 @@ class _cuerpoState extends State<cuerpo> {
                 child: Image.asset('assets/img/malvinas.png'),
               ),
             ),
-            //  Text('Malvinas Uniformes',
-
-            //    style: TextStyle(fontSize: 20, fontFamily: 'Montserrat')),
-
-            ListTile(
+              Expanded(
+                  child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                   ListTile(
               title: const Text('Mis Cortes'),
-              leading: Icon(Icons.content_cut),
+              leading: Icon(Icons.content_cut, color: ColoresApp.color_rosa),
               onTap: () {
-                Navigator.pushNamed(context, '/Cortadores');
+                
+                 Navigator.pushNamed(context, '/Cortadores', arguments: {
+            'user': user,
+            
+          });
               },
             ),
             ListTile(
               title: const Text('Stock Telas'),
-              leading: Icon(Icons.leaderboard),
+              leading: Icon(Icons.leaderboard, color: ColoresApp.color_rosa,),
               onTap: () {
                 Navigator.pushNamed(context, '/grafico');
               },
@@ -180,22 +200,32 @@ class _cuerpoState extends State<cuerpo> {
                       decoration: TextDecoration.combine([
                         TextDecoration.lineThrough,
                       ]))),
-              leading: Icon(Icons.upgrade),
+              leading: Icon(Icons.upgrade, color: ColoresApp.color_rosa),
               onTap: () {
                 //Navigator.pushNamed(context, '/ActualizarStock');
               },
             ),
                ListTile(
               title: const Text('Lista Precios'),
-              leading: Icon(Icons.list),
+              leading: Icon(Icons.list,color: ColoresApp.color_rosa),
               onTap: () {
                 Navigator.pushNamed(context, '/PantallaPrecios');
               },
-            ),
-          ],
-        ),
-      ),
-      resizeToAvoidBottomInset: false,
+            )
+                ],
+              )),
+              Container(
+                color: Colors.black,
+                width: double.infinity,
+                height: 0.1,
+              ),
+              Container(
+                  padding: EdgeInsets.all(10),
+                  height: 100, 
+                  child: Text("${user.displayName}",style: TextStyle(fontWeight: FontWeight.bold),)),
+            ])),
+ 
+      
     );
   }
 
@@ -245,7 +275,7 @@ class _cuerpoState extends State<cuerpo> {
     });
   }
 
-  Widget _buildList(context) {
+  Widget _buildList(context, User user) {
     final size = MediaQuery.of(context).size;
     if (!(_textoDeBusqueda.isEmpty)) {
       List<Ambo> tempList = [];
@@ -269,7 +299,7 @@ class _cuerpoState extends State<cuerpo> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => AmboHeroe(ambo: lista_ambos[i])));
+                    builder: (context) => AmboHeroe(ambo: lista_ambos[i], user:user) ));
           },
           child: Card(
             shape:

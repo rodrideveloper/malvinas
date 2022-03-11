@@ -1,16 +1,20 @@
 import 'package:Malvinas/BO/dao.dart';
 import 'package:Malvinas/models/registro_ventas.dart';
 import 'package:Malvinas/utilidades/colores.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 
 class DetalleCortador extends StatelessWidget {
-   
+  
+    User  user;
 
    DetalleCortador({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+     final args = ModalRoute.of(context).settings.arguments as Map;
+     user=args['user'];
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -20,17 +24,19 @@ class DetalleCortador extends StatelessWidget {
         ),
         backgroundColor: ColoresApp.color_negro,
       ),
-      body: Pantalla(),
-      floatingActionButton: FloatingActionButton(
+      body: Pantalla(user: user),
+      floatingActionButtonLocation:FloatingActionButtonLocation.miniStartFloat ,
+        floatingActionButton: FloatingActionButton(
+        
         elevation: 20,
-        backgroundColor: ColoresApp.color_negro,
+        backgroundColor: ColoresApp.color_gris,
         foregroundColor: Colors.white,
         onPressed: () {
           Navigator.pop(context);
-        },
-        child: Icon(Icons.keyboard_arrow_left, size: 55, color: Colors.white),
+           },
+        child: Icon(Icons.keyboard_arrow_left, size: 55, color: Colors.white)
       )
-
+     
             
            
     );
@@ -41,7 +47,8 @@ class DetalleCortador extends StatelessWidget {
 
 class Pantalla extends StatefulWidget {
      List<DetalleListAmbos> detalleListaAmbos= [];
-   Pantalla({Key key}) : super(key: key);
+     final User user;
+   Pantalla({Key key, this.user}) : super(key: key);
 
   @override
   State<Pantalla> createState() => _PantallaState();
@@ -49,28 +56,32 @@ class Pantalla extends StatefulWidget {
 
 
 
-Future<List<RegistroVentas>> listaRegistros() async {
-  final listaRegistros = await DAO.listaDeRegistos();
+Future<List<RegistroVentas>> listaRegistros(String nombre) async {
+  
+  final listaRegistros = await DAO.listaDeRegistos(nombre);
   final listaAmbos = await DAO.leerAmbosDAO();
   List<RegistroVentas> listaRegistroVentas=[];
 
   listaRegistros.docs.forEach((lr) {
-    if (lr.data().pagado == false){
+    if (lr.data().pagado == false ){
     
       
     RegistroVentas RV = new RegistroVentas();
     RV = lr.data();
-    RV.id_registro = lr.id;
-  
+    RV.id_registro = lr.id;  
     listaAmbos.docs.forEach((la) {
       if (la.id == lr.data().id) {
         RV.image_url = la.data().url;
         RV.ambo = la.data();
       }
     });
-
     listaRegistroVentas.add(RV);
- } });
+ } }
+ 
+
+ );
+
+  listaRegistroVentas.sort((a,b) => a.fecha.toDate().day.compareTo(b.fecha.toDate().day));
   return listaRegistroVentas;
 }
 
@@ -82,8 +93,10 @@ GlobalKey<_totalPagarState> textGlobalKey = new GlobalKey<_totalPagarState>();
   @override
   Widget build(BuildContext context) {
 int total=0;
+ var fecha;
     
     return Container(
+   
       color: ColoresApp.color_fondo,
       child:      
         
@@ -91,46 +104,57 @@ int total=0;
          mainAxisAlignment: MainAxisAlignment.spaceBetween,
          mainAxisSize: MainAxisSize.max,
              children: [
-             FutureBuilder<List<RegistroVentas>>(
-                          future: listaRegistros(),
-                          builder: (context, AsyncSnapshot<List<RegistroVentas>> snapshot) {
-                            if (snapshot.connectionState == ConnectionState.done) {
-                              if (snapshot.data.length!=0) {
-                                    return Expanded(
-                                      child: ListView.builder(
-                                        physics: AlwaysScrollableScrollPhysics(),
-                                        itemCount: snapshot.data.length,
-                                        itemBuilder: (BuildContext context, int index) {
+             Container(
+               height: 400,
+               child: FutureBuilder<List<RegistroVentas>>(
+                            future: listaRegistros(widget.user.displayName),
+                            builder: (context, AsyncSnapshot<List<RegistroVentas>> snapshot) {
+                              if (snapshot.connectionState == ConnectionState.done) {
+                                if (snapshot.data.length!=0) {
+                                      return 
+                                        ListView.builder(
+                                          physics: AlwaysScrollableScrollPhysics(),
+                                          itemCount: snapshot.data.length,
+                                          itemBuilder: (BuildContext context, int index) {
+                                         
+                                          bool cambio=false;
+                                       
+                                              if (snapshot.data[index].fecha.toDate().day!=fecha){
+                                                  cambio=true;
+                                                    fecha=snapshot.data[index].fecha.toDate().day;
+                                                 }
+                                            DetalleListAmbos detalleLista=DetalleListAmbos(
+                                                registro: snapshot.data[index],total:total, textGlobalKey:textGlobalKey,cambio:cambio);
+                                              
+                                            widget.detalleListaAmbos.add(detalleLista);
                                           
-                                          DetalleListAmbos detalleLista=DetalleListAmbos(
-                                              registro: snapshot.data[index],total:total, textGlobalKey:textGlobalKey);
-                                            
-                                          widget.detalleListaAmbos.add(detalleLista);
-                                          return detalleLista;
-                                        },
-                                      ),
-                                    );
-                              } return Container(
+                                            return detalleLista;
+                                           
+                                          },
+                                        );
+                                      
+                                } return Container(
+                                  padding: EdgeInsets.only(top: 50),
+                                  child: Center( 
+                                    
+                                    child: Text('No hay ambos cortados')),
+                                );
+                              
+                              
+                              
+                              
+                              } 
+                              return Container(
                                 padding: EdgeInsets.only(top: 50),
-                                child: Center( 
-                                  
-                                  child: Text('No hay ambos cortados')),
+                                child: Center(
+                                child: CircularProgressIndicator()
+                                ),
                               );
-                            
-                            
-                            
-                            
-                            } 
-                            return Container(
-                              padding: EdgeInsets.only(top: 50),
-                              child: Center(
-                              child: CircularProgressIndicator()
-                              ),
-                            );
-                            }  ),
+                              }  ),
+             ),
           
                   
-         
+         Spacer(),
       
                 totalPagar(key: textGlobalKey),
         
@@ -154,19 +178,43 @@ int total=0;
                                   elevation: 30,
                                   shadowColor: Colors.black),
                   onPressed: (){
-                  _pagar();
+                    if (widget.user=='Carlos'){
+  _pagar();
+                    }else{
+                        Navigator.pushNamed(context, '/inicio', arguments: {
+            'user': widget.user,
+            
+          });
+                
+                    }
+                
                 },
-                 child: Text("Pagar",
-                                    style: TextStyle(fontSize:20 ,
-                                        color: Colors.white,
-                                        decoration: TextDecoration.combine([
-                                          TextDecoration.lineThrough,
-                                        ])))),
+            
+                 child:  BotonPagaryVolver(widget.user)
+                                        
+                                        ),
        )
                  ]
       ),
        );
  
+  }
+
+  Text BotonPagaryVolver(User user) {
+   String name_button;
+
+    if (user.displayName=='Carlos'){
+      name_button='Pagar';
+
+    }else{
+ name_button='Volver';
+    }
+    return Text("${name_button}",
+                                  style: TextStyle(fontSize:20 ,
+                                      color: Colors.white,
+                                      decoration: TextDecoration.combine([
+                                        TextDecoration.lineThrough,
+                                      ])));
   }
 
   void _pagar() async{
@@ -233,6 +281,7 @@ setState(() {
   @override
   Widget build(BuildContext context) {
     return Row(
+      
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text('\$ ', style: TextStyle(
@@ -260,21 +309,19 @@ fontSize: 60
 
 class DetalleListAmbos extends StatefulWidget {
   final RegistroVentas registro;
-  GlobalKey<_totalPagarState> textGlobalKey ;
- 
-  bool _isSelected = false;
- 
+  GlobalKey<_totalPagarState> textGlobalKey ; 
+  bool _isSelected = false; 
   int total;
+  bool cambio;
    
 
 
   DetalleListAmbos({
     Key key,
-    @required this.registro,
- 
-    @required this.total
-    ,
+    @required this.registro, 
+    @required this.total    ,
     @required this.textGlobalKey,
+    @required this.cambio
    
   }) : super(key: key);
 
@@ -288,8 +335,13 @@ class _DetalleListAmbosState extends State<DetalleListAmbos> {
 
   @override
   Widget build(BuildContext context) {
-          
-        return Container(
+    Widget FilaConData;
+  
+       DateTime fecha= DateTime.parse(widget.registro.fecha.toDate().toString());
+      
+   
+   
+    FilaConData=Container(
           height: 45,
 color: ColoresApp.color_negro,
             padding: EdgeInsets.zero,
@@ -328,5 +380,36 @@ color: ColoresApp.color_negro,
               checkColor: Colors.black,
             )
     );
+
+if (widget.cambio){
+  
+}
+   Column c=Column(
+     children: [
+          if (widget.cambio) ...[
+          
+          Container(
+            color: Colors.amber,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+         
+              Text(  'Cortados el :  ${ fecha.day} / ${ fecha.month}', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),)
+            ],),
+          )
+          
+        ] ,
+        FilaConData,
+      
+             
+
+               
+     ],
+   );
+
+   
+
+
+        return  c;
   }
 }

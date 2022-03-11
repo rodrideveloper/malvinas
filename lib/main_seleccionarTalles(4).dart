@@ -1,8 +1,10 @@
+import 'package:Malvinas/main.dart';
 import 'package:Malvinas/models/ambo.dart';
 import 'package:Malvinas/models/registros.dart';
 import 'package:Malvinas/models/talle.dart';
 import 'package:Malvinas/models/tipos.dart';
 import 'package:Malvinas/utilidades/colores.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'BO/dao.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,6 +13,7 @@ import 'models/precios.dart';
 
 class Detalle extends StatefulWidget {
   final Ambo ambo;
+  
 
   Detalle({Key key, this.ambo}) : super(key: key);
 
@@ -23,6 +26,7 @@ class _DetalleState extends State<Detalle> {
   String cortador = 'Seleccionar';
   List<String> chaqueta_pantalon = <String>['4', '5', '6'];
   Precios precios;
+  User user;
 
   final talles = <Talle>[
     Talle('XS', 2.0),
@@ -80,6 +84,7 @@ class _DetalleState extends State<Detalle> {
     String color2 = argumentos['valorColorSecundario'];
     String tipo = argumentos['ambo'].tipo;
     precios = argumentos['precios'];
+    user=argumentos['user'];
 
     // Usa el objeto Todo para crear nuestra UI
     return Scaffold(
@@ -99,7 +104,7 @@ class _DetalleState extends State<Detalle> {
         body: Container(
           height: double.infinity,
           color: ColoresApp.color_negro,
-          child: Stack(
+          child: Column(
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 if (tipo == '0') //Solo Chaqueta
@@ -143,9 +148,8 @@ class _DetalleState extends State<Detalle> {
                     ],
                   ),
               ]),
-              Positioned(
-                left: 140,
-                top: 390,
+              Container(
+               
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -156,62 +160,19 @@ class _DetalleState extends State<Detalle> {
                   ],
                 ),
               ),
-              Positioned(
-                  left: 80,
-                  top: 420,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: ColoresApp.color_negro,
-                        border: Border.all(
-                            style: BorderStyle.solid,
-                            width: 5,
-                            color: Colors.white)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('  Cortador:   ',
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 20,
-                                color: Colors.white)),
-                        DropdownButton(
-                            underline: SizedBox(),
-                            value: cortador,
-                            items:
-                                ['Carolina', 'Gaston', 'Seleccionar'].map((e) {
-                              return DropdownMenuItem(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    e,
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 20,
-                                        color: Colors.amber),
-                                  ),
-                                  value: e);
-                            }).toList(),
-                            onChanged: (nuevoValor) {
-                              setState(() {
-                                cortador = nuevoValor;
-                              });
-                            }),
-                      ],
-                    ),
-                  )),
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Row(
+            Spacer(),
+             Row(
                     children: [
                       Expanded(
                           child: TextButton(
                               onPressed: () {
                                 //llamar al bo y cargar ambo luego dar mensaje
 
-                                if (cortador != 'Seleccionar') {
+                              
                                   int precio = calcularPrecios(tipo);
 
                                   Registro r = new Registro.ob(ambo_id, precio,
-                                      color1, color2, tela, 2.5, cortador);
+                                      color1, color2, tela, 2.5, user.displayName,DateTime.now());
                                   Future<bool> error = DAO.agregarRegistro(r);
                                   if (error != true) {
                                     DAO.actualizarStockTela(
@@ -226,15 +187,27 @@ class _DetalleState extends State<Detalle> {
                                       'Ambo Cargado :)',
                                       textAlign: TextAlign.center,
                                     )));
-                                    Navigator.pushNamed(context, '/inicio');
+ 
+       Navigator.pushNamed(context, '/inicio', arguments: {
+            'user': user,
+            
+          });
+                                     
+                               
                                   } else {
-                                    print('Error al actualizar stock TELA');
+                                    print('Error Agregar Registro');
+                                      ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                            content: Text(
+                                      'Error :)',
+                                      textAlign: TextAlign.center,
+                                    )));
+                                   Navigator.pushNamed(context, '/inicio', arguments: {
+            'user': user,
+            
+          });
                                   }
-                                } else
-                                  (ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content:
-                                              Text('Seleccionar Cortador '))));
+                                 
                               },
                               child: Text("Enviar",
                                   style: TextStyle(
@@ -255,7 +228,7 @@ class _DetalleState extends State<Detalle> {
                                   elevation: 30,
                                   shadowColor: Colors.black)))
                     ],
-                  )),
+                  ),
             ],
           ),
         ));

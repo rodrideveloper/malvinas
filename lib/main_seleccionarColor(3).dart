@@ -1,4 +1,5 @@
 import 'package:Malvinas/utilidades/colores.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'BO/dao.dart';
 import 'colores.dart';
@@ -21,6 +22,7 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
   String valorColorPrimario;
   String valorColorSecundario;
   Precios precios;
+  User user;
 
   List<Telas> listaTelas = [];
   Map<String, dynamic> mapa = {};
@@ -51,6 +53,7 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
     Ambo ambo = argumentos['ambo'];
     valorColorPrimario = ambo.color_primario;
     valorColorSecundario = ambo.color_secundario;
+    user=argumentos['user'];
 
     return SafeArea(
       child: Scaffold(
@@ -64,7 +67,8 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
                 'valorColorPrimario': valorColorPrimario,
                 'valorColorSecundario': valorColorSecundario,
                 'ambo': ambo,
-                'precios': precios
+                'precios': precios,
+                'user':user
               });
             },
             child:

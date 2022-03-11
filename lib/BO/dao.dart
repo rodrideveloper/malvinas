@@ -71,37 +71,7 @@ class DAO {
 
   //Agregar registro de ambo cortado
   static Future<bool> agregarRegistro(Registro r) async {
-    /*  QuerySnapshot<Precios> lista_precios = await listaDePrecios();
-    ;
-    int precio = 0;
-    //Si es chaqueta sola
-    switch (int.parse(tipo)) {
-      case 0:
-        precio = lista_precios.docs[0].data().chaqueta;
-        break;
-      //Si es pantalón solo
-      case 9:
-        precio = lista_precios.docs[0].data().pantalon;
-        break;
-      //Si es 3 piezas
-      case 7:
-        precio = lista_precios.docs[0].data().pantalon * 2;
-        precio += lista_precios.docs[0].data().chaqueta;
-        break;
-      //Si es Chaqueta Murphy
-      case 2:
-        precio = lista_precios.docs[0].data().chaquetaMurphy;
-        break;
-      //Si es Chaqueta Leontina
-      case 3:
-        precio = lista_precios.docs[0].data().chaquetaLeontina;
-        break;
-      //Si es Chaqueta Abierta
-      case 3:
-        precio = lista_precios.docs[0].data().cha;
-        break;
-    }
-*/
+    
     bool error = false;
     CollectionReference regRef =
         FirebaseFirestore.instance.collection('registros');
@@ -114,7 +84,8 @@ class DAO {
           'color1': r.colorPrimario,
           'color2': r.colorSecundario,
           'metros': r.metros,
-          'cortador': r.cortador
+          'cortador': r.cortador,
+          'fecha':r.fecha
         })
         .then((value) => print('Registro Agregado con Exito'))
         .catchError((error) => error = true);
@@ -142,7 +113,7 @@ class DAO {
         .collection('telas')
         .doc(myID)
         .update({'Colores': mapa['Colores']})
-        .then((value) => print("Tela Actualizada"))
+        .then((value) => print("Stock de Tela Actualizada"))
         .catchError((error) {
           print("Error al actualizar tela: $error");
           error = true;
@@ -184,16 +155,16 @@ class DAO {
     return listaPrecios;
   }
 
-  static Future<QuerySnapshot<RegistroVentas>> listaDeRegistos() async {
+  static Future<QuerySnapshot<RegistroVentas>> listaDeRegistos(String nombre) async {
     final collection = FirebaseFirestore.instance
         .collection('registros')
         .withConverter(
           fromFirestore: (snapshot, _) =>
               RegistroVentas.fromJson(snapshot.data()),
           toFirestore: (RegistroVentas, _) => RegistroVentas.toJson(),
-        )
-        .where('cortador', isEqualTo: 'Carolina');
+        ).where('cortador', isEqualTo: nombre);
 
+      
     final listaRegistros = (await collection.get());
 
 //    final listaAmbos = await leerAmbosDAO();
@@ -229,8 +200,8 @@ if (element.registro.pagado==true){
 
 registros.doc(element.registro.id_registro)
     .update({'pagado':true })
-    .then((value) => print("User Updated"))
-    .catchError((error) => print("Failed to update user: $error"));
+    .then((value) => print("Registro/s Actualizado/s"))
+    .catchError((error) => print("Error al Actualizar : $error"));
 }
  
 

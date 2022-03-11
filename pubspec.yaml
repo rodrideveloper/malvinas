@@ -27,6 +27,9 @@ dependencies:
   charts_flutter:
   cloud_firestore: ^3.1.6
   flutter_launcher_icons: 
+  firebase_auth: 
+ 
+
  
 
 flutter_icons:
