@@ -88,11 +88,15 @@ Future<List<RegistroVentas>> listaRegistros(String nombre) async {
 
 class _PantallaState extends State<Pantalla> {
   int total;
+   String  _nombreCortador=' ';
 GlobalKey<_totalPagarState> textGlobalKey = new GlobalKey<_totalPagarState>();
 
   @override
   Widget build(BuildContext context) {
-    String _nombreCortador=widget.user.displayName;
+    if (_nombreCortador==' '){
+        _nombreCortador=widget.user.displayName;
+    }
+   
 int total=0;
 
  var fecha;
