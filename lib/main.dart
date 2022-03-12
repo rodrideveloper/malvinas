@@ -139,8 +139,7 @@ class _cuerpoState extends State<cuerpo> {
   Widget build(BuildContext context) {
      final argumentos = ModalRoute.of(context).settings.arguments as Map;
       User user;
-        print('USUARRRRRIO NULLLLLLLLLLLL111LL');
-         print(argumentos['user']);
+       
  
          user=argumentos['user'];
    
@@ -185,13 +184,13 @@ class _cuerpoState extends State<cuerpo> {
           });
               },
             ),
-            ListTile(
+           /* ListTile(
               title: const Text('Stock Telas'),
               leading: Icon(Icons.leaderboard, color: ColoresApp.color_rosa,),
               onTap: () {
                 Navigator.pushNamed(context, '/grafico');
               },
-            ),
+            ),*/
 
             ListTile(
               title: Text('Actualizar Stock',
@@ -205,6 +204,35 @@ class _cuerpoState extends State<cuerpo> {
                 //Navigator.pushNamed(context, '/ActualizarStock');
               },
             ),
+
+  ExpansionTile(
+    leading: Icon(Icons.leaderboard, color: ColoresApp.color_rosa),
+        title:const Text('Stock Telas'),
+        children: <Widget>[
+          TextButton(onPressed: (){
+              Navigator.pushNamed(context, '/grafico', arguments: {
+            'tela': 'Batista',
+            
+          });
+          }, child:   Text("Batista")),
+          
+          
+        TextButton(child:   Text("Spandex"),onPressed: (){
+              Navigator.pushNamed(context, '/grafico', arguments: {
+            'tela': 'Spandex',
+            
+          });
+          } ), TextButton(child:   Text("Arciel"),onPressed: (){
+              Navigator.pushNamed(context, '/grafico', arguments: {
+            'tela': 'Arciel',
+            
+          });
+          })
+          
+          
+          ],
+      ),
+
                ListTile(
               title: const Text('Lista Precios'),
               leading: Icon(Icons.list,color: ColoresApp.color_rosa),
@@ -222,12 +250,22 @@ class _cuerpoState extends State<cuerpo> {
               Container(
                   padding: EdgeInsets.all(10),
                   height: 100, 
-                  child: Text("${user.displayName}",style: TextStyle(fontWeight: FontWeight.bold),)),
+                  child: Column(
+                    children: [
+                      Text("${user.displayName}",style: TextStyle(fontWeight: FontWeight.bold),),
+                      TextButton(onPressed: (){
+                    cerrarSession();
+                      }, 
+                      child: Text('Cerrar Sesion'))
+                    ],
+                  )),
             ])),
  
       
     );
   }
+
+  Future<void> cerrarSession() async => await FirebaseAuth.instance.signOut().then((value) =>  Navigator.of(context).pushNamedAndRemoveUntil('/Login', (route) => false));
 
   Widget _buildBar(BuildContext context) {
     return AppBar(

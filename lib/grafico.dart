@@ -5,7 +5,7 @@ import 'package:Malvinas/utilidades/colores.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:flutter/services.dart';
 import 'BO/dao.dart';
 
 class MetrosPorColores {
@@ -22,16 +22,44 @@ class GraficoEstado extends StatefulWidget {
   _GraficoEstadoState createState() => _GraficoEstadoState();
 }
 
+
 class _GraficoEstadoState extends State<GraficoEstado> {
   List<charts.Series> seriesList;
   List<charts.Series> listaColores;
+
+
 
   Future<QuerySnapshot> leerTelas() async {
     return await DAO.leerTelasDAO();
   }
 
-  static List<charts.Series<MetrosPorColores, String>> _crearDatosGraficos(
-      String tipo_tela, Map<String, dynamic> metros_colores) {
+  @override
+  void initState() {
+ 
+    super.initState();
+  }
+
+@override
+dispose(){
+  SystemChrome.setPreferredOrientations([
+    
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  super.dispose();
+}
+
+  static List<charts.Series<MetrosPorColores, String>> _crearDatosGraficos(List<Telas> lista_telas, String tela
+      ) {
+        String tipo_tela; 
+        Map<String, dynamic> metros_colores;
+     lista_telas.forEach((element) {
+       if (element.tipo_tela==tela){
+         tipo_tela=element.tipo_tela;
+         metros_colores=element.metros_colores;
+
+       }
+     });   
     List keys = metros_colores.keys.toList();
     List<MetrosPorColores> data = [];
     for (int i = 0; i < metros_colores.length; i++) {
@@ -57,6 +85,16 @@ class _GraficoEstadoState extends State<GraficoEstado> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+
+
+
+     
+  ]);
+     final argumentos = ModalRoute.of(context).settings.arguments as Map;
+     String tela=argumentos['tela'];
     return Scaffold(
        floatingActionButtonLocation:FloatingActionButtonLocation.miniStartFloat ,
         floatingActionButton: FloatingActionButton(
@@ -105,17 +143,16 @@ class _GraficoEstadoState extends State<GraficoEstado> {
                           children: [
                             Card(
                               child: Container(
-                                  height: 140,
+                                  height: 200,
                                   child: SimpleBarChart(_crearDatosGraficos(
-                                      lista_telas[0].tipo_tela,
-                                      lista_telas[0].metros_colores))),
+                                      lista_telas, tela))),
                             ),
                             Container(
                                 height: 20,
-                                child: Text(lista_telas[0].tipo_tela,
+                                child: Text(tela,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold))),
-                            Card(
+                          /*  Card(
                               child: Container(
                                   height: 140,
                                   child: SimpleBarChart(_crearDatosGraficos(
@@ -140,7 +177,7 @@ class _GraficoEstadoState extends State<GraficoEstado> {
                                 child: Text(
                                   lista_telas[2].tipo_tela,
                                   style: TextStyle(fontWeight: FontWeight.bold),
-                                )),
+                                )),*/
                           ]);
                     } else {
                       print("No hay información");

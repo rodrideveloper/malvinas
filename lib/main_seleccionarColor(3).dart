@@ -19,8 +19,8 @@ class SeleccionarColor extends StatefulWidget {
 }
 
 class _SeleccionarColorState extends State<SeleccionarColor> {
-  String valorColorPrimario;
-  String valorColorSecundario;
+  String valorColorPrimario=' ';
+  String valorColorSecundario=' ';
   Precios precios;
   User user;
 
@@ -51,9 +51,12 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
     final argumentos = ModalRoute.of(context).settings.arguments as Map;
     String telaSeleccionada = argumentos['telaSeleccionada'];
     Ambo ambo = argumentos['ambo'];
-    valorColorPrimario = ambo.color_primario;
-    valorColorSecundario = ambo.color_secundario;
+   
     user=argumentos['user'];
+     if ( valorColorPrimario==' '){
+     valorColorPrimario = ambo.color_primario;
+    valorColorSecundario = ambo.color_secundario;
+    }
 
     return SafeArea(
       child: Scaffold(

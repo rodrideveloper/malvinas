@@ -16,11 +16,35 @@ class SeguimientoCortadores extends StatefulWidget {
 class _SeguimientoCortadoresState extends State<SeguimientoCortadores> {
   int carolina = 0;
   int gaston = 0;
+  var total=0;
 
-  Future<QuerySnapshot> leerRegistros() async {
-    return await DAO.leerRegistros();
+  leerRegistros() async {
+final listaRegistros = await DAO.listaDeRegistos('Rodrigo');
+var suma=0;
+listaRegistros.docs.forEach((element) {
+  if (!element.data().pagado){
+   
+    suma+=element.data().precio; 
+    
+  
+  
+    }
+  setState(() {
+  total=suma;
+});
+
+});
+
+
+
+    
   }
-
+@override
+  void initState() {
+  
+    super.initState();
+     leerRegistros();
+  }
   @override
   Widget build(BuildContext context) {
      final args = ModalRoute.of(context).settings.arguments as Map;
@@ -29,7 +53,7 @@ class _SeguimientoCortadoresState extends State<SeguimientoCortadores> {
 
     //print(registros);
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
         floatingActionButton: FloatingActionButton(
           elevation: 20,
           backgroundColor: ColoresApp.color_gris,
@@ -37,24 +61,44 @@ class _SeguimientoCortadoresState extends State<SeguimientoCortadores> {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Icon(Icons.close, size: 55, color: Colors.white),
+          child: Icon(Icons.keyboard_arrow_left, size: 55, color: Colors.white),
         ),
         appBar: AppBar(
             centerTitle: true,
             backgroundColor: ColoresApp.color_negro,
             title: Text('Tabla de Cortado ')),
-        body: Center(
-          child: Container(
-            child: TextButton(
-                onPressed: () {
+        body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          color: ColoresApp.color_fondo,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+           
+                        Container( 
+                          
+                          child: Text('\$${total}',style: TextStyle(
+                              fontSize: 80, color: ColoresApp.color_negro, fontWeight: FontWeight.bold
+                            ),),
+              )
+              
+              ,
 
-                       Navigator.pushNamed(context, '/DetalleCortador', arguments: {
-            'user': widget.user,
-            
-          });
+SizedBox(height: 50),
+              TextButton(
+                            child: Text('Ver Detalle',style: TextStyle(
+                              fontSize: 20, color: Colors.amber, fontWeight: FontWeight.bold
+                            ),),
+                      onPressed: () {
+
+                             Navigator.pushNamed(context, '/DetalleCortador', arguments: {
+                  'user': widget.user,
                   
-                },
-                child: Text('Ver Detalle')),
+                });
+                      
+                } )
+            ],
           ),
         ));
   }

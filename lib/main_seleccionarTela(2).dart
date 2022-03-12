@@ -14,12 +14,16 @@ class AmboHeroe extends StatefulWidget {
   _AmboHeroeState createState() => _AmboHeroeState();
 }
 
+
 class _AmboHeroeState extends State<AmboHeroe> {
-  String telaSeleccionada;
+  String telaSeleccionada='';
   String ambo_id;
   @override
   Widget build(BuildContext context) {
-    telaSeleccionada = widget.ambo.tela_principal;
+    if (telaSeleccionada==''){
+ telaSeleccionada = widget.ambo.tela_principal;
+    }
+   
     ambo_id = widget.ambo.id;
 
     List<String> telas = [];

@@ -92,7 +92,9 @@ GlobalKey<_totalPagarState> textGlobalKey = new GlobalKey<_totalPagarState>();
 
   @override
   Widget build(BuildContext context) {
+    String _nombreCortador=widget.user.displayName;
 int total=0;
+
  var fecha;
     
     return Container(
@@ -104,13 +106,37 @@ int total=0;
          mainAxisAlignment: MainAxisAlignment.spaceBetween,
          mainAxisSize: MainAxisSize.max,
              children: [
+ if (widget.user.displayName=='Carlos') ...[
+                      Row(mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DropdownButtonHideUnderline (
+                      child: DropdownButton(
+                        value: _nombreCortador,
+                        items:cargarCortadores,           
+                              onChanged: (nuevoValor){
+                        setState(() {
+                          _nombreCortador=nuevoValor;
+                          print(_nombreCortador);
+                        });
+                      
+                              }
+                      
+                      
+                      ),
+                    )
+                  ],
+                )
+        
+          
+        ] ,
              Container(
-               height: 400,
+               height: 350,
                child: FutureBuilder<List<RegistroVentas>>(
-                            future: listaRegistros(widget.user.displayName),
+                            future: listaRegistros(_nombreCortador),
                             builder: (context, AsyncSnapshot<List<RegistroVentas>> snapshot) {
                               if (snapshot.connectionState == ConnectionState.done) {
                                 if (snapshot.data.length!=0) {
+                                  
                                       return 
                                         ListView.builder(
                                           physics: AlwaysScrollableScrollPhysics(),
@@ -178,7 +204,7 @@ int total=0;
                                   elevation: 30,
                                   shadowColor: Colors.black),
                   onPressed: (){
-                    if (widget.user=='Carlos'){
+                    if (widget.user.displayName=='Carlos'){
   _pagar();
                     }else{
                         Navigator.pushNamed(context, '/inicio', arguments: {
@@ -200,6 +226,29 @@ int total=0;
  
   }
 
+  List<DropdownMenuItem<String>> get cargarCortadores {
+
+
+
+    List<DropdownMenuItem<String>> lista= 
+     [
+                DropdownMenuItem(
+                  child: Text("Carolina"),
+                  value: 'Carolina',
+                ),
+                DropdownMenuItem(
+                  child: Text("Gaston "),
+                  value: 'Gaston',
+                ),
+                  DropdownMenuItem(
+                  child: Text("Rodrigo "),
+                  value: 'Rodrigo',
+                ),
+                
+              ];
+              return lista;
+  }
+
   Text BotonPagaryVolver(User user) {
    String name_button;
 
@@ -218,6 +267,7 @@ int total=0;
   }
 
   void _pagar() async{
+    print('PAGANDOOOOOOOOOOOOO');
   int acumulador=0;
  /* widget.detalleListaAmbos.forEach((element) {  
       if (element._isSelected==true){
@@ -232,11 +282,18 @@ widget.detalleListaAmbos.forEach((element) {
   print(element.registro.pagado);
  // print( 'Modelo: ${element.registro.ambo.modelo} Registro ${element.registro.pagado}');
 });
-
-final update= await DAO().updateRegistros( widget.detalleListaAmbos);
 setState(() {
-  
+    
 });
+ ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                            content: Text(
+                                      'Ambos Pagados :)',
+                                      textAlign: TextAlign.center,
+                                    )));
+final update= await DAO().updateRegistros( widget.detalleListaAmbos);
+ 
+
 
   }
 
@@ -336,9 +393,10 @@ class _DetalleListAmbosState extends State<DetalleListAmbos> {
   @override
   Widget build(BuildContext context) {
     Widget FilaConData;
+   
   
        DateTime fecha= DateTime.parse(widget.registro.fecha.toDate().toString());
-      
+     int _nombreCortador=1;
    
    
     FilaConData=Container(
@@ -386,6 +444,7 @@ if (widget.cambio){
 }
    Column c=Column(
      children: [
+      
           if (widget.cambio) ...[
           
           Container(

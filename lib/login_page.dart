@@ -120,6 +120,7 @@ final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
                                     setState(() {
                                       _isProgress = true;
                                     });
+                              
                                     final User user = await _authClient.loginUser(
                                       email: _emailController.text,
                                       password: _passwordController.text,
