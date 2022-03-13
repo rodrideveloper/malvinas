@@ -20,7 +20,7 @@ class Cuerpo extends StatelessWidget {
   final Modelo = TextEditingController();
   final Tipo_C = TextEditingController();
   final Tela_C = TextEditingController();
-  final tela_principal = TextEditingController();
+  final tela_principal_c = TextEditingController();
 
   final Color1 = TextEditingController();
   final Color2 = TextEditingController();
@@ -48,7 +48,7 @@ class Cuerpo extends StatelessWidget {
               decoration: InputDecoration(hintText: 'Tipo'),
             ),
             TextField(
-              controller: tela_principal,
+              controller: tela_principal_c,
               decoration: InputDecoration(hintText: 'Tela Principal'),
             ),
             TextButton(
@@ -72,7 +72,7 @@ class Cuerpo extends StatelessWidget {
     String tipo = Tipo_C.text;
     String Acolor1 = Color1.text;
     String AColor2 = Color2.text;
-    String tela_principal = Tela_C.text;
+    String tela_principal = tela_principal_c.text;
     List<String> telas_disponibles = ['Batista', 'Arciel', 'Spandex'];
     String url_image = 'assets/img/${Amodelox}.jpg';
 

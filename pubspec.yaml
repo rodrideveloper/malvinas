@@ -73,7 +73,21 @@ flutter:
      - assets/img/Chaqueta_Abierta.jpg
      - assets/img/leontina_pink_camo.png 
      - assets/img/Namibia3Piezas.jpg
-   
+
+     #Hombre
+     - assets/img/hombre/BiColorGrisyFucsia.jpg 
+     - assets/img/hombre/BostonClasic.png
+     - assets/img/hombre/ChaquetaAbierta.png 
+     - assets/img/hombre/ChaquetaCheff.png
+     - assets/img/hombre/CombinadoTelaVerano.jpg
+     - assets/img/hombre/Donato.png
+     - assets/img/hombre/DonatoBlue.jpg
+     - assets/img/hombre/Ema.png
+     - assets/img/hombre/EmaCyan.jpg
+     - assets/img/hombre/ChaquetaAbierta.png
+     - assets/img/hombre/ChaquetaCheff.png
+     
+     
     
 
 

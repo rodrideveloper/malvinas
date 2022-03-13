@@ -32,8 +32,8 @@ class Malvinas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-   // initialRoute: '/CargarAmbos',
-  //initialRoute: '/Login',
+ //  initialRoute: '/CargarAmbos',
+  initialRoute: '/Login',
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/inicio': (BuildContext context) => new cuerpo(),
@@ -340,19 +340,25 @@ class _cuerpoState extends State<cuerpo> {
                     builder: (context) => AmboHeroe(ambo: lista_ambos[i], user:user) ));
           },
           child: Card(
+            shadowColor: Colors.blue[100],
+           
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
-            child: Column(
-              children: [
-                Flexible(
-                    child: Hero(
-                        tag: 'imageHero${lista_ambos[i].modelo}',
-                        child: Image.asset(lista_ambos[i].url))),
-                Text(
-                  '${lista_ambos[i].modelo}',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ],
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Container(
+                    height: 120,
+                      child: Hero(
+                          tag: 'imageHero${lista_ambos[i].modelo}',
+                          child: Image.asset(lista_ambos[i].url))), Spacer(),
+                  Text(
+                    '${lista_ambos[i].modelo}', textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold ),
+                  ),
+                ],
+              ),
             ),
             color: Colors.white,
             elevation: 10.0,
