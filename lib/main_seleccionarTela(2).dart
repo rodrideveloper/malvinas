@@ -35,9 +35,9 @@ class _AmboHeroeState extends State<AmboHeroe> {
     
       floatingActionButton: FloatingActionButton(
         
-        elevation: 20,
-        backgroundColor: ColoresApp.color_gris,
-        foregroundColor: Colors.white,
+        elevation: 0,
+        backgroundColor: ColoresApp.color_negro,
+        foregroundColor: ColoresApp.color_negro,
         onPressed: () {
           Navigator.pushNamed(context, '/SeleccionarColor', arguments: {
             'telaSeleccionada': telaSeleccionada,

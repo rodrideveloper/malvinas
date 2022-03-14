@@ -28,6 +28,7 @@ dependencies:
   cloud_firestore: ^3.1.6
   flutter_launcher_icons: 
   firebase_auth: 
+  animated_text_kit: ^4.2.1
  
 
  
@@ -73,6 +74,7 @@ flutter:
      - assets/img/Chaqueta_Abierta.jpg
      - assets/img/leontina_pink_camo.png 
      - assets/img/Namibia3Piezas.jpg
+     - assets/img/fondo.jpg
 
      #Hombre
      - assets/img/hombre/BiColorGrisyFucsia.jpg 
@@ -86,6 +88,35 @@ flutter:
      - assets/img/hombre/EmaCyan.jpg
      - assets/img/hombre/ChaquetaAbierta.png
      - assets/img/hombre/ChaquetaCheff.png
+     #Mujer Arciel
+     - assets/img/Mujer_Arciel/Clasico_Coral.png
+     - assets/img/Mujer_Arciel/Clasico_Duo.jpg
+     - assets/img/Mujer_Arciel/Juanita_Grey.jpg
+     - assets/img/Mujer_Arciel/Leontina_Adela.jpg
+     - assets/img/Mujer_Arciel/Leontina_Light_Green.jpg
+     - assets/img/Mujer_Arciel/Leontina_Light_Pink.jpg
+     - assets/img/Mujer_Arciel/Leontina_Total_Black.jpg
+     - assets/img/Mujer_Arciel/Leontina_Zafira_Grey.jpg
+     - assets/img/Mujer_Arciel/Paris.png
+     - assets/img/Mujer_Arciel/Pediatrico.png
+     - assets/img/Mujer_Arciel/Profesional.png
+     - assets/img/Mujer_Arciel/Teodora_Blue.jpg
+     - assets/img/Mujer_Arciel/Teodora_Carmin.jpg
+     - assets/img/Mujer_Arciel/Teodora.png
+     - assets/img/Mujer_Arciel/Teodora_Paris.png
+     - assets/img/Mujer_Arciel/Arizona.jpg
+     - assets/img/Mujer_Arciel/Juanita_Izzie.jpg
+     #Arciel Mujer 3p
+     - assets/img/Mujer_Arciel/Arciel_3p/Coral3p.jpg
+     - assets/img/Mujer_Arciel/Arciel_3p/Femme3.jpg
+     - assets/img/Mujer_Arciel/Arciel_3p/Juanita_Calli3p.png
+     - assets/img/Mujer_Arciel/Arciel_3p/Malva3p.jpg
+     - assets/img/Mujer_Arciel/Arciel_3p/Murphy3p.jpg
+     - assets/img/Mujer_Arciel/Arciel_3p/Oslo3p.jpeg
+     - assets/img/Mujer_Arciel/Arciel_3p/Paris3p.jpg
+     
+
+
      
      
     

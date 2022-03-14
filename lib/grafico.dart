@@ -98,13 +98,14 @@ dispose(){
     return Scaffold(
        floatingActionButtonLocation:FloatingActionButtonLocation.miniStartFloat ,
         floatingActionButton: FloatingActionButton(
-          elevation: 20,
-          backgroundColor: ColoresApp.color_gris,
-          foregroundColor: Colors.white,
+      elevation: 0,
+      
+          backgroundColor: ColoresApp.color_fondo,
+          foregroundColor: Colors.black,
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Icon(Icons.keyboard_arrow_left, size: 55, color: Colors.white),
+          child: Icon(Icons.keyboard_arrow_left, size: 55, color: Colors.black),
         ),
         appBar: AppBar(
           elevation: 20,

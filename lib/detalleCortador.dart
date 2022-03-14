@@ -29,7 +29,7 @@ class DetalleCortador extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
         
         elevation: 20,
-        backgroundColor: ColoresApp.color_gris,
+        backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         onPressed: () {
           Navigator.pop(context);
@@ -88,14 +88,14 @@ Future<List<RegistroVentas>> listaRegistros(String nombre) async {
 
 class _PantallaState extends State<Pantalla> {
   int total;
-   String  _nombreCortador=' ';
+   String  _nombreCortador;
 GlobalKey<_totalPagarState> textGlobalKey = new GlobalKey<_totalPagarState>();
 
   @override
   Widget build(BuildContext context) {
-    if (_nombreCortador==' '){
+    
         _nombreCortador=widget.user.displayName;
-    }
+    
    
 int total=0;
 
@@ -248,6 +248,10 @@ int total=0;
                   child: Text("Rodrigo "),
                   value: 'Rodrigo',
                 ),
+                 DropdownMenuItem(
+                  child: Text("Carlos "),
+                  value: 'Carlos',
+                ),
                 
               ];
               return lista;
@@ -271,7 +275,7 @@ int total=0;
   }
 
   void _pagar() async{
-    print('PAGANDOOOOOOOOOOOOO');
+    
   int acumulador=0;
  /* widget.detalleListaAmbos.forEach((element) {  
       if (element._isSelected==true){
@@ -344,15 +348,16 @@ setState(() {
     return Row(
       
       mainAxisAlignment: MainAxisAlignment.center,
+      
       children: [
-        Text('\$ ', style: TextStyle(
+        Text('\$', style: TextStyle(
           fontWeight: FontWeight.bold,  fontFamily: 'Raleway', color: Colors.amber,
 
 fontSize: 40
 
         ),),
-          Text(' ${widget.total}', style: TextStyle(
-          fontWeight: FontWeight.bold,  fontFamily: 'Raleway',   letterSpacing: 10,
+          Text('${widget.total}', style: TextStyle(
+          fontWeight: FontWeight.bold,  fontFamily: 'Raleway',   letterSpacing: 10,color: Colors.amber,
                                          
 
 fontSize: 60

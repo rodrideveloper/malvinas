@@ -61,9 +61,9 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
     return SafeArea(
       child: Scaffold(
           floatingActionButton: FloatingActionButton(
-            elevation: 20,
-            backgroundColor: ColoresApp.color_gris,
-            foregroundColor: Colors.white,
+            elevation: 0,
+            backgroundColor: ColoresApp.color_fondo,
+            foregroundColor: Colors.amber,
             onPressed: () {
               Navigator.pushNamed(context, '/Detalle', arguments: {
                 'telaSeleccionada': telaSeleccionada,
@@ -75,7 +75,7 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
               });
             },
             child:
-                Icon(Icons.keyboard_arrow_right, size: 55, color: Colors.white),
+                Icon(Icons.keyboard_arrow_right, size: 55, color: ColoresApp.color_negro),
           ),
           appBar: AppBar(
             centerTitle: true,

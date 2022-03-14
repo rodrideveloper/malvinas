@@ -32,8 +32,8 @@ class Malvinas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
- //  initialRoute: '/CargarAmbos',
-  initialRoute: '/Login',
+   //initialRoute: '/CargarAmbos',
+     initialRoute: '/Login',
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/inicio': (BuildContext context) => new cuerpo(),
@@ -109,6 +109,7 @@ class _cuerpoState extends State<cuerpo> {
   @override
   void initState() {
     _getAmbos();
+      
     super.initState();
   }
 
@@ -142,6 +143,7 @@ class _cuerpoState extends State<cuerpo> {
        
  
          user=argumentos['user'];
+       
    
 
   
@@ -349,7 +351,7 @@ class _cuerpoState extends State<cuerpo> {
               child: Column(
                 children: [
                   Container(
-                    height: 120,
+                    height: 115,
                       child: Hero(
                           tag: 'imageHero${lista_ambos[i].modelo}',
                           child: Image.asset(lista_ambos[i].url))), Spacer(),

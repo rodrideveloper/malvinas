@@ -150,15 +150,42 @@ class _DetalleState extends State<Detalle> {
               ]),
               Container(
                
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
                   children: [
-                    Text(
-                      'Precios pagado ${calcularPrecios(tipo)}',
-                      style: TextStyle(color: Colors.white),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:[ Text(
+                            'Precio pagado ',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            '\$ ${calcularPrecios(tipo)}', 
+                            style: TextStyle(color: Colors.amber),
+                          )
+                          ]
+                        ),
+                     
+                      ],
+                    ),
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                        'Modelo:',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                       Text(
+                        ' ${modelo}', 
+                        style: TextStyle(color: Colors.amber),
+                      )
+                      ],
                     )
                   ],
                 ),
+                
               ),
             Spacer(),
              Row(

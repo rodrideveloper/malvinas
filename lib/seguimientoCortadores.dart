@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'BO/dao.dart';
 import 'models/registros.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class SeguimientoCortadores extends StatefulWidget {
    User user;
@@ -18,8 +19,8 @@ class _SeguimientoCortadoresState extends State<SeguimientoCortadores> {
   int gaston = 0;
   var total=0;
 
-  leerRegistros() async {
-final listaRegistros = await DAO.listaDeRegistos('Rodrigo');
+  leerRegistros(User u) async {
+final listaRegistros = await DAO.listaDeRegistos(u.displayName);
 var suma=0;
 listaRegistros.docs.forEach((element) {
   if (!element.data().pagado){
@@ -43,21 +44,22 @@ listaRegistros.docs.forEach((element) {
   void initState() {
   
     super.initState();
-     leerRegistros();
+   //  leerRegistros();
   }
   @override
   Widget build(BuildContext context) {
      final args = ModalRoute.of(context).settings.arguments as Map;
      widget.user=args['user'];
+       leerRegistros( widget.user);
     //List<Registro> registros =
 
     //print(registros);
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         floatingActionButton: FloatingActionButton(
-          elevation: 20,
-          backgroundColor: ColoresApp.color_gris,
-          foregroundColor: Colors.white,
+          elevation: 0,
+          backgroundColor: ColoresApp.color_negro,
+          foregroundColor: Colors.black,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -70,34 +72,85 @@ listaRegistros.docs.forEach((element) {
         body: Container(
           height: double.infinity,
           width: double.infinity,
-          color: ColoresApp.color_fondo,
+          color: Colors.white,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            
             children: [
            
-                        Container( 
+                        Expanded(
+                          child: Container( 
                           
-                          child: Text('\$${total}',style: TextStyle(
-                              fontSize: 80, color: ColoresApp.color_negro, fontWeight: FontWeight.bold
-                            ),),
-              )
+                                      
+                           color: ColoresApp.color_fondo,
+                            width: double.infinity,
+                            height: 310,
+                                               padding: EdgeInsets.all(0),
+                                        margin:EdgeInsets.all(0), 
+                                              
+                            
+                            child: Center(
+
+ child:SizedBox(
+  width: double.infinity,
+  child: TextLiquidFill( 
+    text: '\$ ${total}',
+    waveColor: Colors.amber,
+    boxBackgroundColor: ColoresApp.color_fondo,
+    textStyle: TextStyle(
+      fontFamily:'RobotoMono' ,
+      fontSize: 120.0,
+      fontWeight: FontWeight.bold,
+    ),
+    boxHeight: 300.0,
+  ),
+),
+
+
+
+
+
+
+
+
+
+
+                              
+                             /* child: Text('\$ ${total}',style: TextStyle(fontFamily: 'RobotoMono',
+                                  fontSize: 80, color: ColoresApp.color_negro, fontWeight: FontWeight.bold
+                                ),),*/
+                            ),
+                                      ),
+                        )
               
               ,
 
-SizedBox(height: 50),
-              TextButton(
-                            child: Text('Ver Detalle',style: TextStyle(
-                              fontSize: 20, color: Colors.amber, fontWeight: FontWeight.bold
-                            ),),
-                      onPressed: () {
-
-                             Navigator.pushNamed(context, '/DetalleCortador', arguments: {
-                  'user': widget.user,
-                  
-                });
+Divider(color: Colors.amber, height: 1),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(0),
+                  margin:EdgeInsets.all(0), 
+                  width: double.infinity,
+                  height: 200,
+                  color: ColoresApp.color_negro,
+                  child: TextButton(
+                                child: Text('  Ver Detalle ' , 
+                                
+                                style: TextStyle(   decoration: TextDecoration.combine([
+                                        TextDecoration.lineThrough,
+                                      ]),
+                                  fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold, 
+                                ),),
+                          onPressed: () {
+              
+                                 Navigator.pushNamed(context, '/DetalleCortador', arguments: {
+                      'user': widget.user,
                       
-                } )
+                    });
+                          
+                    } ),
+                ),
+              )
             ],
           ),
         ));

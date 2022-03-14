@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:Malvinas/main.dart';
 import 'package:Malvinas/utilidades/colores.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -72,6 +74,7 @@ final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
+                        
                        decoration: BoxDecoration(
                     
                     ),
@@ -106,8 +109,8 @@ final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
                           label: Text('Password'),
       
                         ),
-                      ),
-                      const SizedBox(height: 24),
+                      ), 
+                      SizedBox(height: 50),
                       _isProgress
                           ? const CircularProgressIndicator()
                           : SizedBox(
@@ -147,8 +150,8 @@ final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
                                 ),
                               ),
                             ),
-                      const SizedBox(height: 16),
-                      TextButton(
+                      const SizedBox(height: 150),
+                     /* TextButton(
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -159,7 +162,7 @@ final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
                         child: const Text(
                           'No tenes cuenta? Click acá para registrarte',
                         ),
-                      )
+                      )*/
                     ],
                   ),
                 ),

@@ -88,6 +88,7 @@ class Precio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
     
      decoration: BoxDecoration(
@@ -103,10 +104,17 @@ class Precio extends StatelessWidget {
     
       child: Card(
         color: ColoresApp.color_negro,
-        child: Center(child: Text('  ${name} \$ ${p}',  style: TextStyle(
-
-        color: Colors.white, fontSize: 20, fontFamily: 'Raleway', fontWeight: FontWeight.bold
-      ),)),
+        child: Center(child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+               Text('  ${name}  ',  style: TextStyle(
+        
+          color: Colors.white, fontSize: 20, fontFamily: 'Raleway', fontWeight: FontWeight.bold
+              ),),
+              Text('\$${p}',style:TextStyle( color: Colors.amber, fontSize: 20, fontFamily: 'Raleway', fontWeight: FontWeight.bold) )
+          ],
+     
+        )),
          
          
               
