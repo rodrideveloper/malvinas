@@ -112,7 +112,7 @@ class _DetalleState extends State<Detalle> {
                       encabezado: 'Chaqueta',
                       talleValor: tallesChaqueta,
                       actualizar: refresh)
-                else if (tipo == '9') //Solo Pantalon
+                else if (tipo == '8') //Solo Pantalon
                   SeleccionTalles(
                       encabezado: 'Pantalon',
                       talleValor: tallesPantalon,

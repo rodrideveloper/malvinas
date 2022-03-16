@@ -74,7 +74,7 @@ class Cuerpo extends StatelessWidget {
     String AColor2 = Color2.text;
     String tela_principal = tela_principal_c.text;
     List<String> telas_disponibles = ['Batista', 'Arciel', 'Spandex'];
-    String url_image = 'assets/img/${Amodelox}.jpg';
+    String url_image = 'assets/img/mujer_spandex/${Amodelox}.jpg';
 
     AmboCarga a = new AmboCarga(Amodelox, tipo, tela_principal,
         telas_disponibles, Acolor1, AColor2, url_image);

@@ -114,6 +114,23 @@ flutter:
      - assets/img/Mujer_Arciel/Arciel_3p/Murphy3p.jpg
      - assets/img/Mujer_Arciel/Arciel_3p/Oslo3p.jpeg
      - assets/img/Mujer_Arciel/Arciel_3p/Paris3p.jpg
+     - assets/img/Mujer_Arciel/Arciel_3p/Nueva_Zelanda3p.jpg
+     #Mujer Spandex
+     - assets/img/mujer_spandex/Jacar_Black_Camo.jpg
+     - assets/img/mujer_spandex/Jacar_Pink_Camo.jpg
+     - assets/img/mujer_spandex/Juanita_Grey.jpg
+     - assets/img/mujer_spandex/Juanita_Harley_Comodin.jpg
+     - assets/img/mujer_spandex/Leontina_Black_Camo.jpg
+     - assets/img/mujer_spandex/Leontina_Camo.jpg  
+     - assets/img/mujer_spandex/Leontina_Green_Camo.png
+     - assets/img/mujer_spandex/Leontina_Grey.jpg
+     - assets/img/mujer_spandex/Leontina_Pink.jpg
+     - assets/img/mujer_spandex/Leontina_White_Camo.jpg
+     #Pantalon
+     - assets/img/pantalon.jpg
+
+     
+
      
 
 

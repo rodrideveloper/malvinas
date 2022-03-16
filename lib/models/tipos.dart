@@ -11,7 +11,8 @@ class Tipos {
     '6': 'Chaqueta Leontina + Pantalon',
     '7': '3 piezas',
     '8': 'Pantalon',
-    '9': 'Talle Especial'
+    '9': 'Talle Especial',
+    '10': '3 piezas Murphy'
   };
 
   static int getPrecio(String tipo, Precios lista_precios) {
@@ -47,6 +48,9 @@ class Tipos {
           break;
         case 9:
           precio = lista_precios.talleEspecial;
+          break;
+          case 10:
+          precio = lista_precios.chaquetaMurphy + (lista_precios.pantalon * 2);
           break;
       }
     }

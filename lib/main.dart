@@ -6,6 +6,7 @@ import 'package:Malvinas/grafico.dart';
 import 'package:Malvinas/main_seleccionarColor(3).dart';
 import 'package:Malvinas/actualizar_stock(2).dart';
 import 'package:Malvinas/models/registros.dart';
+import 'package:Malvinas/notas.dart';
 import 'package:Malvinas/pantalla_precios.dart';
 
 import 'package:Malvinas/seguimientoCortadores.dart';
@@ -48,6 +49,7 @@ class Malvinas extends StatelessWidget {
         '/PantallaPrecios':(BuildContext context) => new PantallaPrecios(),
         
           '/Login': (BuildContext context) => new LoginPage(),
+          '/Notas': (BuildContext context) => new Notas(),
       },
       theme: ThemeData(fontFamily: 'Raleway', colorScheme: ThemeData().colorScheme.copyWith(primary: ColoresApp.color_rosa)),
       
@@ -241,6 +243,17 @@ class _cuerpoState extends State<cuerpo> {
               onTap: () {
                 Navigator.pushNamed(context, '/PantallaPrecios');
               },
+            ),
+               ListTile(
+              title: const Text('Reportar Error'),
+              leading: Icon(Icons.note_add,color: ColoresApp.color_rosa),
+              onTap: () {
+                  
+                 Navigator.pushNamed(context, '/Notas', arguments: {
+            'user': user,
+            
+          });
+              },
             )
                 ],
               )),
@@ -258,7 +271,9 @@ class _cuerpoState extends State<cuerpo> {
                       TextButton(onPressed: (){
                     cerrarSession();
                       }, 
-                      child: Text('Cerrar Sesion'))
+                      child: Text('Cerrar Sesion')),
+                      Spacer(),
+                      Text('V.1.0.0')
                     ],
                   )),
             ])),

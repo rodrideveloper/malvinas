@@ -9,7 +9,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../detalleCortador.dart';
 
 class DAO {
-  bool enviarDatos(Ambo ambo) {}
+  bool enviarDatos() {}
+
+  static enviarNota(String data, String user ){
+     final collection =
+        FirebaseFirestore.instance.collection('notas');
+        collection.add({
+          'text':data,
+          'user': user
+         
+        })
+        .then((value) => print('Nota Enviada'))
+        .catchError((error) => error = true);
+
+
+  }
 
 //DEVUELVE UNA LISTA DENTRO DEL QUERYSNAP PARA USAR DENTRO DE UN FUTUREBUILDER
   static Future<QuerySnapshot> leerTelasDAO() async {
