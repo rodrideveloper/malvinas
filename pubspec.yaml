@@ -29,6 +29,7 @@ dependencies:
   flutter_launcher_icons: 
   firebase_auth: 
   animated_text_kit: ^4.2.1
+  shared_preferences: ^0.5.1+2 
  
 
  
@@ -128,6 +129,8 @@ flutter:
      - assets/img/mujer_spandex/Leontina_White_Camo.jpg
      #Pantalon
      - assets/img/pantalon.jpg
+      #Error
+     - assets/img/error.jpg
 
      
 

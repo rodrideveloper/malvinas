@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:Malvinas/utilidades/colores.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +24,8 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
   String valorColorPrimario=' ';
   String valorColorSecundario=' ';
   Precios precios;
-  User user;
-
+  String user;
+bool error=false;
   List<Telas> listaTelas = [];
   Map<String, dynamic> mapa = {};
 
@@ -46,6 +48,8 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
 
   @override
   Widget build(BuildContext context) {
+     bool _buttonVisibility = true;
+     
     //Recibio  seleccionado, la tela seleccionada y junto a los colores seleccionados en esta pantalla los envío
     //a la pantalla Detalle
     final argumentos = ModalRoute.of(context).settings.arguments as Map;
@@ -57,26 +61,35 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
      valorColorPrimario = ambo.color_primario;
     valorColorSecundario = ambo.color_secundario;
     }
+  
 
     return SafeArea(
       child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            elevation: 0,
-            backgroundColor: ColoresApp.color_fondo,
-            foregroundColor: Colors.amber,
-            onPressed: () {
-              Navigator.pushNamed(context, '/Detalle', arguments: {
-                'telaSeleccionada': telaSeleccionada,
-                'valorColorPrimario': valorColorPrimario,
-                'valorColorSecundario': valorColorSecundario,
-                'ambo': ambo,
-                'precios': precios,
-                'user':user
-              });
-            },
-            child:
-                Icon(Icons.keyboard_arrow_right, size: 55, color: ColoresApp.color_negro),
-          ),
+          floatingActionButton:  FloatingActionButton(
+              
+              elevation: 0,
+              backgroundColor: ColoresApp.color_fondo,
+              foregroundColor: Colors.amber,
+              onPressed: () {
+            
+    
+    
+          // change this seconds with `hours:1`
+         
+                Navigator.pushNamed(context, '/Detalle', arguments: {
+                  'telaSeleccionada': telaSeleccionada,
+                  'valorColorPrimario': valorColorPrimario,
+                  'valorColorSecundario': valorColorSecundario,
+                  'ambo': ambo,
+                  'precios': precios,
+                  'user':user,
+                  'error':error
+                });
+              },
+              child:
+                  Icon(Icons.keyboard_arrow_right, size: 55, color: ColoresApp.color_negro),
+            ),
+       
           appBar: AppBar(
             centerTitle: true,
             elevation: 0,
@@ -92,17 +105,51 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
+                      bool erroNoColor=false;
                       List<DocumentSnapshot> listaDoc = snapshot.data.docs;
-                      listaDoc.forEach((element) {
-                        listaTelas.add(
-                            new Telas(element['nombre'], element['Colores']));
-                      });
+                                listaDoc.forEach((element) {
+                                  listaTelas.add(
+                                      new Telas(element['nombre'], element['Colores']));
+                                }
+                                
+                    
+                      );
+
+
+  /*if (!listaTelas[0].metros_colores.containsKey(valorColorSecundario)){
+     error=true;
+  
+  return Center(
+    child: Container( 
+      width: 300,
+      height: 300,
+                           child: Column(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             crossAxisAlignment: CrossAxisAlignment.center,
+                             children: [
+                               Text(' ${ambo.color_secundario} no disponible en ${telaSeleccionada}'),
+                               Text(' Disponible en ${ambo.telas_disponibles}'),
+                             ],
+                           ),
+                         ),
+  );
+
+  }*/
+       
+              
+         
+            
+               
+                      
+
+
                       return Container(
                         color: ColoresApp.color_fondo,
                         height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           children: [
+                            
                             Material(
                               elevation: 10,
                               child: Container(
@@ -133,6 +180,7 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
                                         ),
                                       ),
                                       SizedBox(height: 10),
+  
                                       Container(
                                         decoration: BoxDecoration(
                                             border: Border.all(
@@ -140,8 +188,11 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
                                                 width: 5,
                                                 color: Colors.white)),
                                         height: 50,
+                                        
                                         child:
-                                            botonColores_primario(listaTelas),
+                                      
+                                               botonColores_primario(listaTelas),
+                                                            
                                       ),
                                       SizedBox(height: 10),
                                       ClipOval(
@@ -196,6 +247,25 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
 
   Widget botonColores_primario(List<Telas> telas) {
     List llaves = telas[0].metros_colores.keys.toList();
+
+    DropdownButton dp;
+    /*if (llaves.contains(valorColorPrimario)){
+
+ Navigator.pushNamed(context, '/SeleccionarColor', arguments: {
+            'user': user,
+            'color':valorColorPrimario
+          });
+        
+       print('primario err1212or');
+         
+          return null;
+    }else{
+           print('primario error');
+    }*/
+
+
+                            
+
     return DropdownButton(
         elevation: 6,
         isExpanded: true,
@@ -209,22 +279,7 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
         style: TextStyle(
             color: Colors.black, fontFamily: 'Raleway', letterSpacing: 15),
         items: llaves.map((dropDownStringItem) {
-          return DropdownMenuItem<String>(
-            value: dropDownStringItem,
-            child: Container(
-              alignment: Alignment.center,
-              constraints: BoxConstraints(minHeight: 90.0),
-              color: Colores.colores[dropDownStringItem],
-              child: Text(dropDownStringItem,
-                  style: TextStyle(
-                    color: ThemeData.estimateBrightnessForColor(
-                                Colores.colores[dropDownStringItem]) ==
-                            Brightness.dark
-                        ? Colors.white
-                        : Colors.black,
-                  )),
-            ),
-          ); //[negro, amarillo, rojo, blanco, fucsia]
+          return coloresMenuDrop(dropDownStringItem); 
         }).toList(),
         onChanged: (String newValueSelected) {
           setState(() {
@@ -234,8 +289,51 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
         value: valorColorPrimario);
   }
 
+  DropdownMenuItem<String> coloresMenuDrop(dropDownStringItem) {
+DropdownMenuItem dp;
+
+  
+  dp= DropdownMenuItem<String>(
+
+          
+          value: dropDownStringItem,
+          child: Container(
+            alignment: Alignment.center,
+            constraints: BoxConstraints(minHeight: 90.0),
+            color: Colores.colores[dropDownStringItem],
+            child: Text(dropDownStringItem,
+                style: TextStyle(
+                  color: ThemeData.estimateBrightnessForColor(
+                              Colores.colores[dropDownStringItem]) ==
+                          Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
+                )),
+          ),
+        );
+
+
+
+
+    return dp;
+  }
+
   Widget botonColores_secundario(List<Telas> telas) {
+
     List llaves = telas[0].metros_colores.keys.toList();
+
+  /*    if (llaves.contains(valorColorPrimario)){
+        print('aaaaaaaaa');
+          Navigator.pushNamed(context, '/errorColor', arguments: {
+            'user': user,
+            'color':valorColorPrimario
+          });
+        
+
+           
+    }else {
+      print('aaabbbbbbbbbbbbbbaaaaaa');
+    }*/
     return DropdownButton(
         elevation: 6,
         isExpanded: true,
@@ -275,13 +373,14 @@ class _SeleccionarColorState extends State<SeleccionarColor> {
   }
 }
 
-class flechasSiguiente extends StatelessWidget {
+
+class flechaAnterior extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipOval(
       child: Container(
         color: ColoresApp.color_gris,
-        child: Icon(Icons.keyboard_arrow_right, size: 70, color: Colors.white),
+        child: Icon(Icons.keyboard_arrow_left, size: 70, color: Colors.white),
       ),
     );
   }

@@ -26,7 +26,7 @@ class _DetalleState extends State<Detalle> {
   String cortador = 'Seleccionar';
   List<String> chaqueta_pantalon = <String>['4', '5', '6'];
   Precios precios;
-  User user;
+  String user;
 
   final talles = <Talle>[
     Talle('XS', 2.0),
@@ -85,6 +85,10 @@ class _DetalleState extends State<Detalle> {
     String tipo = argumentos['ambo'].tipo;
     precios = argumentos['precios'];
     user=argumentos['user'];
+  
+
+  
+
 
     // Usa el objeto Todo para crear nuestra UI
     return Scaffold(
@@ -199,7 +203,7 @@ class _DetalleState extends State<Detalle> {
                                   int precio = calcularPrecios(tipo);
 
                                   Registro r = new Registro.ob(ambo_id, precio,
-                                      color1, color2, tela, 2.5, user.displayName,DateTime.now());
+                                      color1, color2, tela, 2.5, user,DateTime.now());
                                   Future<bool> error = DAO.agregarRegistro(r);
                                   if (error != true) {
                                     DAO.actualizarStockTela(

@@ -6,7 +6,7 @@ import 'package:Malvinas/models/ambo.dart';
 //Seleccionar tipo de tela dentro de las disponibles en cada ambo
 class AmboHeroe extends StatefulWidget {
   final Ambo ambo;
-  final User user;
+  final String user;
 
   const AmboHeroe({Key key, this.ambo, this.user}) : super(key: key);
 
@@ -157,7 +157,7 @@ class HeroWidget extends StatelessWidget {
         ));
   }
 }
-
+/*
 class flechasSiguiente extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -180,4 +180,4 @@ class flechaAnterior extends StatelessWidget {
       ),
     );
   }
-}
+}*/

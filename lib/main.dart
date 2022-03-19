@@ -12,7 +12,9 @@ import 'package:Malvinas/pantalla_precios.dart';
 import 'package:Malvinas/seguimientoCortadores.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'BO/dao.dart';
+import 'error.dart';
 import 'login_page.dart';
 import 'main_seleccionarTalles(4).dart';
 import 'models/ambo.dart';
@@ -50,9 +52,17 @@ class Malvinas extends StatelessWidget {
         
           '/Login': (BuildContext context) => new LoginPage(),
           '/Notas': (BuildContext context) => new Notas(),
+          '/errorColor': (BuildContext context) => new CustomError(),
       },
       theme: ThemeData(fontFamily: 'Raleway', colorScheme: ThemeData().colorScheme.copyWith(primary: ColoresApp.color_rosa)),
-      
+      builder: (BuildContext context, Widget widget) {
+        ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
+          return CustomError(errorDetails: errorDetails);
+        };
+
+        return widget;
+      },
+        
       /*  theme: ThemeData(
         // Define el Brightness y Colores por defecto
         brightness: Brightness.dark,
@@ -75,6 +85,8 @@ class Malvinas extends StatelessWidget {
   }
 }
 
+
+
 class cuerpo extends StatefulWidget {
  
 
@@ -85,12 +97,14 @@ class cuerpo extends StatefulWidget {
 }
 
 class _cuerpoState extends State<cuerpo> {
+  String user;
   final TextEditingController _filtro = TextEditingController();
   String _textoDeBusqueda = "";
   List<Ambo> ambos_nombres = [];
   List<Ambo> lista_ambos = [];
   Icon _iconoBusqueda = const Icon(Icons.search);
   Widget _appBarTitulo = const Text('Buscar...');
+  
 
   _cuerpoState() {
     _filtro.addListener(() {
@@ -111,6 +125,7 @@ class _cuerpoState extends State<cuerpo> {
   @override
   void initState() {
     _getAmbos();
+   hayUser();
       
     super.initState();
   }
@@ -138,15 +153,20 @@ class _cuerpoState extends State<cuerpo> {
     });
   }
 
+
+ hayUser() async{
+ SharedPreferences prefs = await SharedPreferences.getInstance();
+ user=prefs.getString('user');
+
+
+}
+
+
   @override
   Widget build(BuildContext context) {
-     final argumentos = ModalRoute.of(context).settings.arguments as Map;
-      User user;
-       
- 
-         user=argumentos['user'];
-       
-   
+
+  print(user);
+  
 
   
     return Scaffold(
@@ -267,7 +287,7 @@ class _cuerpoState extends State<cuerpo> {
                   height: 100, 
                   child: Column(
                     children: [
-                      Text("${user.displayName}",style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text("${user}",style: TextStyle(fontWeight: FontWeight.bold),),
                       TextButton(onPressed: (){
                     cerrarSession();
                       }, 
@@ -282,8 +302,13 @@ class _cuerpoState extends State<cuerpo> {
     );
   }
 
-  Future<void> cerrarSession() async => await FirebaseAuth.instance.signOut().then((value) =>  Navigator.of(context).pushNamedAndRemoveUntil('/Login', (route) => false));
-
+  //Future<void> cerrarSession() async => await FirebaseAuth.instance.signOut().then((value) =>  Navigator.of(context).pushNamedAndRemoveUntil('/Login', (route) => false));
+Future<void> cerrarSession() async {
+  final insta=await FirebaseAuth.instance.signOut();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('user');
+  Navigator.of(context).pushNamedAndRemoveUntil('/Login', (route) => false);
+}
   Widget _buildBar(BuildContext context) {
     return AppBar(
       elevation: 20,
@@ -330,7 +355,7 @@ class _cuerpoState extends State<cuerpo> {
     });
   }
 
-  Widget _buildList(context, User user) {
+  Widget _buildList(context, String user) {
     final size = MediaQuery.of(context).size;
     if (!(_textoDeBusqueda.isEmpty)) {
       List<Ambo> tempList = [];

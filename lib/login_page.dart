@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:Malvinas/register_page.dart';
 import 'package:Malvinas/utilidades/authentication_client.dart';
 import 'package:Malvinas/utilidades/validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -136,6 +137,11 @@ final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
                                     
           
                                     if (user != null) {
+                                      SharedPreferences prefs = await SharedPreferences.getInstance();
+bool result = await prefs.setString('user', user.displayName);
+if (result==null){
+  print('error seteando nombre en shared preference ');
+}
                                  Navigator.of(context).pushNamedAndRemoveUntil('/inicio', (route) => false,arguments:{'user':user} );
                                     }
                                   }
