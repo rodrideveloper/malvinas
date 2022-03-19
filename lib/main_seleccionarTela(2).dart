@@ -1,4 +1,7 @@
+import 'package:Malvinas/BO/dao.dart';
+import 'package:Malvinas/models/Tela.dart';
 import 'package:Malvinas/utilidades/colores.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:Malvinas/models/ambo.dart';
@@ -14,27 +17,63 @@ class AmboHeroe extends StatefulWidget {
   _AmboHeroeState createState() => _AmboHeroeState();
 }
 
-
 class _AmboHeroeState extends State<AmboHeroe> {
-  String telaSeleccionada='';
+  String telaSeleccionada = '';
   String ambo_id;
+  List<Telas> listaTelas = [];
+  List<String> telas = [];
+
+  traerTelas() async {
+    QuerySnapshot lista = await DAO.leerTelasDAO();
+
+    lista.docs.forEach((element) {
+      if (element != null) {
+        Telas tela = new Telas(element['nombre'], element['Colores']);
+        listaTelas.add(tela);
+      }
+    });
+  }
+
+  estaDisponible() {
+    listaTelas.forEach((element) {
+      if (true) {
+        telas.add(element.tipo_tela);
+      }
+    });
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    traerTelas();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (telaSeleccionada==''){
- telaSeleccionada = widget.ambo.tela_principal;
+    if (telaSeleccionada == '') {
+      telaSeleccionada = widget.ambo.tela_principal;
     }
-   
+
     ambo_id = widget.ambo.id;
+    //estaDisponible();
 
     List<String> telas = [];
     widget.ambo.telas_disponibles.forEach((e) {
       telas.add(e.toString());
+
+      ;
     });
 
+    /* listaTelas.forEach((element) {
+      if (widget.ambo.telas_disponibles.contains(element.tipo_tela)) {
+        telas.add(element.tipo_tela);
+      }
+    });*/
+
     return Scaffold(
-    
       floatingActionButton: FloatingActionButton(
-        
         elevation: 0,
         backgroundColor: ColoresApp.color_negro,
         foregroundColor: ColoresApp.color_negro,
@@ -42,7 +81,7 @@ class _AmboHeroeState extends State<AmboHeroe> {
           Navigator.pushNamed(context, '/SeleccionarColor', arguments: {
             'telaSeleccionada': telaSeleccionada,
             'ambo': widget.ambo,
-            'user':widget.user
+            'user': widget.user
           });
         },
         child: Icon(Icons.keyboard_arrow_right, size: 55, color: Colors.white),
@@ -67,7 +106,7 @@ class _AmboHeroeState extends State<AmboHeroe> {
                   color: ColoresApp.color_negro,
                   child: Column(
                     children: [
-                      SizedBox(height: 10),
+                      SizedBox(height: 20),
                       Text(
                         'Modelo: ${widget.ambo.modelo}',
                         style: TextStyle(
@@ -82,7 +121,7 @@ class _AmboHeroeState extends State<AmboHeroe> {
                               decoration: TextDecoration.combine([
                                 TextDecoration.lineThrough,
                               ]))),
-                      SizedBox(height: 40),
+                      SizedBox(height: 20),
                       Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width * .5,

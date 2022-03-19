@@ -35,8 +35,8 @@ class Malvinas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-   //initialRoute: '/CargarAmbos',
-     initialRoute: '/Login',
+      //initialRoute: '/CargarAmbos',
+      initialRoute: '/Login',
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/inicio': (BuildContext context) => new cuerpo(),
@@ -48,21 +48,34 @@ class Malvinas extends StatelessWidget {
         '/Cortadores': (BuildContext context) => new SeguimientoCortadores(),
         '/CargarAmbos': (BuildContext context) => new CargarAmbos(),
         '/DetalleCortador': (BuildContext context) => new DetalleCortador(),
-        '/PantallaPrecios':(BuildContext context) => new PantallaPrecios(),
-        
-          '/Login': (BuildContext context) => new LoginPage(),
-          '/Notas': (BuildContext context) => new Notas(),
-          '/errorColor': (BuildContext context) => new CustomError(),
+        '/PantallaPrecios': (BuildContext context) => new PantallaPrecios(),
+        '/Login': (BuildContext context) => new LoginPage(),
+        '/Notas': (BuildContext context) => new Notas(),
+        '/errorColor': (BuildContext context) => new CustomError(),
       },
-      theme: ThemeData(fontFamily: 'Raleway', colorScheme: ThemeData().colorScheme.copyWith(primary: ColoresApp.color_rosa)),
-      builder: (BuildContext context, Widget widget) {
+      theme: ThemeData(
+          fontFamily: 'Raleway',
+          colorScheme:
+              ThemeData().colorScheme.copyWith(primary: ColoresApp.color_rosa)),
+/*      builder: (BuildContext context, Widget widget) {
         ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
-          return CustomError(errorDetails: errorDetails);
+          // return CustomError(errorDetails: errorDetails);
+
+          return Material(
+            child: Container(
+              color: Colors.purple,
+              alignment: Alignment.center,
+              child: const Text(
+                'Something went wrong!',
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+            ),
+          );
         };
 
         return widget;
       },
-        
+*/
       /*  theme: ThemeData(
         // Define el Brightness y Colores por defecto
         brightness: Brightness.dark,
@@ -85,12 +98,8 @@ class Malvinas extends StatelessWidget {
   }
 }
 
-
-
 class cuerpo extends StatefulWidget {
- 
-
-   cuerpo({Key key}) : super(key: key);
+  cuerpo({Key key}) : super(key: key);
 
   @override
   _cuerpoState createState() => _cuerpoState();
@@ -104,7 +113,6 @@ class _cuerpoState extends State<cuerpo> {
   List<Ambo> lista_ambos = [];
   Icon _iconoBusqueda = const Icon(Icons.search);
   Widget _appBarTitulo = const Text('Buscar...');
-  
 
   _cuerpoState() {
     _filtro.addListener(() {
@@ -125,8 +133,8 @@ class _cuerpoState extends State<cuerpo> {
   @override
   void initState() {
     _getAmbos();
-   hayUser();
-      
+    hayUser();
+
     super.initState();
   }
 
@@ -153,24 +161,16 @@ class _cuerpoState extends State<cuerpo> {
     });
   }
 
-
- hayUser() async{
- SharedPreferences prefs = await SharedPreferences.getInstance();
- user=prefs.getString('user');
-
-
-}
-
+  hayUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    user = prefs.getString('user');
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(user);
 
-  print(user);
-  
-
-  
     return Scaffold(
-      
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: _buildBar(context),
@@ -178,10 +178,9 @@ class _cuerpoState extends State<cuerpo> {
       body: Container(
         child: _buildList(context, user),
       ),
-      drawer:Drawer(
-            elevation: 1.5,
-            child: Column(children: <Widget>[
-              
+      drawer: Drawer(
+          elevation: 1.5,
+          child: Column(children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -193,22 +192,21 @@ class _cuerpoState extends State<cuerpo> {
                 child: Image.asset('assets/img/malvinas.png'),
               ),
             ),
-              Expanded(
-                  child: ListView(
-                padding: EdgeInsets.zero,
-                children: <Widget>[
-                   ListTile(
-              title: const Text('Mis Cortes'),
-              leading: Icon(Icons.content_cut, color: ColoresApp.color_rosa),
-              onTap: () {
-                
-                 Navigator.pushNamed(context, '/Cortadores', arguments: {
-            'user': user,
-            
-          });
-              },
-            ),
-           /* ListTile(
+            Expanded(
+                child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                ListTile(
+                  title: const Text('Mis Cortes'),
+                  leading:
+                      Icon(Icons.content_cut, color: ColoresApp.color_rosa),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/Cortadores', arguments: {
+                      'user': user,
+                    });
+                  },
+                ),
+                /* ListTile(
               title: const Text('Stock Telas'),
               leading: Icon(Icons.leaderboard, color: ColoresApp.color_rosa,),
               onTap: () {
@@ -216,99 +214,99 @@ class _cuerpoState extends State<cuerpo> {
               },
             ),*/
 
-            ListTile(
-              title: Text('Actualizar Stock',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      decoration: TextDecoration.combine([
-                        TextDecoration.lineThrough,
-                      ]))),
-              leading: Icon(Icons.upgrade, color: ColoresApp.color_rosa),
-              onTap: () {
-                //Navigator.pushNamed(context, '/ActualizarStock');
-              },
+                ListTile(
+                  title: Text('Actualizar Stock',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          decoration: TextDecoration.combine([
+                            TextDecoration.lineThrough,
+                          ]))),
+                  leading: Icon(Icons.upgrade, color: ColoresApp.color_rosa),
+                  onTap: () {
+                    //Navigator.pushNamed(context, '/ActualizarStock');
+                  },
+                ),
+                ExpansionTile(
+                  leading:
+                      Icon(Icons.leaderboard, color: ColoresApp.color_rosa),
+                  title: const Text('Stock Telas'),
+                  children: <Widget>[
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/grafico', arguments: {
+                            'tela': 'Batista',
+                          });
+                        },
+                        child: Text("Batista")),
+                    TextButton(
+                        child: Text("Spandex"),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/grafico', arguments: {
+                            'tela': 'Spandex',
+                          });
+                        }),
+                    TextButton(
+                        child: Text("Arciel"),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/grafico', arguments: {
+                            'tela': 'Arciel',
+                          });
+                        })
+                  ],
+                ),
+                ListTile(
+                  title: const Text('Lista Precios'),
+                  leading: Icon(Icons.list, color: ColoresApp.color_rosa),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/PantallaPrecios');
+                  },
+                ),
+                ListTile(
+                  title: const Text('Reportar Error'),
+                  leading: Icon(Icons.note_add, color: ColoresApp.color_rosa),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/Notas', arguments: {
+                      'user': user,
+                    });
+                  },
+                )
+              ],
+            )),
+            Container(
+              color: Colors.black,
+              width: double.infinity,
+              height: 0.1,
             ),
-
-  ExpansionTile(
-    leading: Icon(Icons.leaderboard, color: ColoresApp.color_rosa),
-        title:const Text('Stock Telas'),
-        children: <Widget>[
-          TextButton(onPressed: (){
-              Navigator.pushNamed(context, '/grafico', arguments: {
-            'tela': 'Batista',
-            
-          });
-          }, child:   Text("Batista")),
-          
-          
-        TextButton(child:   Text("Spandex"),onPressed: (){
-              Navigator.pushNamed(context, '/grafico', arguments: {
-            'tela': 'Spandex',
-            
-          });
-          } ), TextButton(child:   Text("Arciel"),onPressed: (){
-              Navigator.pushNamed(context, '/grafico', arguments: {
-            'tela': 'Arciel',
-            
-          });
-          })
-          
-          
-          ],
-      ),
-
-               ListTile(
-              title: const Text('Lista Precios'),
-              leading: Icon(Icons.list,color: ColoresApp.color_rosa),
-              onTap: () {
-                Navigator.pushNamed(context, '/PantallaPrecios');
-              },
-            ),
-               ListTile(
-              title: const Text('Reportar Error'),
-              leading: Icon(Icons.note_add,color: ColoresApp.color_rosa),
-              onTap: () {
-                  
-                 Navigator.pushNamed(context, '/Notas', arguments: {
-            'user': user,
-            
-          });
-              },
-            )
-                ],
-              )),
-              Container(
-                color: Colors.black,
-                width: double.infinity,
-                height: 0.1,
-              ),
-              Container(
-                  padding: EdgeInsets.all(10),
-                  height: 100, 
-                  child: Column(
-                    children: [
-                      Text("${user}",style: TextStyle(fontWeight: FontWeight.bold),),
-                      TextButton(onPressed: (){
-                    cerrarSession();
-                      }, 
-                      child: Text('Cerrar Sesion')),
-                      Spacer(),
-                      Text('V.1.0.0')
-                    ],
-                  )),
-            ])),
- 
-      
+            Container(
+                padding: EdgeInsets.all(10),
+                height: 100,
+                child: Column(
+                  children: [
+                    Text(
+                      "${user}",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          cerrarSession();
+                        },
+                        child: Text('Cerrar Sesion')),
+                    Spacer(),
+                    Text('V.1.0.0')
+                  ],
+                )),
+          ])),
     );
   }
 
   //Future<void> cerrarSession() async => await FirebaseAuth.instance.signOut().then((value) =>  Navigator.of(context).pushNamedAndRemoveUntil('/Login', (route) => false));
-Future<void> cerrarSession() async {
-  final insta=await FirebaseAuth.instance.signOut();
+  Future<void> cerrarSession() async {
+    final insta = await FirebaseAuth.instance.signOut();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('user');
-  Navigator.of(context).pushNamedAndRemoveUntil('/Login', (route) => false);
-}
+    Navigator.of(context).pushNamedAndRemoveUntil('/Login', (route) => false);
+  }
+
   Widget _buildBar(BuildContext context) {
     return AppBar(
       elevation: 20,
@@ -379,11 +377,11 @@ Future<void> cerrarSession() async {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => AmboHeroe(ambo: lista_ambos[i], user:user) ));
+                    builder: (context) =>
+                        AmboHeroe(ambo: lista_ambos[i], user: user)));
           },
           child: Card(
             shadowColor: Colors.blue[100],
-           
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(17)),
             child: Container(
@@ -391,13 +389,15 @@ Future<void> cerrarSession() async {
               child: Column(
                 children: [
                   Container(
-                    height: 115,
+                      height: 115,
                       child: Hero(
                           tag: 'imageHero${lista_ambos[i].modelo}',
-                          child: Image.asset(lista_ambos[i].url))), Spacer(),
+                          child: Image.asset(lista_ambos[i].url))),
+                  Spacer(),
                   Text(
-                    '${lista_ambos[i].modelo}', textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold ),
+                    '${lista_ambos[i].modelo}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

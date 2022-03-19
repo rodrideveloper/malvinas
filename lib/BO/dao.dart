@@ -11,18 +11,12 @@ import '../detalleCortador.dart';
 class DAO {
   bool enviarDatos() {}
 
-  static enviarNota(String data, String user ){
-     final collection =
-        FirebaseFirestore.instance.collection('notas');
-        collection.add({
-          'text':data,
-          'user': user
-         
-        })
+  static enviarNota(String data, String user) {
+    final collection = FirebaseFirestore.instance.collection('notas');
+    collection
+        .add({'text': data, 'user': user})
         .then((value) => print('Nota Enviada'))
         .catchError((error) => error = true);
-
-
   }
 
 //DEVUELVE UNA LISTA DENTRO DEL QUERYSNAP PARA USAR DENTRO DE UN FUTUREBUILDER
@@ -85,7 +79,6 @@ class DAO {
 
   //Agregar registro de ambo cortado
   static Future<bool> agregarRegistro(Registro r) async {
-    
     bool error = false;
     CollectionReference regRef =
         FirebaseFirestore.instance.collection('registros');
@@ -93,13 +86,13 @@ class DAO {
         .add({
           'ambo_id': r.ambo_id,
           'precio': r.precio,
-          'pagado':false,
+          'pagado': false,
           'tela': r.tela,
           'color1': r.colorPrimario,
           'color2': r.colorSecundario,
           'metros': r.metros,
           'cortador': r.cortador,
-          'fecha':r.fecha
+          'fecha': r.fecha
         })
         .then((value) => print('Registro Agregado con Exito'))
         .catchError((error) => error = true);
@@ -169,16 +162,17 @@ class DAO {
     return listaPrecios;
   }
 
-  static Future<QuerySnapshot<RegistroVentas>> listaDeRegistos(String nombre) async {
+  static Future<QuerySnapshot<RegistroVentas>> listaDeRegistos(
+      String nombre) async {
     final collection = FirebaseFirestore.instance
         .collection('registros')
         .withConverter(
           fromFirestore: (snapshot, _) =>
               RegistroVentas.fromJson(snapshot.data()),
           toFirestore: (RegistroVentas, _) => RegistroVentas.toJson(),
-        ).where('cortador', isEqualTo: nombre);
+        )
+        .where('cortador', isEqualTo: nombre);
 
-      
     final listaRegistros = (await collection.get());
 
 //    final listaAmbos = await leerAmbosDAO();
@@ -203,28 +197,19 @@ class DAO {
     return leerAmbos;
   }
 
+  updateRegistros(List<DetalleListAmbos> listaDetalleRegistro) async {
+    bool error = true;
+    final registros = await FirebaseFirestore.instance.collection('registros');
 
-  updateRegistros(List<DetalleListAmbos> listaDetalleRegistro) async{
-    bool error=true;
-    final registros= await FirebaseFirestore.instance.collection('registros');
-
-listaDetalleRegistro.forEach((element) {
-
-if (element.registro.pagado==true){
-
-registros.doc(element.registro.id_registro)
-    .update({'pagado':true })
-    .then((value) => print("Registro/s Actualizado/s"))
-    .catchError((error) => print("Error al Actualizar : $error"));
-}
- 
-
-});
-
-
-
-
- 
+    listaDetalleRegistro.forEach((element) {
+      if (element.registro.pagado == true) {
+        registros
+            .doc(element.registro.id_registro)
+            .update({'pagado': true})
+            .then((value) => print("Registro/s Actualizado/s"))
+            .catchError((error) => print("Error al Actualizar : $error"));
+      }
+    });
 
     return error;
   }
