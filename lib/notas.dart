@@ -7,7 +7,7 @@ import 'models/registros.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 class Notas extends StatefulWidget {
-   User user;
+   String user;
    Notas({Key key}) : super(key: key);
 
   @override
@@ -136,7 +136,7 @@ Divider(color: Colors.amber, height: 1),
                                       textAlign: TextAlign.center,
                                     )));
               
-                     DAO.enviarNota(texto.text, widget.user.displayName);
+                     DAO.enviarNota(texto.text, widget.user);
                        Navigator.pushNamed(context, '/inicio', arguments: {
             'user': widget.user,
             

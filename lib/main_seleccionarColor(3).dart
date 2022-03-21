@@ -109,7 +109,7 @@ bool error=false;
                       List<DocumentSnapshot> listaDoc = snapshot.data.docs;
                                 listaDoc.forEach((element) {
                                   listaTelas.add(
-                                      new Telas(element['nombre'], element['Colores']));
+                                      new Telas(tipo_tela: element['nombre'], metros_colores:  element['Colores']));
                                 }
                                 
                     

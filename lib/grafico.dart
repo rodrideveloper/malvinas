@@ -78,6 +78,8 @@ dispose(){
           domainFn: (MetrosPorColores sales, _) => sales.Color,
           measureFn: (MetrosPorColores sales, _) => sales.metros,
           data: data,
+         
+           
           labelAccessorFn: (MetrosPorColores sales, _) =>
               '${sales.metros.toString() + ' mts'}')
     ];
@@ -95,6 +97,8 @@ dispose(){
   ]);
      final argumentos = ModalRoute.of(context).settings.arguments as Map;
      String tela=argumentos['tela'];
+        List<Telas> telas_arciel_1=[];
+          List<Telas> telas_arciel_2=[];
     return Scaffold(
        floatingActionButtonLocation:FloatingActionButtonLocation.miniStartFloat ,
         floatingActionButton: FloatingActionButton(
@@ -132,27 +136,97 @@ dispose(){
                       final List<DocumentSnapshot> documentos =
                           snapshot.data.docs;
 
+
                       documentos.forEach((element) {
                         if (element != null) {
                           Telas tela =
-                              new Telas(element['nombre'], element['Colores']);
+                              new Telas(tipo_tela: element['nombre'], metros_colores: element['Colores']);
                           lista_telas.add(tela);
+
+                       /*   if (tela=='Arciel') {
+
+                            if (tela.tipo_tela=='Arciel'){
+                              telas_arciel_1=lista_telas;
+                              telas_arciel_2=lista_telas;
+                               telas_arciel_1[0].metros_colores.
+
+                              
+                             Map<String, dynamic> metros_colores=tela.metros_colores;
+                             int largo= metros_colores.length;
+                                
+                                 for (int i=1; i< largo ;i++){
+
+
+                                 }
+                          
+
+                            }
+                 
+
+
+                    }*/
+
+
+
                         }
                       });
+
+
+           
                       return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Card(
-                              child: Container(
-                                  height: 200,
-                                  child: SimpleBarChart(_crearDatosGraficos(
-                                      lista_telas, tela))),
-                            ),
+                           
+                                    if (tela=='Arciel') ...[
+                                  
+
+ SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Card(
+                                child: Container(
+                                    height: 200,
+                                    width: 1500,
+                             
+                                    child: 
+                                   SimpleBarChart(_crearDatosGraficos(
+                                          lista_telas, tela))
+                                    ),
+                              ),
+          ),
                             Container(
                                 height: 20,
                                 child: Text(tela,
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold))),
+                                        fontWeight: FontWeight.bold)))
+
+
+          
+          
+          
+    ] else ...[
+         SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+           child: Card(
+                                  child: Container(
+                                      height: 200,
+                                      width: 1000,
+                               
+                                      child: 
+                                     SimpleBarChart(_crearDatosGraficos(
+                                            lista_telas, tela))
+                                      ),
+                                ),
+         ),
+         
+                            Container(
+                                height: 20,
+                          
+                                child: Text(tela,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold)))]
+        //]
+
+                            ,
                           /*  Card(
                               child: Container(
                                   height: 140,

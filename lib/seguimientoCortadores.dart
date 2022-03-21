@@ -7,7 +7,7 @@ import 'models/registros.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 class SeguimientoCortadores extends StatefulWidget {
-   User user;
+   String user;
    SeguimientoCortadores({Key key}) : super(key: key);
 
   @override
@@ -19,8 +19,8 @@ class _SeguimientoCortadoresState extends State<SeguimientoCortadores> {
   int gaston = 0;
   var total=0;
 
-  leerRegistros(User u) async {
-final listaRegistros = await DAO.listaDeRegistos(u.displayName);
+  leerRegistros(String u) async {
+final listaRegistros = await DAO.listaDeRegistos(u);
 var suma=0;
 listaRegistros.docs.forEach((element) {
   if (!element.data().pagado){
@@ -94,6 +94,7 @@ listaRegistros.docs.forEach((element) {
  child:SizedBox(
   width: double.infinity,
   child: TextLiquidFill( 
+    loadDuration: Duration(seconds: 2),
     text: '\$ ${total}',
     waveColor: Colors.amber,
     boxBackgroundColor: ColoresApp.color_fondo,

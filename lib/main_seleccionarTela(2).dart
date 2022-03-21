@@ -28,43 +28,94 @@ class _AmboHeroeState extends State<AmboHeroe> {
 
     lista.docs.forEach((element) {
       if (element != null) {
-        Telas tela = new Telas(element['nombre'], element['Colores']);
+        Telas tela = new Telas(tipo_tela: element['nombre'],metros_colores: element['Colores']);
         listaTelas.add(tela);
       }
     });
+
+
+
+
+  List<String> telas_disponibles = [];
+    widget.ambo.telas_disponibles.forEach((e) {
+      telas_disponibles.add(e.toString());});
+
+
+      listaTelas.forEach((element) {
+        if (telas_disponibles.contains(element.tipo_tela)){
+            if ( element.metros_colores.containsKey(widget.ambo.color_primario) &&    element.metros_colores.containsKey(widget.ambo.color_secundario) ){
+                     telas.add(element.tipo_tela);
+                     
+                    
+            } 
+
+        }
+
+      });  
+       if (telaSeleccionada == '') {
+      telaSeleccionada = widget.ambo.tela_principal;
+
+       if (!telas.contains(telaSeleccionada)){
+          if (listaTelas.isNotEmpty){
+   telaSeleccionada=listaTelas[0].tipo_tela;
+          }
+      
+
+       }
+    }
+
+
+
+
+setState(() {
+  
+});
+
+
+
+
+
+
+
+
   }
 
-  estaDisponible() {
-    listaTelas.forEach((element) {
-      if (true) {
-        telas.add(element.tipo_tela);
-      }
-    });
+  estaDisponible() {    
+  /*  List<String> telas_disponibles = [];
+    widget.ambo.telas_disponibles.forEach((e) {
+      telas_disponibles.add(e.toString());});
 
-    setState(() {});
+
+      listaTelas.forEach((element) {
+        if (telas_disponibles.contains(element.tipo_tela)){
+            if ( element.metros_colores.containsKey(widget.ambo.color_primario) &&    element.metros_colores.containsKey(widget.ambo.color_secundario) ){
+                     telas.add(element.tipo_tela);
+                     print('la agregue99999999999999999999999999999999999999999999999999999');
+            } 
+
+        }
+
+      });  
+  */
+
+
+
   }
 
   @override
   void initState() {
     traerTelas();
+   // estaDisponible();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (telaSeleccionada == '') {
-      telaSeleccionada = widget.ambo.tela_principal;
-    }
-
+   
     ambo_id = widget.ambo.id;
-    //estaDisponible();
+    
 
-    List<String> telas = [];
-    widget.ambo.telas_disponibles.forEach((e) {
-      telas.add(e.toString());
 
-      ;
-    });
 
     /* listaTelas.forEach((element) {
       if (widget.ambo.telas_disponibles.contains(element.tipo_tela)) {

@@ -10,7 +10,11 @@ class SimpleBarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new charts.BarChart(seriesList,
+       animationDuration: Duration(seconds: 3),
         animate: true,
+  
+       
         barRendererDecorator: new charts.BarLabelDecorator<String>());
+           
   }
 }

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class DetalleCortador extends StatelessWidget {
   
-    User  user;
+    String  user;
 
    DetalleCortador({Key key}) : super(key: key);
 
@@ -47,7 +47,7 @@ class DetalleCortador extends StatelessWidget {
 
 class Pantalla extends StatefulWidget {
      List<DetalleListAmbos> detalleListaAmbos= [];
-     final User user;
+     final String user;
    Pantalla({Key key, this.user}) : super(key: key);
 
   @override
@@ -94,7 +94,7 @@ GlobalKey<_totalPagarState> textGlobalKey = new GlobalKey<_totalPagarState>();
   @override
   Widget build(BuildContext context) {
     
-    if(_nombreCortador==''){ _nombreCortador=widget.user.displayName;
+    if(_nombreCortador==''){ _nombreCortador=widget.user;
    }
        
     
@@ -112,7 +112,7 @@ int total=0;
          mainAxisAlignment: MainAxisAlignment.spaceBetween,
          mainAxisSize: MainAxisSize.max,
              children: [
- if (widget.user.displayName=='Carlos') ...[
+ if (widget.user=='Carlos') ...[
                       Row(mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     DropdownButtonHideUnderline (
@@ -210,7 +210,7 @@ int total=0;
                                   elevation: 30,
                                   shadowColor: Colors.black),
                   onPressed: (){
-                    if (widget.user.displayName=='Carlos'){
+                    if (widget.user=='Carlos'){
   _pagar();
                     }else{
                         Navigator.pushNamed(context, '/inicio', arguments: {
@@ -259,10 +259,10 @@ int total=0;
               return lista;
   }
 
-  Text BotonPagaryVolver(User user) {
+  Text BotonPagaryVolver(String user) {
    String name_button;
 
-    if (user.displayName=='Carlos'){
+    if (user=='Carlos'){
       name_button='Pagar';
 
     }else{
@@ -416,8 +416,8 @@ color: ColoresApp.color_negro,
             padding: EdgeInsets.zero,
             margin: EdgeInsets.zero,
             child: CheckboxListTile(
-              selectedTileColor: Colors.red,
-              tileColor: ColoresApp.color_rosa,
+             
+
               onChanged: (bool value) {
                 setState(() {
          
@@ -440,13 +440,16 @@ color: ColoresApp.color_negro,
               ),
               visualDensity: VisualDensity.compact,
               controlAffinity: ListTileControlAffinity.trailing,
+              dense: true,
               title: Text(
                     widget.registro.ambo.modelo,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white),
               ),
+              
               activeColor: Colors.amber,
               checkColor: Colors.black,
+              
             )
     );
 

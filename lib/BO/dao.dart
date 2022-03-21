@@ -46,6 +46,19 @@ class DAO {
     return leerAmbos;
   }
 
+
+    static Future<QuerySnapshot<Telas>> leerTelas2() async {
+    final collection =
+        FirebaseFirestore.instance.collection('telas').withConverter(
+              fromFirestore: (snapshot, _) => Telas.fromJson(snapshot.data()),
+              toFirestore: (Telas, _) => Telas.toJson(),
+            );
+
+    final leerAmbos = (await collection.get());
+
+    return leerAmbos;
+  }
+
 //Devuelvo un futuro con lista de telas
   static Future<List<dynamic>> leerListaTelasDAO() async {
     QuerySnapshot querySnapshot =
