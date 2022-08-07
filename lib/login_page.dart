@@ -1,11 +1,11 @@
-import 'dart:ffi';
 
-import 'package:Malvinas/main.dart';
+
+
 import 'package:Malvinas/utilidades/colores.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:Malvinas/register_page.dart';
+
 import 'package:Malvinas/utilidades/authentication_client.dart';
 import 'package:Malvinas/utilidades/validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';

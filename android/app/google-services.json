@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "78101399654",
+    "project_id": "malvinas-9d9e7",
+    "storage_bucket": "malvinas-9d9e7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78101399654:android:eb7f63cce290e9e79705a7",
+        "android_client_info": {
+          "package_name": "com.example.Malvinas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "78101399654-nergs713q1b4c822dpdv78hd25i5smm3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUyOp-x6dQxJjRKCAZgaTtwo6lv7i7JCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "78101399654-nergs713q1b4c822dpdv78hd25i5smm3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "78101399654-ne5emcop4rptj3llqpp8v0h5dja922gr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.malvinas"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
